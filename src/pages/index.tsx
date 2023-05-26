@@ -1,11 +1,30 @@
-import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { GetServerSideProps, type NextPage } from "next";
+import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { BiClipboard } from "react-icons/bi";
 import { CgPlayListCheck } from "react-icons/cg"
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
+
+export const getServerSideProps: GetServerSideProps<{
+    
+}> = async function (context) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+};
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });

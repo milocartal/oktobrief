@@ -1,5 +1,5 @@
-import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { GetServerSideProps, type NextPage } from "next";
+import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
@@ -7,9 +7,26 @@ import { BiClipboard } from "react-icons/bi";
 import { CgPlayListCheck } from "react-icons/cg"
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 
-const Home: NextPage = () => {
-    const hello = api.example.hello.useQuery({ text: "from tRPC" });
+export const getServerSideProps: GetServerSideProps<{
+    
+}> = async function (context) {
+    const session = await getSession(context)
 
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+};
+
+const Home: NextPage = () => {
     return (
         <>
             <Head>
@@ -22,9 +39,15 @@ const Home: NextPage = () => {
                     Votre Dasboard super admin
                 </h1>
 
-                <section className="w-[70%] h-[20rem] bg-white rounded-2xl"></section>
-                <section className="w-[70%] h-[20rem] bg-white rounded-2xl"></section>
-                <section className="w-[70%] h-[20rem] bg-white rounded-2xl"></section>
+                <section className="w-[70%] h-[20rem] bg-white rounded-2xl fle">
+                    <h2>Données de la plateforme</h2>
+                </section>
+                <section className="w-[70%] h-[20rem] bg-white rounded-2xl">
+                    <h2>Dernières promo Créer</h2>
+                </section>
+                <section className="w-[70%] h-[20rem] bg-white rounded-2xl">
+                    <h2>Les référentiels</h2>
+                </section>
 
                
             </main>
