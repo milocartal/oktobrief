@@ -15,10 +15,62 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Assignation {
+    idBrief String
+    brief   Brief    @relation(fields: [idBrief], references: [id], onDelete: Cascade)
+    idUser  String
+    user    User     @relation(fields: [idUser], references: [id], onDelete: Cascade)
+    ending  DateTime
+    rendu   Boolean
+
+    @@unique([idBrief, idUser])
+}
+
+model Brief {
+    id           String        @id @default(cuid())
+    desc         String
+    idR          String
+    contexte     String // @db.Text
+    modal_peda   String // @db.Text
+    modal_eval   String // @db.Text
+    livrable     String
+    perf         String
+    referentiel  Referentiel   @relation(fields: [idR], references: [id], onDelete: Cascade)
+    assignations Assignation[]
+}
+
+model Promo {
+    id          String      @id @default(cuid())
+    title       String
+    description String
+    idRef       String
+    starting    DateTime
+    ending      DateTime
+    apprenants  User[]
+    referentiel Referentiel @relation(fields: [idRef], references: [id], onDelete: Cascade)
+}
+
+model Referentiel {
+    id          String       @id @default(cuid())
+    title       String
+    competences Competence[]
+    promos      Promo[]
+    brief       Brief[]
+}
+
+model Competence {
+    id          String      @id @default(cuid())
+    title       String
+    idR         String
+    referentiel Referentiel @relation(fields: [idR], references: [id], onDelete: Cascade)
+    niveaux     Niveau[]
+}
+
+model Niveau {
+    id         String     @id @default(cuid())
+    title      String
+    idC        String
+    competence Competence @relation(fields: [idC], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth
@@ -49,14 +101,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
-    admin         Boolean
+    formateur     Boolean
+    superadmin    Boolean
     accounts      Account[]
     sessions      Session[]
+    promos        Promo[]
+    assignations  Assignation[]
 }
 
 model VerificationToken {
