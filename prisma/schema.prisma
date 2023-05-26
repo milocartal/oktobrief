@@ -15,6 +15,19 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Ressource {
+    id     String  @id @default(cuid())
+    title  String
+    link   String
+    briefs Brief[]
+}
+
+model Tag {
+    id     String  @id @default(cuid())
+    name   String
+    briefs Brief[]
+}
+
 model Assignation {
     idBrief String
     brief   Brief    @relation(fields: [idBrief], references: [id], onDelete: Cascade)
@@ -37,6 +50,8 @@ model Brief {
     perf         String
     referentiel  Referentiel   @relation(fields: [idR], references: [id], onDelete: Cascade)
     assignations Assignation[]
+    tags         Tag[]
+    ressources   Ressource[]
 }
 
 model Promo {
