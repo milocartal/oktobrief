@@ -19,6 +19,8 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      formateur: boolean;
+      superadmin: boolean;
     } & DefaultSession["user"];
   }
 
@@ -39,7 +41,10 @@ export const authOptions: NextAuthOptions = {
       ...session,
       user: {
         ...session.user,
-        id: user.id,      },
+        id: user.id,
+        formateur: user.formateur,
+        superadmin: user.superadmin
+      },
     }),
   },
   adapter: PrismaAdapter(prisma),

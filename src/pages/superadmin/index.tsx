@@ -11,7 +11,10 @@ export const getServerSideProps: GetServerSideProps<{
     
 }> = async function (context) {
     const session = await getSession(context)
+    const superAdmin = session?.user.superadmin
 
+    console.log("super ", superAdmin)
+    
     if (!session) {
         return {
             redirect: {
@@ -43,7 +46,7 @@ const Home: NextPage = () => {
                     <h2>Données de la plateforme</h2>
                 </section>
                 <section className="w-[70%] h-[20rem] bg-white rounded-2xl">
-                    <h2>Dernières promo Créer</h2>
+                    <h2>Dernières promo créées</h2>
                 </section>
                 <section className="w-[70%] h-[20rem] bg-white rounded-2xl">
                     <h2>Les référentiels</h2>
