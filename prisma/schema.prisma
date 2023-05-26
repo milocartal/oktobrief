@@ -121,8 +121,8 @@ model User {
     email         String?       @unique
     emailVerified DateTime?
     image         String?
-    formateur     Boolean
-    superadmin    Boolean
+    formateur     Boolean @default(false)
+    superadmin    Boolean @default(false)
     accounts      Account[]
     sessions      Session[]
     promos        Promo[]
