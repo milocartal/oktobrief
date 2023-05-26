@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 
-export const getServerSideProps: GetServerSideProps<{
+const Home: NextPage = () => {
 
 }> = async function (context) {
   const session = await getSession(context)
@@ -59,11 +59,11 @@ const SuperAdmin: NextPage = () => {
                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
                 <span className="flex w-full flex-row items-center justify-between">
                   <span className="flex w-full flex-row items-center">
-                    <BiGroup className="text-4xl text-[#0E6073] mr-1" />
+                    <BiGroup className="text-4xl text-[#0E6073] mr-1"/> 
                     <p>12 apprenants</p>
                   </span>
                   <span className="flex w-full flex-row items-center">
-                    <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
+                    <BiCalendar className="text-4xl text-[#0E6073] mr-1"/>
                     <p>Du 04/01/2022 au 10/09/2023</p>
                   </span>
                 </span>
@@ -76,11 +76,11 @@ const SuperAdmin: NextPage = () => {
               <h2 className="text-2xl text-black">Les projets de ma promo</h2>
               <span className="flex w-[45%] flex-row items-center justify-end">
                 <input
-                  type='text'
-                  name="leconTitle"
-                  className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
-                  autoComplete="off"
-                />
+                    type='text'
+                    name="leconTitle"
+                    className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
+                    autoComplete="off"
+                  />
                 <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-lg">Créer un projet</p>
                 </div>
@@ -93,12 +93,12 @@ const SuperAdmin: NextPage = () => {
               <h2 className="text-2xl text-black">Les ressources de la promo</h2>
               <span className="flex w-[60%] flex-row items-center justify-end">
                 <input
-                  type='text'
-                  name="leconTitle"
-                  placeholder="Rechercher par nom ou par tag"
-                  className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
-                  autoComplete="off"
-                />
+                    type='text'
+                    name="leconTitle"
+                    placeholder="Rechercher par nom ou par tag"
+                    className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
+                    autoComplete="off"
+                  />
                 <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-lg text-center">Ajouter une ressource</p>
                 </div>
@@ -113,12 +113,12 @@ const SuperAdmin: NextPage = () => {
         <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between py-5">
 
           <div className="flex flex-col gap-8 items-center justify-center">
-            <Link href={"/"}><img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" /></Link>
+            <img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
             <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiClipboard className="text-3xl" />Projet</Link>
             <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><FaInbox className="text-3xl" />Rendu</Link>
             <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiListCheck className="text-3xl" />Suivi</Link>
             <Link href={""} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><FaOctopusDeploy className="text-3xl" />Référentiel</Link>
-            <Link href={"/superadmin"} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><img src="superhero.svg" className="w-10" />Super Admin</Link>
+            <Link href={""} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><img src="superhero.svg" className="w-10" />Super Admin</Link>
           </div>
 
           <AuthShowcase />
