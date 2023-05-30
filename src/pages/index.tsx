@@ -7,26 +7,24 @@ import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar, BiPencil,
 import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
 import { useState } from "react";
 
-const Home: NextPage = () => {
+export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
+    const session = await getSession(context)
 
-}> = async function (context) {
-  const session = await getSession(context)
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
     }
-  }
 
-  return {
-    props: { session }
-  }
+    return {
+        props: { session }
+    }
 };
 
-const SuperAdmin: NextPage = () => {
+const Home: NextPage = () => {
 
   const [notifs, setNotifs] = useState(true)
 
@@ -209,7 +207,7 @@ const SuperAdmin: NextPage = () => {
   );
 };
 
-export default SuperAdmin;
+export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
