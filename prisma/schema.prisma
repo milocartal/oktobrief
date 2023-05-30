@@ -86,6 +86,8 @@ model Niveau {
     id         String     @id @default(cuid())
     title      String
     idC        String
+    todo       String
+    eval       String
     competence Competence @relation(fields: [idC], references: [id], onDelete: Cascade)
 }
 
