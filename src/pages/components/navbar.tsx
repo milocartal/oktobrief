@@ -15,7 +15,7 @@ function NavBar () {
               <Link href={"/"}>
                 <img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
               </Link>
-              <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
+              <Link href={"/admin/promo/creer"} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>
@@ -42,7 +42,7 @@ const AuthShowcase: React.FC = () => {
           {sessionData ? sessionData.user.image ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
         </button>
         {open && 
-          <div className="bg-white absolute left-28 bottom-8 px-5 py-2 w-72">
+          <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
               <span className="flex flex-row justify-start items-center">
                   {sessionData?.user.image && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>}
                   <div>
