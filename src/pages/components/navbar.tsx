@@ -31,7 +31,7 @@ export default NavBar;
 
 const AuthShowcase: React.FC = () => {
     const { data: sessionData } = useSession();
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
   
     return (
       <div className="flex flex-row items-center justify-center">
