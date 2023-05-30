@@ -12,14 +12,14 @@ function NavBar () {
       <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
 
           <div className="flex flex-col items-center justify-start">
-              <Link href={""}>
+              <Link href={"/"}>
                 <img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
               </Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>
-              <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="superhero.svg" className="w-7 mb-1"/>Super Admin</Link>
+              <Link href={"/superadmin"} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="superhero.svg" className="w-7 mb-1"/>Super Admin</Link>
           </div>
 
           <AuthShowcase />
