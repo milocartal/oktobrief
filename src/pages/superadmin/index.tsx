@@ -91,7 +91,7 @@ const SuperAdmin: NextPage = () => {
                             <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
                                 <div className="w-full h-[170px]"><img src="promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
                                 <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                <p className="text-[14px] px-5 pb-5 test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                             </div>
                         </div>
                     </div>

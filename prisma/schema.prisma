@@ -34,13 +34,14 @@ model Assignation {
     idUser  String
     user    User     @relation(fields: [idUser], references: [id], onDelete: Cascade)
     ending  DateTime
-    rendu   Boolean
+    rendu   Boolean  @default(false)
 
     @@unique([idBrief, idUser])
 }
 
 model Brief {
     id           String        @id @default(cuid())
+    title        String
     desc         String
     idR          String
     contexte     String // @db.Text

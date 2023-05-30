@@ -4,6 +4,10 @@ import { referentielRouter } from './routers/referentiel';
 import { niveauRouter } from "./routers/niveau";
 import { competenceRouter } from "./routers/competence";
 import { userRouter } from "./routers/user";
+import { assignationRouter } from "./routers/assignation";
+import { briefRouter } from "./routers/brief";
+import { ressourceRouter } from "./routers/ressource";
+import { tagRouter } from "./routers/tag";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +20,10 @@ export const appRouter = createTRPCRouter({
   referentiel: referentielRouter,
   competence: competenceRouter,
   niveau: niveauRouter,
+  assignation: assignationRouter,
+  brief: briefRouter,
+  ressouce: ressourceRouter,
+  tag: tagRouter
 });
 
 // export type definition of API

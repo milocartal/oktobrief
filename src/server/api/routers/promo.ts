@@ -38,7 +38,7 @@ export const promoRouter = createTRPCRouter({
     return prisma.promo.create({
       data: {
         title: input.title,
-        description: input.title,
+        description: input.desc,
         idRef: input.idRef,
         starting: input.start,
         ending: input.end
