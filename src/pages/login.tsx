@@ -5,18 +5,9 @@ import { type Session as SessionAuth } from 'next-auth'
 
 
 export const getServerSideProps: GetServerSideProps<{
-    session: SessionAuth
+    session: SessionAuth | null
 }> = async function (context) {
     const session = await getSession(context)
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        }
-    }
 
     if (session) {
         return {

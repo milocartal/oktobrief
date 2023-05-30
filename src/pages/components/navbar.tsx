@@ -44,7 +44,7 @@ const AuthShowcase: React.FC = () => {
         {open && 
           <div className="bg-white absolute left-28 bottom-8 px-5 py-2 w-72">
               <span className="flex flex-row justify-start items-center">
-                  <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                  {sessionData?.user.image && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>}
                   <div>
                       <p className="text-base text-black font-semibold">{sessionData?.user.name}</p>
                       <p className="text-sm text-black">{sessionData?.user.email}</p>

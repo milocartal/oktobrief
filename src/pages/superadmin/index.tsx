@@ -160,18 +160,3 @@ const SuperAdmin: NextPage = () => {
 };
 
 export default SuperAdmin;
-
-const AuthShowcase: React.FC = () => {
-    const { data: sessionData } = useSession();
-
-    return (
-        <div className="flex flex-col items-center justify-center gap-4">
-            <button
-                className="rounded-full bg-white/10 font-semibold no-underline transition hover:bg-white/20"
-                onClick={sessionData ? () => void signOut() : () => void signIn()}
-            >
-                {sessionData ? sessionData.user.image ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
-            </button>
-        </div>
-    );
-};
