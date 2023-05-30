@@ -1,11 +1,10 @@
 import { GetServerSideProps, type NextPage } from "next";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
-import { api } from "~/utils/api";
-import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
-import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
-import { useState } from "react";
+import { BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
+import NavBar from "./components/navbar";
+import Notifs from "./components/notifs";
+import Promo from "./components/promo";
 
 export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
     const session = await getSession(context)
@@ -26,8 +25,6 @@ export const getServerSideProps: GetServerSideProps<{}> = async function (contex
 
 const Home: NextPage = () => {
 
-  const [notifs, setNotifs] = useState(true)
-
   return (
     <>
       <Head>
@@ -39,10 +36,7 @@ const Home: NextPage = () => {
         <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <span className="flex w-full flex-row items-center justify-between mb-10">
             <h1 className="text-4xl font-extrabold text-black">Votre dashboard</h1>
-            <div className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg">
-              <p className="text-base mr-2">Promo 1 2022/2023</p>
-              <BiChevronDown className="text-4xl" />
-            </div>
+            <Promo />
           </span>
 
           <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
@@ -182,44 +176,11 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div className="fixed bottom-16 right-16 w-20 h-20 bg-[#2EA3A5] flex flex-row items-center justify-center rounded-full">
-          <div className="w-full h-full flex flex-row items-center justify-center rounded-full relative">
-            <FaBell className="text-3xl text-white" />
-            {notifs && <FaCircle className="text-base text-[#0E6073] absolute top-5 right-5" />}
-          </div>
-        </div>
-
-        <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between py-5">
-
-          <div className="flex flex-col gap-8 items-center justify-center">
-            <Link href={"/"}><img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" /></Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiClipboard className="text-3xl" />Projet</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><FaInbox className="text-3xl" />Rendu</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiListCheck className="text-3xl" />Suivi</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><FaOctopusDeploy className="text-3xl" />Référentiel</Link>
-            <Link href={"/superadmin"} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><img src="superhero.svg" className="w-10" />Super Admin</Link>
-          </div>
-
-          <AuthShowcase />
-        </div>
+        <Notifs />
+        <NavBar />
       </main>
     </>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <button
-        className="rounded-full bg-white/10 font-semibold no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? sessionData.user.image ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
-      </button>
-    </div>
-  );
-};
