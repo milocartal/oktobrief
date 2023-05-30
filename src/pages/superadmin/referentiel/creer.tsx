@@ -18,6 +18,7 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 })
 
 export const getServerSideProps: GetServerSideProps<{
+    session: SessionAuth
 }> = async function (context) {
     const session = await getSession(context)
     const admin = session?.user.superadmin
@@ -46,29 +47,31 @@ const AddReferentiel: NextPage = () => {
 
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
-                <h1 className="text-4xl font-extrabold text-black w-full">Créer un référentiel</h1>
+                <div className="flex min-h-screen w-full flex-col items-center justify-start px-[25px] pt-[40px]">
+                    <h1 className="text-4xl font-extrabold text-black w-full">Créer un référentiel</h1>
 
-                <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 gap-5 rounded-xl">
-                    <span className="flex w-full flex-row items-center justify-between mb-3">
-                        <h2 className="text-2xl text-black">Données sur la plateforme</h2>
-                    </span>
+                    <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 gap-5 rounded-xl">
+                        <span className="flex w-full flex-row items-center justify-between mb-3">
+                            <h2 className="text-2xl text-black">Données sur la plateforme</h2>
+                        </span>
 
-                    <div className="flex w-full flex-row items-center justify-center gap-16">
-                        <div className="flex flex-col items-center justify-center">
-                            <h3 className="text-7xl mb-2 text-[#2EA3A5]">76</h3>
-                            <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Apprenants</p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <h3 className="text-7xl mb-2 text-[#2EA3A5]">26</h3>
-                            <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Promos créées</p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <h3 className="text-7xl mb-2 text-[#2EA3A5]">62</h3>
-                            <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Projets créés</p>
+                        <div className="flex w-full flex-row items-center justify-center gap-16">
+                            <div className="flex flex-col items-center justify-center">
+                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">76</h3>
+                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Apprenants</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">26</h3>
+                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Promos créées</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">62</h3>
+                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Projets créés</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="flex min-h-screen w-full flex-col items-center justify-start px-[25px] pt-[40px]">
+
+
                 </div>
 
 
@@ -87,7 +90,7 @@ const AddReferentiel: NextPage = () => {
                     <AuthShowcase />
                 </div>
             </main>
-
+            
         </>
     );
 };

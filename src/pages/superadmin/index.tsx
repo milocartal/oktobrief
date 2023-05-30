@@ -5,9 +5,11 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
+import { type Session as SessionAuth } from 'next-auth'
+
 
 export const getServerSideProps: GetServerSideProps<{
-
+    session: SessionAuth
 }> = async function (context) {
     const session = await getSession(context)
 

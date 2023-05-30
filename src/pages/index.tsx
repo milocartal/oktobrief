@@ -6,8 +6,9 @@ import { api } from "~/utils/api";
 import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
 import { useState } from "react";
+import { type Session as SessionAuth } from 'next-auth'
 
-export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
+export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
     const session = await getSession(context)
 
     if (!session) {

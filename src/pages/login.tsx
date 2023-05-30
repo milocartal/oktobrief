@@ -1,11 +1,22 @@
 import { GetServerSideProps, type NextPage } from "next";
 import Link from "next/link";
 import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { type Session as SessionAuth } from 'next-auth'
+
 
 export const getServerSideProps: GetServerSideProps<{
-    
+    session: SessionAuth
 }> = async function (context) {
     const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
+    }
 
     if (session) {
         return {
@@ -15,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<{
             },
         }
     }
-
+    
     return {
         props: { session }
     }
