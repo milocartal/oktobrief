@@ -8,6 +8,8 @@ import NavBar from "./components/navbar";
 import Notifs from "./components/notifs";
 import Promo from "./components/promo";import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
 import { useState } from "react";
+import { type Session as SessionAuth } from 'next-auth'
+
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
     const session = await getSession(context)
