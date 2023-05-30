@@ -42,9 +42,9 @@ const Home: NextPage = () => {
           <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
-              <div className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+              <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                 <p className="text-base">Modifier</p>
-              </div>
+              </button>
             </span>
 
             <div className="flex w-full flex-row items-center">
@@ -76,9 +76,9 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
                     autoComplete="off"
                   />
-                <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-base">Créer un projet</p>
-                </div>
+                </button>
               </span>
             </span>
             <div className="flex flex-row justify-between w-full">
@@ -131,13 +131,48 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
                     autoComplete="off"
                   />
-                <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-base text-center">Ajouter une ressource</p>
-                </div>
+                </button>
               </span>
             </span>
 
             <div className="flex flex-col items-center w-full">
+              <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
+                <div className="m-5 w-[75%] flex flex-row justify-between">
+                  <div className="w-[70%]">
+                    <h3 className="text-lg text-black">Ressource 1</h3>
+                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
+                    <span className="flex flex-row justify-start items-center w-full mt-5">
+                      <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <p className="text-sm text-black">Lorem ipsum</p>
+                    </span>
+                  </div>
+                  <div className="w-[30%] px-2">
+                    <span className="flex flex-row justify-center">
+                      <BiPencil className="text-3xl text-[#2EA3A5] mx-2" />
+                      <BiTrash className="text-3xl text-[#A10000] mx-2" />
+                    </span>
+                    <span className="flex flex-row justify-start mt-5 w-full flex-wrap">
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">WordPress</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">Drupal</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">JavaScript</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">WordPress</p>
+                      </div>
+                    </span>
+                    
+                  </div>
+                </div>
+                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+              </div>
+
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
                 <div className="m-5 w-[75%] flex flex-row justify-between">
                   <div className="w-[70%]">
