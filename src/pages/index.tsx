@@ -1,12 +1,13 @@
 import { GetServerSideProps, type NextPage } from "next";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
-import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
+import { BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
+import NavBar from "./components/navbar";
+import Notifs from "./components/notifs";
+import Promo from "./components/promo";import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
 import { useState } from "react";
-import { type Session as SessionAuth } from 'next-auth'
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
     const session = await getSession(context)
@@ -27,8 +28,6 @@ export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = 
 
 const Home: NextPage = () => {
 
-  const [notifs, setNotifs] = useState(true)
-
   return (
     <>
       <Head>
@@ -40,18 +39,15 @@ const Home: NextPage = () => {
         <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <span className="flex w-full flex-row items-center justify-between mb-10">
             <h1 className="text-4xl font-extrabold text-black">Votre dashboard</h1>
-            <div className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg">
-              <p className="text-base mr-2">Promo 1 2022/2023</p>
-              <BiChevronDown className="text-4xl" />
-            </div>
+            <Promo />
           </span>
 
           <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
-              <div className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+              <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                 <p className="text-base">Modifier</p>
-              </div>
+              </button>
             </span>
 
             <div className="flex w-full flex-row items-center">
@@ -83,9 +79,9 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
                     autoComplete="off"
                   />
-                <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-base">Créer un projet</p>
-                </div>
+                </button>
               </span>
             </span>
             <div className="flex flex-row justify-between w-full">
@@ -138,9 +134,9 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
                     autoComplete="off"
                   />
-                <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                   <p className="text-base text-center">Ajouter une ressource</p>
-                </div>
+                </button>
               </span>
             </span>
 
@@ -179,48 +175,50 @@ const Home: NextPage = () => {
                 </div>
                 <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
               </div>
+
+              <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
+                <div className="m-5 w-[75%] flex flex-row justify-between">
+                  <div className="w-[70%]">
+                    <h3 className="text-lg text-black">Ressource 1</h3>
+                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
+                    <span className="flex flex-row justify-start items-center w-full mt-5">
+                      <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <p className="text-sm text-black">Lorem ipsum</p>
+                    </span>
+                  </div>
+                  <div className="w-[30%] px-2">
+                    <span className="flex flex-row justify-center">
+                      <BiPencil className="text-3xl text-[#2EA3A5] mx-2" />
+                      <BiTrash className="text-3xl text-[#A10000] mx-2" />
+                    </span>
+                    <span className="flex flex-row justify-start mt-5 w-full flex-wrap">
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">WordPress</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">Drupal</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">JavaScript</p>
+                      </div>
+                      <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
+                        <p className="text-sm">WordPress</p>
+                      </div>
+                    </span>
+                    
+                  </div>
+                </div>
+                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="fixed bottom-16 right-16 w-20 h-20 bg-[#2EA3A5] flex flex-row items-center justify-center rounded-full">
-          <div className="w-full h-full flex flex-row items-center justify-center rounded-full relative">
-            <FaBell className="text-3xl text-white" />
-            {notifs && <FaCircle className="text-base text-[#0E6073] absolute top-5 right-5" />}
-          </div>
-        </div>
-
-        <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between py-5">
-
-          <div className="flex flex-col gap-8 items-center justify-center">
-            <Link href={"/"}><img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" /></Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiClipboard className="text-3xl" />Projet</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><FaInbox className="text-3xl" />Rendu</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-1 transition hover:bg-[#2EA3A5]"><BiListCheck className="text-3xl" />Suivi</Link>
-            <Link href={""} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><FaOctopusDeploy className="text-3xl" />Référentiel</Link>
-            <Link href={"/superadmin"} className="flex flex-col items-center justify-center gap-2 transition hover:bg-[#2EA3A5]"><img src="superhero.svg" className="w-10" />Super Admin</Link>
-          </div>
-
-          <AuthShowcase />
-        </div>
+        <Notifs />
+        <NavBar />
       </main>
     </>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <button
-        className="rounded-full bg-white/10 font-semibold no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? sessionData.user.image ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
-      </button>
-    </div>
-  );
-};
