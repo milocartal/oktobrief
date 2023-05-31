@@ -6,6 +6,7 @@ import NavBar from "./components/navbar";
 import Notifs from "./components/notifs";
 import Promo from "./components/promo";
 import { type Session as SessionAuth } from 'next-auth'
+import Link from "next/link";
 
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
@@ -84,9 +85,9 @@ const Home: NextPage = () => {
               </span>
             </span>
             <div className="flex flex-row justify-between w-full">
-              <div className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <img src="promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                <div className="m-5">
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
@@ -94,11 +95,11 @@ const Home: NextPage = () => {
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
-              </div>
+              </Link>
 
-              <div className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <img src="promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                <div className="m-5">
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
@@ -106,11 +107,11 @@ const Home: NextPage = () => {
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
-              </div>
+              </Link>
 
-              <div className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <img src="promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                <div className="m-5">
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
@@ -118,7 +119,7 @@ const Home: NextPage = () => {
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
 
