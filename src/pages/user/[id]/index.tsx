@@ -164,7 +164,7 @@ const ProfileScreen: NextPage = () => {
                 </span>
                 <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                     <div className="flex w-full flex-row items-center">
-                    <img src="promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                    <img src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                     <div className="w-[45%]">
                         <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                         <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
@@ -183,7 +183,7 @@ const ProfileScreen: NextPage = () => {
                 </div>
                 <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                     <div className="flex w-full flex-row items-center">
-                    <img src="promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                    <img src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                     <div className="w-[45%]">
                         <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                         <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
