@@ -12,11 +12,11 @@ const NavBar: React.FC = () => {
         <Link href={"/"}>
           <img src="/logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
         </Link>
-        <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
-        <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-        <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
-        <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>
-        <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" />Super Admin</Link>
+        <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projets</Link>
+        <Link href={"/briefs"} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendus</Link>
+        <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
+        <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiels</Link>
+        <Link href={"/superadmin"} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" />Super Admin</Link>
       </div>
 
       <AuthShowcase />
