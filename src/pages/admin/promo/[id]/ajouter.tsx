@@ -3,9 +3,6 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import NavBar from "./../../../components/navbar";
 import Notifs from "./../../../components/notifs";
-import Promo from "./../../../components/promo";
-import { BiCalendarAlt } from "react-icons/bi";
-import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
     const session = await getSession(context)

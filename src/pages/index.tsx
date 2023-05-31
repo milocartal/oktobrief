@@ -1,13 +1,10 @@
 import { GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
-import { api } from "~/utils/api";
 import { BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
 import NavBar from "./components/navbar";
 import Notifs from "./components/notifs";
-import Promo from "./components/promo";import { FaInbox, FaOctopusDeploy, FaBell, FaCircle } from "react-icons/fa"
-import { useState } from "react";
+import Promo from "./components/promo";
 import { type Session as SessionAuth } from 'next-auth'
 
 
