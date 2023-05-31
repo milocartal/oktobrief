@@ -9,6 +9,7 @@ import { type Session as SessionAuth } from 'next-auth'
 import NavBar from "../../components/navbar";
 import { useState } from "react";
 import { Referentiel } from "@prisma/client";
+import Router from "next/router";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
@@ -42,6 +43,7 @@ const creerRef: NextPage = () => {
             const lec = await createRef.mutateAsync({title: title})
             douze = lec
             setTab("douze")
+            Router.push(`/superadmin/referentiel/${lec.id}/modifier`)
         }
 
     }
@@ -58,9 +60,6 @@ const creerRef: NextPage = () => {
                 <h1 className="text-4xl font-extrabold text-black w-full">Créer un référentiel</h1>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
-                    {/*<span className="flex w-full flex-row items-center justify-between mb-3">
-                        <h2 className="text-2xl text-black">Données sur la plateforme</h2>
-                    </span>*/}
                     <input
                         type='text'
                         name="leconTitle"
@@ -73,11 +72,6 @@ const creerRef: NextPage = () => {
                     {tab !== "douze" && <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={handleTitle}>
                         Ajouter des compétences
                     </button>}
-
-                    {tab==="douze" && 
-                    <span className="flex w-full flex-row items-center justify-between mb-3">
-                        <h2 className="text-2xl text-black">ÇA MARCHE BORDEL</h2>
-                    </span>}
                 </section>
 
 

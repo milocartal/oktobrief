@@ -8,6 +8,7 @@ import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "../components/navbar";
 import Promo from "../components/promo";
+import Notifs from "../components/notifs";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
@@ -108,7 +109,7 @@ const SuperAdmin: NextPage = () => {
                                     autoComplete="off"
                                 />
                                 <Link href={"/superadmin/referentiel/creer"} className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg ">
-                                    <p className="text-lg text-center">Créer un référentiel</p>
+                                    Créer un référentiel
                                 </Link>
                             </span>
                         </span>
@@ -151,6 +152,7 @@ const SuperAdmin: NextPage = () => {
 
                 </div>
 
+                <Notifs />
                 <NavBar />
             </main>
         </>
