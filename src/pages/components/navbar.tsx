@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
 export default NavBar;
 
 const AuthShowcase: React.FC = () => {
-    const { data: sessionData } = useSession();
+  const { data: sessionData } = useSession();
     const [open, setOpen] = useState(false)
   
     return (
@@ -48,9 +48,9 @@ const AuthShowcase: React.FC = () => {
                   </div>
               </span>
               <span className="flex flex-row justify-between items-center mt-5">
-                <button>
+                <Link href={`/user/${sessionData?.user.id}`}>
                   <p className="text-sm text-black hover:text-[#2EA3A5]">Gérer mon profil</p>
-                </button>
+                </Link>
                 <button onClick={sessionData ? () => void signOut() : () => void signIn()}>
                   <p className="text-sm text-[#8F0000]">Déconnexion</p>
                 </button>
