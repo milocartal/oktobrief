@@ -15,7 +15,7 @@ function NavBar () {
               <Link href={"/"}>
                 <img src="logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
               </Link>
-              <Link href={"/admin/promo/creer"} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
+              <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
               <Link href={""} className="flex flex-col items-center justify-center transition hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>
