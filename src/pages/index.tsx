@@ -41,7 +41,7 @@ const Home: NextPage = () => {
             <Promo />
           </span>
 
-          <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
+          <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
               <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
@@ -68,7 +68,7 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
+          <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Les projets de ma promo</h2>
               <span className="flex w-[45%] flex-row items-center justify-end">
@@ -122,7 +122,7 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5">
+          <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Les ressources de la promo</h2>
               <span className="flex w-[60%] flex-row items-center justify-end">
