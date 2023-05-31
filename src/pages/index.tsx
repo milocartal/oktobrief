@@ -81,8 +81,8 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
                     autoComplete="off"
                   />
-                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
-                  <p className="text-base">Créer un projet</p>
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                  Créer un projet
                 </button>
               </span>
             </span>
@@ -136,8 +136,8 @@ const Home: NextPage = () => {
                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
                     autoComplete="off"
                   />
-                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
-                  <p className="text-base text-center">Ajouter une ressource</p>
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base text-center">
+                  Ajouter une ressource
                 </button>
               </span>
             </span>

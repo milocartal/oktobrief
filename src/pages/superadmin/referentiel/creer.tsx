@@ -7,6 +7,8 @@ import { api } from "~/utils/api";
 import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "../../components/navbar";
+import { useState } from "react";
+import { Referentiel } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
@@ -28,6 +30,21 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 const creerRef: NextPage = () => {
+    const createRef = api.referentiel.create.useMutation()
+    let douze : Referentiel;
+
+    const [title, setTtile] = useState("")
+    const [tab, setTab] = useState("")
+    
+    async function handleTitle(e: React.SyntheticEvent) {
+        e.preventDefault()
+        if(title !== ""){
+            const lec = await createRef.mutateAsync({title: title})
+            douze = lec
+            setTab("douze")
+        }
+
+    }
 
     return (
         <>
@@ -50,11 +67,17 @@ const creerRef: NextPage = () => {
                         className="px-[1rem] py-3 rounded-xl bg-white shadow-[inset_3px_6px_12px_4px_rgba(0,0,0,0.25)] w-full"
                         autoComplete="off"
                         placeholder="Titre du référentiel"
+                        onChange={(e) => setTtile(e.target.value)}
                     />
 
-                    <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg">
+                    {tab !== "douze" && <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={handleTitle}>
                         Ajouter des compétences
-                    </button>
+                    </button>}
+
+                    {tab==="douze" && 
+                    <span className="flex w-full flex-row items-center justify-between mb-3">
+                        <h2 className="text-2xl text-black">ÇA MARCHE BORDEL</h2>
+                    </span>}
                 </section>
 
 
