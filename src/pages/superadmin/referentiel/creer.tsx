@@ -41,11 +41,8 @@ const creerRef: NextPage = () => {
         e.preventDefault()
         if(title !== ""){
             const lec = await createRef.mutateAsync({title: title})
-            douze = lec
-            setTab("douze")
             Router.push(`/superadmin/referentiel/${lec.id}/modifier`)
         }
-
     }
 
     return (
@@ -69,9 +66,9 @@ const creerRef: NextPage = () => {
                         onChange={(e) => setTtile(e.target.value)}
                     />
 
-                    {tab !== "douze" && <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={handleTitle}>
+                    <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={handleTitle}>
                         Ajouter des compétences
-                    </button>}
+                    </button>
                 </section>
 
 

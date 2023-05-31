@@ -30,6 +30,7 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 const SuperAdmin: NextPage = () => {
+    const { data: referentiels } = api.referentiel.getAll.useQuery()
 
     return (
         <>
@@ -114,45 +115,18 @@ const SuperAdmin: NextPage = () => {
                             </span>
                         </span>
                         <div className="grid grid-cols-4 gap-3">
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link> <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
-                            <Link href={""} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
-                                <p className="text-[14px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Link>
+                            {referentiels?.map((refe) => {
+                                return (
+                                    <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
+                                        <p className="text-[14px]">{refe.title}</p>
+                                    </Link>
+                                )
+                            })}
                         </div>
                     </div>
 
                 </div>
 
-                <Notifs />
                 <NavBar />
             </main>
         </>
