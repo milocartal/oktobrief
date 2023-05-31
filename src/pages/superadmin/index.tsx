@@ -1,10 +1,8 @@
 import { GetServerSideProps, type NextPage } from "next";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { BiClipboard, BiListCheck, BiChevronDown, BiGroup, BiCalendar } from "react-icons/bi";
-import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 
 import { type Session as SessionAuth } from 'next-auth'
 
@@ -71,9 +69,9 @@ const SuperAdmin: NextPage = () => {
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Les dernières promos créées</h2>
                             <span className="flex w-[45%] flex-row items-center justify-end">
-                                <div className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
-                                    <p className="text-lg">Gérer les promos</p>
-                                </div>
+                                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg">
+                                    Gérer les promos
+                                </button>
                             </span>
                         </span>
 
