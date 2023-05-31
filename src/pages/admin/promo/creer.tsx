@@ -1,12 +1,14 @@
+/* eslint-disable react/jsx-key */
+import React, { useState } from 'react';
+import { useSnapCarousel } from 'react-snap-carousel';
 import { GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import NavBar from "./../../components/navbar";
 import Notifs from "./../../components/notifs";
 import Promo from "./../../components/promo";
-import { BiCalendarAlt } from "react-icons/bi";
+import { BiCalendarAlt, BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import Link from "next/link";
-
 export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
     const session = await getSession(context)
 
@@ -25,50 +27,44 @@ export const getServerSideProps: GetServerSideProps<{}> = async function (contex
 };
 
 const CreerPromo: NextPage = () => {
+  const [selected, setSelected] = useState(0)
 
-//   const REFS = [
-//     {
-//         "id": 1,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 2,
-//         "nom": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-//     },
-//     {
-//         "id": 3,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 4,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 5,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 6,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 7,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     },
-//     {
-//         "id": 8,
-//         "nom": "Lorem ipsum dolor sit amet"
-//     }
-// ]
-
-  // const refsPairs = REFS.reduce(
-  // (result, value, index, array) => {
-  //     if (index % 3 === 0)
-  //       result.push(array.slice(index, index + 3));
-  //       console.log(result)
-  //     return result;
-  //   }, []);
-
+  const REFS = [
+    {
+        "id": 1,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 2,
+        "nom": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+        "id": 3,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 4,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 5,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 6,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 7,
+        "nom": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 8,
+        "nom": "Lorem ipsum dolor sit amet"
+    }
+]
+const { scrollRef, activePageIndex, next, prev } =
+useSnapCarousel();
   return (
     <>
       <Head>
@@ -109,17 +105,27 @@ const CreerPromo: NextPage = () => {
                 <p>Référentiel</p>
                 <p className="text-[#A10000]">*</p>
               </span>
-              {/* {refsPairs.map((trois) => {
-                  return (
-                      <span className="flex flex-row justify-start items-center w-full mt-5">
-                          {trois.map((item: { id: Key | null | undefined; }) => {
-                            <div key={item.id}>
+              <div className="flex flex-row overflow-hidden">
+              {activePageIndex != 0 &&
+              <button onClick={() => prev()}><BiChevronLeft className="text-5xl text-[#0E6073]" /></button>}
+                <div className="flex flex-row overflow-x-auto relative" ref={scrollRef}>
+                  {Array.from(REFS).map((item) => (
+                      <>
+                      {item.id === selected ?
+                          <button className="p-5 m-2 min-w-[200px] h-[100px] shadow-[inset_3px_4px_12px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] text-center text-sm rounded-lg flex flex-row items-center" onClick={() => setSelected(item.id)}>
+                              <p className="text-white">{item.nom}</p>
+                          </button>
+                          :
+                          <button className="p-5 m-2 min-w-[200px] h-[100px] shadow-[3px_4px_12px_0px_rgba(0,0,0,0.25)] text-center text-sm rounded-lg flex flex-row items-center" onClick={() => setSelected(item.id)}>
                               <p>{item.nom}</p>
-                            </div>
-                          })}
-                      </span>
-                  )
-              })} */}
+                          </button>
+                      }
+                      </>
+                  ))}
+                  
+                </div>
+                <button onClick={() => next()}><BiChevronRight className="text-5xl text-[#0E6073]" /></button>
+              </div>
               
             </div>
             <div className="bg-white h-full w-[40%] p-5">
