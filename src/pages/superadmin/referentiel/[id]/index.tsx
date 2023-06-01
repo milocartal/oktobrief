@@ -20,6 +20,24 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     loading: () => <p>Loading ...</p>,
 })
 
+const modules = {
+    toolbar: [
+        [{ header: ['1', '2', '3', false] }],
+        //[{ size: [] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
+        [{ color: [] }],
+        [
+            { list: 'ordered' },
+            { list: 'bullet' },
+        ],
+        ['link'],
+    ],
+    clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+    },
+}
+
 type RefeWithComp = Prisma.ReferentielGetPayload<{
     include: {
         competences: {
@@ -41,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async function (context) {
     const session = await getSession(context)
     const superadmin = session?.user.superadmin
-    
+
     if (!session) {
         return {
             redirect: {
@@ -51,7 +69,7 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    if(!superadmin){
+    if (!superadmin) {
         return {
             redirect: {
                 destination: '/',
@@ -214,17 +232,17 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                 <div className="flex w-full justify-between">
                                     {selectedComp && selectedComp.niveaux.map((niveau, index) => {
                                         return (
-                                            <button className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white':'bg-[#c4c4c4]'}`} onClick={() => setLvl(selectedComp.niveaux[index])} key={niveau.id}>
+                                            <button className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white' : 'bg-[#c4c4c4]'}`} onClick={() => setLvl(selectedComp.niveaux[index])} key={niveau.id}>
                                                 {niveau.title}
                                             </button>
                                         )
                                     })}
                                 </div>
-                                {selectedLvl && 
-                                <div className="flex gap-5 w-full">
-                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} className="max-h-[300px] overflow-y-auto w-[50%]" />
-                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} className="max-h-[300px] overflow-y-auto w-[50%]" />
-                                </div>}
+                                {selectedLvl &&
+                                    <div className="flex gap-5 w-full">
+                                        <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} className="max-h-[300px] overflow-y-auto w-[50%]" />
+                                        <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} className="max-h-[300px] overflow-y-auto w-[50%]" />
+                                    </div>}
 
                             </aside>
                         </div>
@@ -247,8 +265,8 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                 <h2 className="text-xl text-black">Niveau 1</h2>
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
-                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setTODO1} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setEval1} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[475px] h-[250px]" onChange={setTODO1} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[475px] max-w-[50%] h-[250px]" onChange={setEval1} modules={modules} />
                             </fieldset>
 
                         </fieldset>
@@ -258,8 +276,8 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                 <h2 className="text-xl text-black">Niveau 2</h2>
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
-                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setTODO2} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setEval2} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[475px] h-[250px]" onChange={setTODO2} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[475px] h-[250px]" onChange={setEval2} modules={modules} />
                             </fieldset>
 
                         </fieldset>
@@ -269,8 +287,8 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                 <h2 className="text-xl text-black">Niveau 3</h2>
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
-                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setTODO3} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[50%] h-[250px]" onChange={setEval3} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-[475px] h-[250px]" onChange={setTODO3} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-[475px] h-[250px]" onChange={setEval3} modules={modules} />
                             </fieldset>
 
                         </fieldset>

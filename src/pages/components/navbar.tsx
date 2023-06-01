@@ -9,7 +9,7 @@ const NavBar: React.FC = () => {
   return (
     <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
 
-      <div className="flex flex-col items-center justify-start">
+      <div className="flex flex-col items-center justify-start gap-[3px]">
         <Link href={"/"}>
           <img src="/logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
         </Link>
