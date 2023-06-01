@@ -1,7 +1,7 @@
 import { GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { BiGroup, BiCalendar, BiPencil, BiTrash } from "react-icons/bi";
+import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
 import NavBar from "./components/navbar";
 import Notifs from "./components/notifs";
 import Promo from "./components/promo";
@@ -72,13 +72,16 @@ const Home: NextPage = () => {
           <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Les projets de ma promo</h2>
-              <span className="flex w-[45%] flex-row items-center justify-end">
-                <input
-                    type='text'
-                    name="leconTitle"
-                    className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
-                    autoComplete="off"
+              <span className="flex flex-row items-center justify-end w-[50%]">
+                <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center mr-2">
+                  <BiSearch className="text-3xl text-black ml-4" />
+                  <input
+                  type='text'
+                  name="promoDateStart"
+                  className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
+                  autoComplete="off"
                   />
+                </div>
                 <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                   Créer un projet
                 </button>
@@ -127,13 +130,16 @@ const Home: NextPage = () => {
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Les ressources de la promo</h2>
               <span className="flex w-[60%] flex-row items-center justify-end">
-                <input
+                <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center mr-2">
+                  <BiSearch className="text-3xl text-black ml-4" />
+                  <input
                     type='text'
-                    name="leconTitle"
-                    placeholder="Rechercher par nom ou par tag"
-                    className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] mr-2"
+                    placeholder="Rechercher"
+                    name="promoDateStart"
+                    className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
                     autoComplete="off"
                   />
+                </div>
                 <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base text-center">
                   Ajouter une ressource
                 </button>
