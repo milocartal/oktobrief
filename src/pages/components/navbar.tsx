@@ -5,6 +5,7 @@ import { BiClipboard, BiListCheck } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 
 const NavBar: React.FC = () => {
+  const { data: sessionData } = useSession();
   return (
     <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
 
@@ -14,9 +15,9 @@ const NavBar: React.FC = () => {
         </Link>
         <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
         <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-        <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>
+        {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
         <Link href={""} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>
-        <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" />Super Admin</Link>
+        {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" />Super Admin</Link>}
       </div>
 
       <AuthShowcase />

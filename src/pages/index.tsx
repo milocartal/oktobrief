@@ -50,7 +50,7 @@ const Home: NextPage = () => {
             </span>
 
             <div className="flex w-full flex-row items-center">
-              <img src="promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+              <img src="promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />
               <div className="w-[45%]">
                 <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
@@ -139,7 +139,7 @@ const Home: NextPage = () => {
               </span>
             </span>
 
-            <div className="flex flex-col items-center w-full">
+            <div className="flex flex-col items-center w-full gap-5">
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
                 <div className="m-5 w-[75%] flex flex-row justify-between">
                   <div className="w-[70%]">
@@ -172,7 +172,7 @@ const Home: NextPage = () => {
                     
                   </div>
                 </div>
-                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0 object-cover" alt="Image de la promo sélectionnée"/>
               </div>
 
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
@@ -207,7 +207,7 @@ const Home: NextPage = () => {
                     
                   </div>
                 </div>
-                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0 object-cover " alt="Image de la promo sélectionnée"/>
               </div>
             </div>
           </div>

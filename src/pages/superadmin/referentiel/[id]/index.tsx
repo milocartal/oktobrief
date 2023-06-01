@@ -40,11 +40,21 @@ export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp
 }> = async function (context) {
     const session = await getSession(context)
-
+    const superadmin = session?.user.superadmin
+    
     if (!session) {
         return {
             redirect: {
                 destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
+    if(!superadmin){
+        return {
+            redirect: {
+                destination: '/',
                 permanent: false,
             },
         }
@@ -85,7 +95,6 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
     const createCompetence = api.competence.create.useMutation()
     const addLvl = api.niveau.create.useMutation()
 
-    const [selectedLvl, setLvl] = useState<Niveau>()
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
             return referentiel.competences[0]
@@ -94,6 +103,18 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
             return null
         }
     })
+
+    const [selectedLvl, setLvl] = useState(() => {
+        if (referentiel.competences.length > 0) {
+            if (referentiel.competences[0]!.niveaux.length > 0) {
+                return referentiel.competences[0]!.niveaux[1]
+            }
+        }
+        else {
+            return null
+        }
+    })
+
 
     const [n1TODO, setTODO1] = useState("")
     const [n1Eval, setEval1] = useState("")
@@ -130,7 +151,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
         const target = e.target as typeof e.target & {
             refTitle: { value: string };
         };
-        await updateRef.mutateAsync({id: referentiel.id,  title: target.refTitle.value})
+        await updateRef.mutateAsync({ id: referentiel.id, title: target.refTitle.value })
         window.location.reload()
     }
 
@@ -170,7 +191,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                         <div className="flex w-full gap-10">
                             <aside className=" flex flex-col gap-5 border-2 border-[#c4c4c4] rounded-xl py-5 px-5 w-3/12">
                                 {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
-                                    return (<button className="flex w-full gap-5" key={competence.id} onClick={() => { setComp(competence), console.log(selectedComp) }}>
+                                    return (<button className="flex w-full gap-5" key={competence.id} onClick={() => { setComp(competence), setLvl(competence.niveaux[0]) }}>
                                         <p>{competence.title}</p>
                                         {/*<aside className="flex flex-col gap-5 border-2 border-black rounded-xl py-5 px-5">
                                     {competence.niveaux.map((niveau) => {
@@ -191,16 +212,19 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                             <aside className="flex flex-col gap-5 border-2 border-[#c4c4c4] rounded-xl py-5 px-5 w-9/12">
                                 <div className="flex w-full justify-between">
-                                    {selectedComp && selectedComp.niveaux.map((niveau) => {
-                                        return (<div className="flex flex-col gap-3" key={niveau.id}>
-                                            <h2 className="text-md text-black">{niveau.title}</h2>
-                                            {/*<div className="flex gap-5">
-                                                <div dangerouslySetInnerHTML={{ __html: niveau.todo }} className="max-h-[300px] overflow-y-auto" />
-                                                <div dangerouslySetInnerHTML={{ __html: niveau.eval }} className="max-h-[300px] overflow-y-auto" />
-                                            </div>*/}
-                                        </div>)
+                                    {selectedComp && selectedComp.niveaux.map((niveau, index) => {
+                                        return (
+                                            <button className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white':'bg-[#c4c4c4]'}`} onClick={() => setLvl(selectedComp.niveaux[index])} key={niveau.id}>
+                                                {niveau.title}
+                                            </button>
+                                        )
                                     })}
                                 </div>
+                                {selectedLvl && 
+                                <div className="flex gap-5 w-full">
+                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} className="max-h-[300px] overflow-y-auto w-[50%]" />
+                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} className="max-h-[300px] overflow-y-auto w-[50%]" />
+                                </div>}
 
                             </aside>
                         </div>
