@@ -1,12 +1,13 @@
 import { GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
+import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch, BiChevronDown, BiChevronUp, BiCheck, BiX } from "react-icons/bi";
 import NavBar from "./../../components/navbar";
 import Notifs from "./../../components/notifs";
 import Promo from "./../../components/promo";
 import { type Session as SessionAuth } from 'next-auth'
 import Link from "next/link";
+import { useState } from "react";
 
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
@@ -27,6 +28,9 @@ export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = 
 };
 
 const Suivi: NextPage = () => {
+
+    const [selectedUser, setSelectedUser] = useState(1)
+    const [selected, setSelected] = useState(1)
 
     const STUDENTS = [
         {
@@ -108,11 +112,6 @@ const Suivi: NextPage = () => {
                     "nom": "Évaluation du Projet Lorem 12",
                     "validation": false,
                     "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
-                    "date": "12/12/2023"
                 }
             ]
         },
@@ -134,11 +133,6 @@ const Suivi: NextPage = () => {
                 {
                     "nom": "Évaluation du Projet Lorem 12",
                     "validation": false,
-                    "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
                     "date": "12/12/2023"
                 }
             ]
@@ -162,11 +156,6 @@ const Suivi: NextPage = () => {
                     "nom": "Évaluation du Projet Lorem 12",
                     "validation": false,
                     "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
-                    "date": "12/12/2023"
                 }
             ]
         },
@@ -175,21 +164,6 @@ const Suivi: NextPage = () => {
             "nom": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "nbCorr": "1",
             "corrections" : [
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
-                    "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
-                    "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": false,
-                    "date": "12/12/2023"
-                },
                 {
                     "nom": "Évaluation du Projet Lorem 12",
                     "validation": true,
@@ -216,11 +190,6 @@ const Suivi: NextPage = () => {
                     "nom": "Évaluation du Projet Lorem 12",
                     "validation": false,
                     "date": "12/12/2023"
-                },
-                {
-                    "nom": "Évaluation du Projet Lorem 12",
-                    "validation": true,
-                    "date": "12/12/2023"
                 }
             ]
         }
@@ -239,8 +208,8 @@ const Suivi: NextPage = () => {
                     <h1 className="text-4xl font-extrabold text-black">Suivi des apprenants</h1>
                     <Promo />
                 </span>
-                <div className="w-full flex flex-row ">
-                    <div className="w-[30%] h-screen bg-white flex flex-col items-start p-5 py-8">
+                <div className="w-full flex flex-row">
+                    <div className="w-[25%] bg-white h-fit flex flex-col items-start p-5 py-8 rounded-lg">
                         <h1 className="text-2xl font-extrabold text-black">Apprenants</h1>
                         <div className="pr-[1rem] mt-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
@@ -251,21 +220,84 @@ const Suivi: NextPage = () => {
                             autoComplete="off"
                             />
                         </div>
-                        <div className="self-center">
+                        <div className="self-center flex flex-col items-center w-full">
                             {STUDENTS.map((item) => {
                                 return (
-                                    <button className="flex flex-row justify-between items-center w-full mt-5" key={item.id}>
+                                    <>
+                                    {selectedUser === item.id ? <button className="flex flex-row justify-center items-center w-[90%] mt-2 bg-[#2EA3A5] rounded-lg py-2" key={item.id} onClick={() => {setSelectedUser(item.id)}}>
                                         <div className="flex flex-row items-center">
                                             <img src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur"/>
-                                            <p className="text-base text-black font-semibold">{item.nom}</p>                              
+                                            <p className="text-base text-white font-semibold">{item.nom}</p>                              
                                         </div>
                                     </button>
+                                    :
+                                    <button className="flex flex-row justify-center items-center w-[90%] mt-2 py-2" key={item.id} onClick={() => {setSelectedUser(item.id)}}>
+                                        <div className="flex flex-row items-center">
+                                            <img src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />
+                                            <p className="text-base text-black font-semibold">{item.nom}</p>                              
+                                        </div>
+                                    </button>}
+                                    </>
                                 )
                             })}
                         </div>
                     </div>
-                    <div className="w-[70%] h-screen">
-
+                    <div className="w-[75%] flex flex-col items-start p-5 py-8">
+                        <h2 className="text-2xl mb-3">Développeur web et web mobile</h2>
+                        {COMPETENCES.map((item) => {
+                            return(
+                            <>
+                                {selected === item.id?
+                                    <button className="w-full bg-white flex flex-col rounded-lg my-2" onClick={() => {setSelected(item.id)}}>
+                                        <div className="w-full flex flex-row justify-between items-center p-5">
+                                            <p>C{item.id}</p>
+                                            <p>{item.nom}</p>
+                                            <div className="bg-[#2EA3A5] rounded-lg py-1 px-4">
+                                                <p className="text-white text-sm">{item.nbCorr} corrections</p>
+                                            </div>
+                                            <BiChevronUp className="text-4xl"/>
+                                        </div>
+                                        <div className="flex flex-col w-full p-2">
+                                            {item.corrections.map((comp) => {
+                                                return(
+                                                <>
+                                                    <div className="w-full bg-white flex flex-row justify-between items-center p-5 my-1 rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                                                        <p>{comp.nom}</p>
+                                                        <div className="flex flex-row justify-between">
+                                                            {comp.validation ?
+                                                                <div className="flex flex-row justify-between items-center mr-5 bg-[#00B01C]/20 rounded-lg py-1 px-4">
+                                                                    <BiCheck className="text-2xl text-[#00B01C] mr-2"/>
+                                                                    <p className="text-[#00B01C]">Niveau 2</p>
+                                                                </div>
+                                                                :
+                                                                <div className="flex flex-row justify-between items-center mr-5 bg-[#CD0202]/20 rounded-lg py-1 px-4">
+                                                                    <BiX className="text-2xl text-[#CD0202] mr-2"/>
+                                                                    <p className="text-[#CD0202]">Niveau 2</p>
+                                                                </div>
+                                                            }
+                                                            <p>{comp.date}</p>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )
+                                            })}
+                                        </div>
+                                        
+                                    </button>
+                                :
+                                    <button className="w-full bg-white flex flex-row justify-between items-center p-5 rounded-lg my-2" onClick={() => {setSelected(item.id)}}>
+                                        <p>C{item.id}</p>
+                                        <p>{item.nom}</p>
+                                        <div className="bg-[#2EA3A5] rounded-lg py-1 px-4">
+                                            <p className="text-white text-sm">{item.nbCorr} corrections</p>
+                                        </div>
+                                        <BiChevronDown className="text-4xl"/>
+                                    </button>
+                                }
+                            </>
+                            )
+                        })}
+                        
                     </div>
 
                 </div>
