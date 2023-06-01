@@ -6,10 +6,11 @@ import Link from "next/link";
 import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "~/pages/components/navbar";
-import { BiSearch } from "react-icons/bi";
+import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Header from "../components/navbarhorizontal";
 import Promo from "../components/promo";
 import Notifs from "../components/notifs";
+import { useState } from "react";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -32,6 +33,7 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 const indexBrief: NextPage = () => {
+    const [open, setOpen] = useState(false)
 
     return (
         <>
@@ -57,15 +59,25 @@ const indexBrief: NextPage = () => {
 
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
-                        <h2 className="text-2xl text-black">Les projets de ma promo</h2>
-                        <span className="flex w-[45%] flex-row items-center justify-end">
-                            <input
-                                type='text'
-                                name="leconTitle"
-                                className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[50%] mr-2"
-                                autoComplete="off"
-                            />
-                            <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                        <span className="flex w-[45%] flex-row items-center justify-start">
+                            <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Brouillons</button>
+                            <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Publiés</button>
+                        </span>
+                        <span className="flex w-[50%] flex-row items-center justify-end">
+                            <div className="relative">
+                                <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
+                                <p className="text-base mr-2">Tri par: Date de création</p>
+                                <BiChevronDown className="text-4xl" />
+                                </button>
+                                {open && 
+                                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
+                                    <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
+                                    <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
+                                    <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
+                                </div>
+                                }
+                            </div>
+                            <button className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                             Créer un projet
                             </button>
                         </span>
