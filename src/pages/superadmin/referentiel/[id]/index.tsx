@@ -8,6 +8,10 @@ import NavBar from "~/pages/components/navbar";
 import { Prisma, Referentiel } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";
+import Router from "next/router";
+import Link from "next/link";
+import { BiPencil, BiTrash } from "react-icons/bi";
+import { api } from "~/utils/api";
 
 
 type RefeWithComp = Prisma.ReferentielGetPayload<{
@@ -30,11 +34,21 @@ export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp
 }> = async function (context) {
     const session = await getSession(context)
+    const superadmin = session?.user.superadmin
 
     if (!session) {
         return {
             redirect: {
                 destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
+    if (!superadmin) {
+        return {
+            redirect: {
+                destination: '/',
                 permanent: false,
             },
         }
@@ -56,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<{
     if (!referentiel) {
         return {
             redirect: {
-                destination: '/superadmin/referentiel',
+                destination: '/superadmin',
                 permanent: false,
             },
         }
@@ -70,6 +84,8 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+    const delRef = api.referentiel.delete.useMutation()
+
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
             return referentiel.competences[0]
@@ -90,6 +106,12 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
         }
     })
 
+    async function handleDelete(e: React.SyntheticEvent) {
+        e.preventDefault()
+        await delRef.mutateAsync({id: referentiel.id})
+        window.location.reload()
+    }
+
     return (
         <>
             <Head>
@@ -98,8 +120,15 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] pt-10 gap-5">
-
-                <h1 className="text-4xl font-extrabold text-black w-full">Référentiel <i>{referentiel.title}</i></h1>
+                <span className="w-full flex items-center justify-between">
+                    <h1 className="text-4xl font-extrabold text-black">
+                        Référentiel <i>{referentiel.title}</i>
+                    </h1>
+                    <span className="flex gap-2">
+                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={()=>Router.push(`/superadmin/referentiel/${referentiel.id}/modifier`)}/>
+                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={handleDelete} />
+                    </span>
+                </span>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
                     <div className="flex w-full items-start justify-start bg-white gap-5">
@@ -152,9 +181,8 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                         </aside>
 
                     </div>
+
                 </section>
-
-
 
                 <NavBar />
             </main>

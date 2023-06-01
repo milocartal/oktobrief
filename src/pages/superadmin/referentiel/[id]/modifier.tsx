@@ -7,14 +7,12 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
 
-import { type Session as SessionAuth } from 'next-auth'
-
 import NavBar from "~/pages/components/navbar";
 import { useState } from "react";
 import { Competence, Niveau, Prisma, Referentiel } from "@prisma/client";
 import { prisma } from "~/server/db";
-import Router from "next/router";
 import { BiPencil, BiTrash } from "react-icons/bi";
+import { HiXMark } from 'react-icons/hi2';
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -136,6 +134,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
         }
     })
 
+    const [tab, setTab] = useState("normal")
 
     const [n1TODO, setTODO1] = useState("")
     const [n1Eval, setEval1] = useState("")
@@ -245,7 +244,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                     <span className="flex justify-between w-full">
                                         <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
                                         <span className="flex flex-row justify-center">
-                                            <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" />
+                                            <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
                                             <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={handleDelComp} />
                                         </span>
                                     </span>
@@ -319,6 +318,61 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                 </section>
 
                 <NavBar />
+                {tab === "modif" &&
+                    <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
+                        <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-xl p-16 w-10/12 text-[#041f25]">
+
+                            <button
+                                onClick={(e) =>
+                                    setTab('normal')
+                                }
+                                className="absolute top-3 right-4 rounded-full font-semibold  no-underline transition hover:text-red-500">
+                                <HiXMark className="text-[2rem] text-[#0e6073] hover:text-red-500" />
+                            </button>
+
+                            <div className="flex w-full items-start justify-start bg-white gap-5">
+
+                                
+
+                                <aside className="flex flex-col w-full">
+                                    <div className="flex w-full justify-between gap-1">
+                                        {selectedComp && selectedComp.niveaux.map((niveau, index) => {
+                                            return (
+                                                <div
+                                                    className={`hover:cursor-pointer flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
+                                                    onClick={() => setLvl(selectedComp.niveaux[index])}
+                                                    key={niveau.id}
+                                                >
+                                                    {niveau.title}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+
+                                    {selectedLvl &&
+                                        <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-3 rounded-b-xl">
+                                            <span className="flex justify-between w-full">
+                                                <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
+                                                <span className="flex flex-row justify-center">
+                                                    <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
+                                                    <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={handleDelComp} />
+                                                </span>
+                                            </span>
+                                            <div className="flex gap-5 w-full">
+                                                <QuillNoSSRWrapper defaultValue={selectedLvl.todo} modules={modules} className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10" />
+                                                <QuillNoSSRWrapper defaultValue={selectedLvl.eval} modules={modules} className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10" />
+                                            </div>
+
+                                        </div>}
+                                </aside>
+
+                            </div>
+
+
+                            <div className="rounded-full bg-[#0E6073] px-10 py-3 font-semibold text-white no-underline transition hover:bg-[#0E6073]/80 hover:cursor-pointer text-center" onClick={(e) => { setTab("normal") }}><p>Valider l'exercice</p></div>
+
+                        </form>
+                    </div>}
             </main>
         </>
     );
