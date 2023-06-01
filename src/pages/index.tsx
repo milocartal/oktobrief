@@ -91,7 +91,7 @@ const Home: NextPage = () => {
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
@@ -147,7 +147,7 @@ const Home: NextPage = () => {
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -173,7 +173,7 @@ const Home: NextPage = () => {
                     
                   </div>
                 </div>
-                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0 object-cover" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
               </div>
 
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
@@ -182,7 +182,7 @@ const Home: NextPage = () => {
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -208,7 +208,7 @@ const Home: NextPage = () => {
                     
                   </div>
                 </div>
-                <img src="promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0 object-cover " alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
               </div>
             </div>
           </div>
