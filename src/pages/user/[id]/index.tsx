@@ -12,7 +12,6 @@ import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
     const session = await getSession(context)
 
-
     if (!session) {
         return {
             redirect: {
