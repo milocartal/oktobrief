@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
 import { type Session as SessionAuth } from 'next-auth'
 
-
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth | null
 }> = async function (context) {
@@ -17,7 +16,7 @@ export const getServerSideProps: GetServerSideProps<{
             },
         }
     }
-    
+
     return {
         props: { session }
     }
@@ -41,7 +40,7 @@ const Login: NextPage = () => {
                         placeholder="Mot de passe"
                         className="p-[1rem] rounded-lg bg-none dark:bg-[#041F25] shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-5"
                         autoComplete="off" />
-                    <button className="text-white w-full bg-[#0E6073] h-14 rounded-full mt-5 self-end hover:bg-[#0a4654] flex flex-row justify-center items-center" onClick={()=> void signIn() }>Se connecter</button>
+                    <button className="text-white w-full bg-[#0E6073] h-14 rounded-full mt-5 self-end hover:bg-[#0a4654] flex flex-row justify-center items-center" onClick={() => void signIn()}>Se connecter</button>
                 </div>
             </section>
             <section className="flex max-h-screen flex-col items-center justify-center w-5/12 white">

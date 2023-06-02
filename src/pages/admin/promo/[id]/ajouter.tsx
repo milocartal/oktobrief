@@ -1,89 +1,88 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import NavBar from "../../../../components/navbar";
-import Notifs from "../../../../components/notifs";
+import { NavBar, Notifs } from "~/components/barrel";
 
 import { type Session as SessionAuth } from 'next-auth'
 
 export const getServerSideProps: GetServerSideProps<{
-  session : SessionAuth
+  session: SessionAuth
 }> = async function (context) {
-    const session = await getSession(context)
+  const session = await getSession(context)
 
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        }
-    }
-
+  if (!session) {
     return {
-        props: { session }
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
     }
+  }
+
+  return {
+    props: { session }
+  }
 };
 
 const AddApprenants: NextPage = () => {
 
   const DATA = [
     {
-        "id": 1,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 1,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 2,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 2,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 3,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 3,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 4,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 4,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 5,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 5,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 6,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 6,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 7,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 7,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 8,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 8,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 9,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 9,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 10,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 10,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     },
     {
-        "id": 11,
-        "nom": "Lorem Ipsum",
-        "email": "loremipsum@mail.com"
+      "id": 11,
+      "nom": "Lorem Ipsum",
+      "email": "loremipsum@mail.com"
     }
-]
+  ]
 
   return (
     <>
@@ -98,36 +97,36 @@ const AddApprenants: NextPage = () => {
             <div className="bg-white h-full w-[59%] p-5 flex flex-col justify-between">
               <h2 className="text-2xl text-black">Ajouter des apprenants</h2>
               <div>
-              <span className="flex flex-row">
-                <p>Adresse email</p>
-                <p className="text-[#A10000]">*</p>
-              </span>
-              <input
-                type='text'
-                name="studentEmail"
-                className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
-                autoComplete="off"
-              />
-              <span className="flex flex-row mt-10">
-                <p>Prénom</p>
-                <p className="text-[#A10000]">*</p>
-              </span>
-              <input
-                type='text'
-                name="studentName"
-                className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
-                autoComplete="off"
-              />
-              <span className="flex flex-row mt-10">
-                <p>Nom</p>
-                <p className="text-[#A10000]">*</p>
-              </span>
-              <input
-                type='text'
-                name="studentLastName"
-                className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
-                autoComplete="off"
-              />
+                <span className="flex flex-row">
+                  <p>Adresse email</p>
+                  <p className="text-[#A10000]">*</p>
+                </span>
+                <input
+                  type='text'
+                  name="studentEmail"
+                  className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
+                  autoComplete="off"
+                />
+                <span className="flex flex-row mt-10">
+                  <p>Prénom</p>
+                  <p className="text-[#A10000]">*</p>
+                </span>
+                <input
+                  type='text'
+                  name="studentName"
+                  className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
+                  autoComplete="off"
+                />
+                <span className="flex flex-row mt-10">
+                  <p>Nom</p>
+                  <p className="text-[#A10000]">*</p>
+                </span>
+                <input
+                  type='text'
+                  name="studentLastName"
+                  className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
+                  autoComplete="off"
+                />
               </div>
               <button className="bg-[#0E6073] self-end py-2 px-7 text-white rounded-lg">Ajouter</button>
             </div>
@@ -135,18 +134,18 @@ const AddApprenants: NextPage = () => {
 
             <div className="bg-white h-full w-[40%] p-5 overflow-auto">
               {DATA.map((item) => {
-                  return (
-                      <span className="flex flex-row justify-between items-center w-full mt-5" key={item.id}>
-                          <div className="flex flex-row items-center">
-                              <button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-2">
-                                <p className="text-[#0E6073]">-</p>
-                              </button>
-                              <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                              <p className="text-base text-black font-semibold">{item.nom}</p>                              
-                          </div>
-                          <p className="text-xs text-[#8C8C8C] mr-1">{item.email}</p>
-                      </span>
-                  )
+                return (
+                  <span className="flex flex-row justify-between items-center w-full mt-5" key={item.id}>
+                    <div className="flex flex-row items-center">
+                      <button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-2">
+                        <p className="text-[#0E6073]">-</p>
+                      </button>
+                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                      <p className="text-base text-black font-semibold">{item.nom}</p>
+                    </div>
+                    <p className="text-xs text-[#8C8C8C] mr-1">{item.email}</p>
+                  </span>
+                )
               })}
             </div>
           </div>

@@ -3,7 +3,7 @@ import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
-import NavBar from "../../../components/navbar";
+import { NavBar } from "~/components/barrel";
 import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
 import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";
@@ -83,14 +83,14 @@ const ProfileScreen: NextPage = () => {
                                     placeholder={sessionData?.user.email}
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
-                                />:
-                                <input
-                                    type='text'
-                                    name="userEmail"
-                                    placeholder="votre mail"
-                                    className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
-                                    autoComplete="off"
-                                />}
+                                /> :
+                                    <input
+                                        type='text'
+                                        name="userEmail"
+                                        placeholder="votre mail"
+                                        className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
+                                        autoComplete="off"
+                                    />}
                             </div>}
                             <div className="w-[60%] flex flex-col items-end justify-between">
                                 <div className="w-full flex flex-row items-center justify-end">

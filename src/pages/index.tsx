@@ -2,28 +2,25 @@ import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
-import NavBar from "../components/navbar";
-import Notifs from "../components/notifs";
-import Promo from "../components/promo";
+import { NavBar, Notifs, Promo } from "../components/barrel";
 import { type Session as SessionAuth } from 'next-auth'
 import Link from "next/link";
 
-
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
-    const session = await getSession(context)
+  const session = await getSession(context)
 
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        }
-    }
-
+  if (!session) {
     return {
-        props: { session }
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
     }
+  }
+
+  return {
+    props: { session }
+  }
 };
 
 const Home: NextPage = () => {
@@ -57,11 +54,11 @@ const Home: NextPage = () => {
                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
                 <span className="flex w-full flex-row items-center justify-between">
                   <span className="flex w-full flex-row items-center">
-                    <BiGroup className="text-4xl text-[#0E6073] mr-1"/> 
+                    <BiGroup className="text-4xl text-[#0E6073] mr-1" />
                     <p>12 apprenants</p>
                   </span>
                   <span className="flex w-full flex-row items-center">
-                    <BiCalendar className="text-4xl text-[#0E6073] mr-1"/>
+                    <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
                     <p>Du 04/01/2022 au 10/09/2023</p>
                   </span>
                 </span>
@@ -76,10 +73,10 @@ const Home: NextPage = () => {
                 <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center mr-2">
                   <BiSearch className="text-3xl text-black ml-4" />
                   <input
-                  type='text'
-                  name="promoDateStart"
-                  className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
-                  autoComplete="off"
+                    type='text'
+                    name="promoDateStart"
+                    className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
+                    autoComplete="off"
                   />
                 </div>
                 <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
@@ -89,36 +86,36 @@ const Home: NextPage = () => {
             </span>
             <div className="flex flex-row justify-between w-full">
               <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
               </Link>
 
               <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
               </Link>
 
               <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
@@ -153,7 +150,7 @@ const Home: NextPage = () => {
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -176,10 +173,10 @@ const Home: NextPage = () => {
                         <p className="text-sm">WordPress</p>
                       </div>
                     </span>
-                    
+
                   </div>
                 </div>
-                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
               </div>
 
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
@@ -188,7 +185,7 @@ const Home: NextPage = () => {
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -211,10 +208,10 @@ const Home: NextPage = () => {
                         <p className="text-sm">WordPress</p>
                       </div>
                     </span>
-                    
+
                   </div>
                 </div>
-                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée"/>
+                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
               </div>
             </div>
           </div>

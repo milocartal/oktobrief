@@ -6,7 +6,7 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
 
-import NavBar from "~/components/navbar";
+import { NavBar } from "~/components/barrel";
 import { useState } from "react";
 import { type Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";
@@ -214,7 +214,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <h1 className="text-4xl font-extrabold text-black w-full">Gestion de <i>{referentiel.title}</i></h1>
 
-                <form onSubmit={()=>handleTitle} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
+                <form onSubmit={() => handleTitle} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
                     <label htmlFor="refTitle" className="text-2xl text-black w-full">Nom du référetiel</label>
                     <input
                         type='text'

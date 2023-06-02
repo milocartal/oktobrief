@@ -5,10 +5,9 @@ import Link from "next/link";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "~/components/navbar";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
-import Header from "../../components/navbarhorizontal";
-import Notifs from "../../components/notifs";
+
+import { Header, Notifs, NavBar } from "~/components/barrel";
 import { useState } from "react";
 
 

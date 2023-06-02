@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "../../../components/navbar";
+import { NavBar } from "~/components/barrel";
 import { useState } from "react";
 import Router from "next/router";
 
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    if(!superadmin){
+    if (!superadmin) {
         return {
             redirect: {
                 destination: '/',
@@ -42,11 +42,11 @@ export const getServerSideProps: GetServerSideProps<{
 const CreerRef: NextPage = () => {
     const createRef = api.referentiel.create.useMutation()
     const [Title, setTtile] = useState("")
-    
+
     async function handleTitle(e: React.SyntheticEvent) {
         e.preventDefault()
-        if(Title !== ""){
-            const lec = await createRef.mutateAsync({title: Title})
+        if (Title !== "") {
+            const lec = await createRef.mutateAsync({ title: Title })
             await Router.push(`/superadmin/referentiel/${lec.id}/modifier`)
         }
     }

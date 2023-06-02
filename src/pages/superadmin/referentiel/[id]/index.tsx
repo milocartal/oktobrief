@@ -2,7 +2,7 @@ import { type GetServerSideProps, type InferGetServerSidePropsType, type NextPag
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-import NavBar from "~/components/navbar";
+import { NavBar } from "~/components/barrel";
 import { type Prisma } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";
@@ -105,11 +105,11 @@ const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
     async function handleDelete(e: React.SyntheticEvent) {
         e.preventDefault()
-        await delRef.mutateAsync({id: referentiel.id})
+        await delRef.mutateAsync({ id: referentiel.id })
         window.location.reload()
     }
 
-    async function goToModif(e: React.SyntheticEvent){
+    async function goToModif(e: React.SyntheticEvent) {
         e.preventDefault()
         await Router.push(`/superadmin/referentiel/${referentiel.id}/modifier`)
     }
@@ -127,8 +127,8 @@ const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                         Référentiel <i>{referentiel.title}</i>
                     </h1>
                     <span className="flex gap-2">
-                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={()=>goToModif}/>
-                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={()=>handleDelete} />
+                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={() => goToModif} />
+                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={() => handleDelete} />
                     </span>
                 </span>
 

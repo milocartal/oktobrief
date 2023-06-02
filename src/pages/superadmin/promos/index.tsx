@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "~/components/navbar";
+import { NavBar } from "~/components/barrel";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    if(!superadmin){
+    if (!superadmin) {
         return {
             redirect: {
                 destination: '/',
