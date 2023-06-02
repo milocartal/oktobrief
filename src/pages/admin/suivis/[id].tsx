@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { BiSearch, BiChevronDown, BiChevronUp, BiCheck, BiX } from "react-icons/bi";
 
-import { NavBar, Notifs, Promo } from "~/components/barrel";
+import { NavBar, Notifs, Promos } from "~/components/barrel";
 
 import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
@@ -205,7 +205,7 @@ const Suivi: NextPage = () => {
                 <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
                     <span className="flex w-full flex-row items-center justify-between mb-10">
                         <h1 className="text-4xl font-extrabold text-black">Suivi des apprenants</h1>
-                        <Promo />
+                        <Promos />
                     </span>
                     <div className="w-full flex flex-row">
                         <div className="w-[25%] bg-white h-fit flex flex-col items-start p-5 py-8 rounded-lg">

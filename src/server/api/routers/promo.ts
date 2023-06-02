@@ -33,14 +33,15 @@ export const promoRouter = createTRPCRouter({
     })
   }),
 
-  create: protectedProcedure.input(z.object({ title: z.string(), desc: z.string(), idRef: z.string(), start: z.date(), end: z.date() })).mutation(({ input }) => {
+  create: protectedProcedure.input(z.object({ title: z.string(), desc: z.string(), idRef: z.string(), start: z.date(), end: z.date(), image: z.string() })).mutation(({ input }) => {
     return prisma.promo.create({
       data: {
         title: input.title,
         description: input.desc,
         idRef: input.idRef,
         starting: input.start,
-        ending: input.end
+        ending: input.end,
+        image: input.image
       }
     })
   }),

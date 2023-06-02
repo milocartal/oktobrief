@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import { NavBar, Promo } from "~/components/barrel";
+import { NavBar, Promos } from "~/components/barrel";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
@@ -52,7 +52,7 @@ const SuperAdmin: NextPage = () => {
                 <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
                     <span className="flex w-full flex-row items-center justify-between mb-10">
                         <h1 className="text-4xl font-extrabold text-black">Votre dashboard super admin</h1>
-                        <Promo />
+                        <Promos />
                     </span>
 
                     <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 gap-5 rounded-xl">

@@ -124,7 +124,10 @@ export const Notifs: React.FC = () => {
             </div>
                 :
                 <div className="fixed bottom-16 right-16">
-                    <button className="pointer-events-auto fixed bottom-16 right-16 w-20 h-20 bg-[#2EA3A5] flex flex-row items-center justify-center rounded-full" onClick={() => setOpen(!open)}>
+                    <button className="pointer-events-auto fixed bottom-16 right-16 w-20 h-20 bg-[#2EA3A5] flex flex-row items-center justify-center rounded-full" onClick={() => {
+                        setOpen(!open)
+                        if(notifs){setNotifs(false)}
+                    }}>
                         <div className="w-full h-full flex flex-row items-center justify-center rounded-full relative">
                             <FaBell className="text-3xl text-white" />
                             {notifs && <FaCircle className="text-base text-[#0E6073] absolute top-5 right-5" />}
@@ -136,7 +139,7 @@ export const Notifs: React.FC = () => {
     )
 }
 
-export const Promo: React.FC = () => {
+export const Promos: React.FC = () => {
     const [open, setOpen] = useState(false)
 
     return (

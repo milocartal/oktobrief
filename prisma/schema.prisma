@@ -63,6 +63,7 @@ model Promo {
     starting    DateTime
     ending      DateTime
     createAT    DateTime    @default(now())
+    image       String
     apprenants  User[]
     referentiel Referentiel @relation(fields: [idRef], references: [id], onDelete: Cascade)
 }

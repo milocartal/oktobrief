@@ -2,7 +2,7 @@ import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
-import { NavBar, Notifs, Promo } from "../components/barrel";
+import { NavBar, Notifs, Promos } from "../components/barrel";
 import { type Session as SessionAuth } from 'next-auth'
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <span className="flex w-full flex-row items-center justify-between mb-10">
             <h1 className="text-4xl font-extrabold text-black">Votre dashboard</h1>
-            <Promo />
+            <Promos />
           </span>
 
           <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
