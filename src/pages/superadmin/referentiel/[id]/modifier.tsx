@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 import NavBar from "~/pages/components/navbar";
 import { useState } from "react";
-import { Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { HiXMark } from 'react-icons/hi2';

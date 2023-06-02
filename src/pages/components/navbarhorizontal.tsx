@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 function Header (props:{selected: number}) {
-    const { data: sessionData } = useSession();
-
     return (
         <>
             <div className="fixed w-full bg-transparent top-0 h-[4rem]" />

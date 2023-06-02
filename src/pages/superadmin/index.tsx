@@ -1,4 +1,4 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,7 +8,6 @@ import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "../components/navbar";
 import Promo from "../components/promo";
-import Notifs from "../components/notifs";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
