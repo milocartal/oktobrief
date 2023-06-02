@@ -3,13 +3,12 @@ import { type GetServerSideProps } from 'next'
 import { type InferGetServerSidePropsType } from 'next'
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
 
 import NavBar from "~/pages/components/navbar";
 import { useState } from "react";
-import { Competence, Niveau, Prisma, Referentiel } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { HiXMark } from 'react-icons/hi2';
@@ -106,13 +105,15 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
     const updateRef = api.referentiel.update.useMutation()
 
     const createCompetence = api.competence.create.useMutation()
     const deleteCompetence = api.competence.delete.useMutation()
+    //const updateCompetence = api.competence.update.useMutation()
 
     const addLvl = api.niveau.create.useMutation()
+    //const updateLvl = api.niveau.update.useMutation()
 
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
@@ -136,6 +137,8 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
     const [tab, setTab] = useState("normal")
 
+    const [index, setIndex] = useState(1)
+
     const [n1TODO, setTODO1] = useState("")
     const [n1Eval, setEval1] = useState("")
 
@@ -144,10 +147,6 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
     const [n3TODO, setTODO3] = useState("")
     const [n3Eval, setEval3] = useState("")
-
-    function test() {
-        alert('Merci de remplir tout les champs')
-    }
 
     async function handleCompetence(e: React.SyntheticEvent) {
         e.preventDefault()
@@ -181,6 +180,29 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
         window.location.reload()
     }
 
+    /*async function modifComp(e: React.SyntheticEvent) {
+        e.preventDefault()
+        const target = e.target as typeof e.target & {
+            compTitle: { value: string };
+        };
+        if (n1TODO === "" || n1Eval === "" || n2Eval === "" || n2TODO === "" || n3Eval === "" || n3TODO === "") {
+            alert('Merci de remplir tout les champs')
+        }
+        else {
+            if (selectedComp?.niveaux[0] && selectedComp?.niveaux[1] && selectedComp?.niveaux[2]) {
+                await updateLvl.mutateAsync({ id: selectedComp.niveaux[0].id, todo: n1TODO, eval: n1Eval })
+                await updateLvl.mutateAsync({ id: selectedComp.niveaux[1].id, todo: n2TODO, eval: n2Eval })
+                await updateLvl.mutateAsync({ id: selectedComp.niveaux[2].id, todo: n3TODO, eval: n3Eval })
+                window.location.reload()
+            }
+            else{
+                alert(`La compétence n'existe pas`)
+            }
+            
+        }
+
+    }*/
+
     return (
         <>
             <Head>
@@ -192,7 +214,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <h1 className="text-4xl font-extrabold text-black w-full">Gestion de <i>{referentiel.title}</i></h1>
 
-                <form onSubmit={handleTitle} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
+                <form onSubmit={()=>handleTitle} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
                     <label htmlFor="refTitle" className="text-2xl text-black w-full">Nom du référetiel</label>
                     <input
                         type='text'
@@ -245,7 +267,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                         <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
                                         <span className="flex flex-row justify-center">
                                             <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
-                                            <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={handleDelComp} />
+                                            <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={() => handleDelComp} />
                                         </span>
                                     </span>
                                     <div className="flex gap-5 w-full">
@@ -254,7 +276,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} />
                                         </div>
                                         <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
-                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d'évaluations</h3>
+                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d&apos;évaluations</h3>
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
                                         </div>
                                     </div>
@@ -267,7 +289,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
 
-                    <form onSubmit={handleCompetence} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
+                    <form onSubmit={() => handleCompetence} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
                         <h2 className="text-2xl text-black w-full">Ajouter une compétence</h2>
                         <input
                             type='text'
@@ -320,19 +342,27 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                 <NavBar />
                 {tab === "modif" &&
                     <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
-                        <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-xl p-16 w-10/12 text-[#041f25]">
+                        <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-xl p-16 w-10/12 text-[#041f25]" method="POST">
 
                             <button
-                                onClick={(e) =>
+                                onClick={() =>
                                     setTab('normal')
                                 }
                                 className="absolute top-3 right-4 rounded-full font-semibold  no-underline transition hover:text-red-500">
                                 <HiXMark className="text-[2rem] text-[#0e6073] hover:text-red-500" />
                             </button>
+                            <label htmlFor="compTitle" className="text-2xl text-black w-full">Titre de la compétence</label>
+                            <input
+                                type='text'
+                                name="compTitle"
+                                id="compTitle"
+                                className="px-[1rem] py-3 rounded-xl bg-white shadow-[inset_3px_6px_12px_4px_rgba(0,0,0,0.25)] w-full"
+                                autoComplete="off"
+                                placeholder="Titre de la compétence"
+                                defaultValue={selectedComp!.title}
+                            />
 
                             <div className="flex w-full items-start justify-start bg-white gap-5">
-
-                                
 
                                 <aside className="flex flex-col w-full">
                                     <div className="flex w-full justify-between gap-1">
@@ -340,7 +370,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                             return (
                                                 <div
                                                     className={`hover:cursor-pointer flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
-                                                    onClick={() => setLvl(selectedComp.niveaux[index])}
+                                                    onClick={() => (setLvl(selectedComp.niveaux[index]), setIndex(index))}
                                                     key={niveau.id}
                                                 >
                                                     {niveau.title}
@@ -355,12 +385,48 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                                 <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
                                                 <span className="flex flex-row justify-center">
                                                     <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
-                                                    <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={handleDelComp} />
+                                                    <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={() => handleDelComp} />
                                                 </span>
                                             </span>
                                             <div className="flex gap-5 w-full">
-                                                <QuillNoSSRWrapper defaultValue={selectedLvl.todo} modules={modules} className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10" />
-                                                <QuillNoSSRWrapper defaultValue={selectedLvl.eval} modules={modules} className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10" />
+                                                <QuillNoSSRWrapper
+                                                    modules={modules}
+                                                    className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10"
+                                                    value={selectedLvl.todo}
+                                                    onChange={() => {
+                                                        switch (index) {
+                                                            case 0:
+                                                                setTODO1;
+                                                                break;
+                                                            case 1:
+                                                                setTODO2;
+                                                                break;
+                                                            case 2:
+                                                                setTODO3;
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+                                                    }} />
+                                                <QuillNoSSRWrapper
+                                                    modules={modules}
+                                                    className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10"
+                                                    value={selectedLvl.eval}
+                                                    onChange={() => {
+                                                        switch (index) {
+                                                            case 0:
+                                                                setEval1;
+                                                                break;
+                                                            case 1:
+                                                                setEval2;
+                                                                break;
+                                                            case 2:
+                                                                setEval3;
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+                                                    }} />
                                             </div>
 
                                         </div>}
@@ -369,7 +435,7 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                             </div>
 
 
-                            <div className="rounded-full bg-[#0E6073] px-10 py-3 font-semibold text-white no-underline transition hover:bg-[#0E6073]/80 hover:cursor-pointer text-center" onClick={(e) => { setTab("normal") }}><p>Valider l'exercice</p></div>
+                            <button type="submit" className="rounded-full bg-[#0E6073] px-10 py-3 font-semibold text-white no-underline transition hover:bg-[#0E6073]/80 hover:cursor-pointer text-center"><p>Enregistrer les modifications</p></button>
 
                         </form>
                     </div>}
@@ -378,4 +444,4 @@ const modifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
     );
 };
 
-export default modifierRef;
+export default ModifierRef;

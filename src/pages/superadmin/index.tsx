@@ -128,7 +128,7 @@ const SuperAdmin: NextPage = () => {
                         <div className="grid grid-cols-4 gap-3">
                             {referentiels?.map((refe) => {
                                 return (
-                                    <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center">
+                                    <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center" key={refe.id}>
                                         <p className="text-[14px]">{refe.title}</p>
                                     </Link>
                                 )

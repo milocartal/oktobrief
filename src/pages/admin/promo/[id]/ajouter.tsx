@@ -1,10 +1,14 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import NavBar from "./../../../components/navbar";
 import Notifs from "./../../../components/notifs";
 
-export const getServerSideProps: GetServerSideProps<{}> = async function (context) {
+import { type Session as SessionAuth } from 'next-auth'
+
+export const getServerSideProps: GetServerSideProps<{
+  session : SessionAuth
+}> = async function (context) {
     const session = await getSession(context)
 
     if (!session) {

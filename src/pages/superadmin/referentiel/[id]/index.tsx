@@ -1,15 +1,12 @@
-import { GetServerSideProps, InferGetServerSidePropsType, type NextPage } from "next";
+import { type GetServerSideProps, type InferGetServerSidePropsType, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-import { type Session as SessionAuth } from 'next-auth'
-
 import NavBar from "~/pages/components/navbar";
-import { Prisma, Referentiel } from '@prisma/client';
+import { type Prisma } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";
 import Router from "next/router";
-import Link from "next/link";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { api } from "~/utils/api";
 
@@ -83,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
     const delRef = api.referentiel.delete.useMutation()
 
     const [selectedComp, setComp] = useState(() => {
@@ -112,6 +109,11 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
         window.location.reload()
     }
 
+    async function goToModif(e: React.SyntheticEvent){
+        e.preventDefault()
+        await Router.push(`/superadmin/referentiel/${referentiel.id}/modifier`)
+    }
+
     return (
         <>
             <Head>
@@ -125,8 +127,8 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                         Référentiel <i>{referentiel.title}</i>
                     </h1>
                     <span className="flex gap-2">
-                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={()=>Router.push(`/superadmin/referentiel/${referentiel.id}/modifier`)}/>
-                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={handleDelete} />
+                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={()=>goToModif}/>
+                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={()=>handleDelete} />
                     </span>
                 </span>
 
@@ -172,7 +174,7 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} />
                                         </div>
                                         <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
-                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d'évaluations</h3>
+                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d&apos;évaluations</h3>
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
                                         </div>
                                     </div>
@@ -190,4 +192,4 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     );
 };
 
-export default indexRef;
+export default IndexRef;

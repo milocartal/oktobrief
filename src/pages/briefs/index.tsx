@@ -1,4 +1,4 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,7 +8,6 @@ import { type Session as SessionAuth } from 'next-auth'
 import NavBar from "~/pages/components/navbar";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Header from "../components/navbarhorizontal";
-import Promo from "../components/promo";
 import Notifs from "../components/notifs";
 import { useState } from "react";
 
@@ -32,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const indexBrief: NextPage = () => {
+const IndexBrief: NextPage = () => {
     const [open, setOpen] = useState(false)
 
     return (
@@ -49,130 +48,130 @@ const indexBrief: NextPage = () => {
                         <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[40%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input
-                            type='text'
-                            name="promoDateStart"
-                            className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
-                            autoComplete="off"
+                                type='text'
+                                name="promoDateStart"
+                                className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
+                                autoComplete="off"
                             />
                         </div>
                     </span>
 
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
-                        <span className="flex w-[45%] flex-row items-center justify-start">
-                            <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Brouillons</button>
-                            <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Publiés</button>
-                        </span>
-                        <span className="flex w-[50%] flex-row items-center justify-end">
-                            <div className="relative">
-                                <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
-                                <p className="text-base mr-2">Tri par: Date de création</p>
-                                <BiChevronDown className="text-4xl" />
-                                </button>
-                                {open && 
-                                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
-                                    <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
-                                    <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
-                                    <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
+                            <span className="flex w-[45%] flex-row items-center justify-start">
+                                <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Brouillons</button>
+                                <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Publiés</button>
+                            </span>
+                            <span className="flex w-[50%] flex-row items-center justify-end">
+                                <div className="relative">
+                                    <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
+                                        <p className="text-base mr-2">Tri par: Date de création</p>
+                                        <BiChevronDown className="text-4xl" />
+                                    </button>
+                                    {open &&
+                                        <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
+                                            <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
+                                            <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
+                                            <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
+                                        </div>
+                                    }
                                 </div>
-                                }
-                            </div>
-                            <button className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
-                            Créer un projet
-                            </button>
-                        </span>
+                                <button className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                                    Créer un projet
+                                </button>
+                            </span>
                         </span>
                         <div className="flex flex-row flex-wrap justify-between w-full">
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
 
-                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                            <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée"/>
-                            <div className="m-5 text-start">
-                            <h3 className="text-lg text-black">Découvrir React Native</h3>
-                            <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            <span className="flex flex-row justify-end items-center w-full mt-5">
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                                <p className="text-sm text-black">Lorem ipsum</p>
-                            </span>
-                            </div>
-                        </Link>
+                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg object-cover" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                    <span className="flex flex-row justify-end items-center w-full mt-5">
+                                        <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                        <p className="text-sm text-black">Lorem ipsum</p>
+                                    </span>
+                                </div>
+                            </Link>
                         </div>
                     </div>
 
                 </div>
 
                 <Header selected={1} />
-                
+
                 <Notifs />
                 <NavBar />
             </main>
@@ -180,4 +179,4 @@ const indexBrief: NextPage = () => {
     );
 };
 
-export default indexBrief;
+export default IndexBrief;

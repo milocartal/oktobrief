@@ -30,14 +30,12 @@ export const niveauRouter = createTRPCRouter({
         })
     }),
 
-    update: protectedProcedure.input(z.object({ id: z.string(), title: z.string(), idC: z.string(), todo: z.string(), eval: z.string() })).mutation(({ input }) => {
+    update: protectedProcedure.input(z.object({ id: z.string(), todo: z.string(), eval: z.string() })).mutation(({ input }) => {
         return prisma.niveau.update({
             where: {
                 id: input.id
             },
             data: {
-                title: input.title,
-                idC: input.idC,
                 todo: input.todo,
                 eval: input.eval
             }

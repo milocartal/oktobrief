@@ -1,14 +1,11 @@
-import { GetServerSideProps, InferGetServerSidePropsType, type NextPage } from "next";
+import { type GetServerSideProps, type InferGetServerSidePropsType, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-import { type Session as SessionAuth } from 'next-auth'
-
 import NavBar from "~/pages/components/navbar";
-import { Prisma, Referentiel } from '@prisma/client';
+import { type Prisma } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";
-
 
 type RefeWithComp = Prisma.ReferentielGetPayload<{
     include: {
@@ -69,7 +66,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
             return referentiel.competences[0]
@@ -143,7 +140,7 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} />
                                         </div>
                                         <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
-                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d'évaluations</h3>
+                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d&apos;évaluations</h3>
                                             <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
                                         </div>
                                     </div>
@@ -162,4 +159,4 @@ const indexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     );
 };
 
-export default indexRef;
+export default IndexRef;

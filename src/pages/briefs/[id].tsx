@@ -1,4 +1,4 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
@@ -6,7 +6,7 @@ import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "~/pages/components/navbar";
 import Notifs from "../components/notifs";
-import { BiLeftArrowAlt, BiLink, BiCheck, BiX } from "react-icons/bi";
+import { BiLeftArrowAlt, BiLink, BiCheck } from "react-icons/bi";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
 
 import Link from "next/link";
@@ -130,7 +130,7 @@ const Brief: NextPage = () => {
                         <p className="text-sm">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis vestibulum nisi a tristique. Proin tincidunt diam et velit tincidunt ullamcorper. Cras ut lacus auctor, condimentum risus quis, condimentum est. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis posuere vel dolor sit amet dapibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam in eros eget purus suscipit viverra. 
                         </p>
-                        <h2 className="text-2xl text-black mt-10">Modalités d'évaluation</h2>
+                        <h2 className="text-2xl text-black mt-10">Modalités d&apos;évaluation</h2>
                         <p className="text-sm">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis vestibulum nisi a tristique. Proin tincidunt diam et velit tincidunt ullamcorper. Cras ut lacus auctor, condimentum risus quis, condimentum est. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis posuere vel dolor sit amet dapibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam in eros eget purus suscipit viverra. 
                         </p>

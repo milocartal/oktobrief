@@ -1,14 +1,12 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { api } from "~/utils/api";
 
 import { type Session as SessionAuth } from 'next-auth'
 
 import NavBar from "../../components/navbar";
 import { useState } from "react";
-import { Referentiel } from "@prisma/client";
 import Router from "next/router";
 
 export const getServerSideProps: GetServerSideProps<{
@@ -41,18 +39,15 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const creerRef: NextPage = () => {
+const CreerRef: NextPage = () => {
     const createRef = api.referentiel.create.useMutation()
-    let douze : Referentiel;
-
-    const [title, setTtile] = useState("")
-    const [tab, setTab] = useState("")
+    const [Title, setTtile] = useState("")
     
     async function handleTitle(e: React.SyntheticEvent) {
         e.preventDefault()
-        if(title !== ""){
-            const lec = await createRef.mutateAsync({title: title})
-            Router.push(`/superadmin/referentiel/${lec.id}/modifier`)
+        if(Title !== ""){
+            const lec = await createRef.mutateAsync({title: Title})
+            await Router.push(`/superadmin/referentiel/${lec.id}/modifier`)
         }
     }
 
@@ -77,7 +72,7 @@ const creerRef: NextPage = () => {
                         onChange={(e) => setTtile(e.target.value)}
                     />
 
-                    <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={handleTitle}>
+                    <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg" onClick={() => handleTitle}>
                         Ajouter des compétences
                     </button>
                 </section>
@@ -90,4 +85,4 @@ const creerRef: NextPage = () => {
     );
 };
 
-export default creerRef;
+export default CreerRef;

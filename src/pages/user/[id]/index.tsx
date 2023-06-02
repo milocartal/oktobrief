@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
@@ -29,41 +29,6 @@ export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = 
 const ProfileScreen: NextPage = () => {
     const [shown, setShown] = useState(false)
 
-    const DATA = [
-        {
-            "id": 1,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 2,
-            "nom": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        },
-        {
-            "id": 3,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 4,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 5,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 6,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 7,
-            "nom": "Lorem ipsum dolor sit amet"
-        },
-        {
-            "id": 8,
-            "nom": "Lorem ipsum dolor sit amet"
-        }
-    ]
-
     const { data: sessionData } = useSession();
     const [open, setOpen] = useState(false)
     return (
@@ -82,7 +47,7 @@ const ProfileScreen: NextPage = () => {
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5 relative">
                         <h2 className="text-2xl text-black self-start mb-5">Mon compte</h2>
                         <div className="flex flex-row items-center justify-between w-[80%] self-start">
-                            {sessionData && sessionData.user && sessionData.user.image && <img src={sessionData!.user.image} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
+                            {sessionData && sessionData.user && sessionData.user.image && <img src={sessionData.user.image} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
                             <div>
                                 <h2 className="text-2xl text-black self-start">{sessionData?.user.name}</h2>
                                 {sessionData?.formateur ? <p className="text-lg text-black self-start">Formateur.rice</p> : <p className="text-lg text-black self-start">Apprenant.e</p>}
@@ -94,7 +59,7 @@ const ProfileScreen: NextPage = () => {
                         </div>
                         {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button>}
                         {open && <div className="w-full mt-10 flex flex-row justify-around px-12">
-                            {sessionData && sessionData?.user.name && sessionData!.user!.email && <div className="w-[30%]">
+                            {sessionData && sessionData.user.name && sessionData.user.email && <div className="w-[30%]">
                                 <p className="mt-2">Prénom</p>
                                 <input
                                     type='text'

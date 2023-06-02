@@ -1,12 +1,8 @@
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { BiUserCircle } from "react-icons/bi"
-
-import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
 
 function Header (props:{selected: number}) {
     const { data: sessionData } = useSession();
-    const admin = sessionData!.user.superadmin
 
     return (
         <>
