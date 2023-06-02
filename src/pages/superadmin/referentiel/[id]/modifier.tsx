@@ -6,7 +6,7 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
 
-import NavBar from "~/pages/components/navbar";
+import NavBar from "~/components/navbar";
 import { useState } from "react";
 import { type Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";

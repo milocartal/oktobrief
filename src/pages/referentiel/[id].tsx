@@ -2,7 +2,7 @@ import { type GetServerSideProps, type InferGetServerSidePropsType, type NextPag
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-import NavBar from "~/pages/components/navbar";
+import NavBar from "~/components/navbar";
 import { type Prisma } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";

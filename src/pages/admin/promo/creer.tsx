@@ -4,9 +4,9 @@ import { useSnapCarousel } from 'react-snap-carousel';
 import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import NavBar from "./../../components/navbar";
-import Notifs from "./../../components/notifs";
-import Promo from "./../../components/promo";
+import NavBar from "../../../components/navbar";
+import Notifs from "../../../components/notifs";
+import Promo from "../../../components/promo";
 import { BiCalendarAlt, BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import Link from "next/link";
 import { type Session as SessionAuth } from 'next-auth'

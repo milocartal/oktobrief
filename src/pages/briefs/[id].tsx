@@ -4,8 +4,8 @@ import Head from "next/head";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "~/pages/components/navbar";
-import Notifs from "../components/notifs";
+import NavBar from "~/components/navbar";
+import Notifs from "../../components/notifs";
 import { BiLeftArrowAlt, BiLink, BiCheck } from "react-icons/bi";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
 

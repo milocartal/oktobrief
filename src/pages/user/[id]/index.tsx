@@ -3,7 +3,7 @@ import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
-import NavBar from "./../../components/navbar";
+import NavBar from "../../../components/navbar";
 import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
 import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";

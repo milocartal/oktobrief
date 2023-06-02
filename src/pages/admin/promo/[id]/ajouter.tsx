@@ -1,8 +1,8 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import NavBar from "./../../../components/navbar";
-import Notifs from "./../../../components/notifs";
+import NavBar from "../../../../components/navbar";
+import Notifs from "../../../../components/notifs";
 
 import { type Session as SessionAuth } from 'next-auth'
 

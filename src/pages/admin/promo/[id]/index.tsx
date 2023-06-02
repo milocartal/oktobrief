@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "~/pages/components/navbar";
+import NavBar from "~/components/navbar";
 
 
 export const getServerSideProps: GetServerSideProps<{

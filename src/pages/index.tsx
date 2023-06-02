@@ -2,9 +2,9 @@ import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
-import NavBar from "./components/navbar";
-import Notifs from "./components/notifs";
-import Promo from "./components/promo";
+import NavBar from "../components/navbar";
+import Notifs from "../components/notifs";
+import Promo from "../components/promo";
 import { type Session as SessionAuth } from 'next-auth'
 import Link from "next/link";
 

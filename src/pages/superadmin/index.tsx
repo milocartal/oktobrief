@@ -6,8 +6,8 @@ import { api } from "~/utils/api";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "../components/navbar";
-import Promo from "../components/promo";
+import NavBar from "../../components/navbar";
+import Promo from "../../components/promo";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
