@@ -24,7 +24,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
                 {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
                 {props.referentiel && <Link href={`/referentiel/${props.referentiel}`} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
-                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" />Super Admin</Link>}
+                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon"/>Super Admin</Link>}
             </div>
 
             <AuthShowcase />
@@ -172,7 +172,7 @@ const AuthShowcase: React.FC = () => {
                 className="rounded-full font-semibold no-underline transition"
                 onClick={() => setOpen(!open)}
             >
-                {sessionData ? sessionData.user.image ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
+                {sessionData ? sessionData.user.image && sessionData.user.name ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" alt={sessionData.user.name} /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
             </button>
             {open &&
                 <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">

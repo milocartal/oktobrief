@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
-import { useSnapCarousel } from 'react-snap-carousel';
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
@@ -8,7 +7,7 @@ import Head from "next/head";
 import { NavBar, Notifs, Promos } from "~/components/barrel";
 
 import { prisma } from '~/server/db';
-import { Referentiel } from '@prisma/client';
+import { type Referentiel } from '@prisma/client';
 import dynamic from 'next/dynamic';
 import { api } from '~/utils/api';
 import Router from 'next/router';
@@ -79,7 +78,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     if (selected !== undefined) {
       console.log("ici batard")
       const temp = await create.mutateAsync({ title: title, desc: description, idRef: selected?.id, start: dateStart, end: dateEnd, image: img })
-      Router.push(`/admin/promo/${temp.id}/ajouter`)
+      await Router.push(`/admin/promo/${temp.id}/ajouter`)
     }
     else {
       alert("Veuillez selectionné un référentiel")

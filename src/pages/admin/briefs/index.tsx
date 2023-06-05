@@ -1,10 +1,10 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { type Session as SessionAuth } from 'next-auth'
 
-import NavBar from "~/pages/components/navbar";
+import { NavBar } from "~/components/barrel";
 import { BiSearch } from "react-icons/bi";
 
 
