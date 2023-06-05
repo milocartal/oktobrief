@@ -10,6 +10,7 @@ import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io
 
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -44,7 +45,7 @@ const Brief: NextPage = () => {
 
 
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] gap-5">
-                <img src="/promo.jpeg" className="w-[100%] h-[400px] absolute bg-center bg-cover z-0" alt="Image de la promo sélectionnée" />
+                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] h-[400px] absolute bg-center bg-cover z-0" alt="Image de la promo sélectionnée" />
                 <Link href={""} className="px-5 py-2 bg-[#fff]/40 text-white rounded-lg text-base self-start absolute top-[50px] flex flex-row items-center justify-between w-32"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
 
                 <div className="flex w-[80%] flex-col items-center justify-start top-[200px] z-10 relative top-[200px]">

@@ -7,6 +7,7 @@ import { NavBar, Notifs, Promos } from "~/components/barrel";
 
 import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
+import Image from "next/image";
 
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
@@ -225,14 +226,14 @@ const Suivi: NextPage = () => {
                                         <>
                                             {selectedUser === item.id ? <button className="flex flex-row justify-center items-center w-[90%] mt-2 bg-[#2EA3A5] rounded-lg py-2" key={item.id} onClick={() => { setSelectedUser(item.id) }}>
                                                 <div className="flex flex-row items-center">
-                                                    <img src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />
+                                                    <Image width={200} height={200} src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />
                                                     <p className="text-base text-white font-semibold">{item.nom}</p>
                                                 </div>
                                             </button>
                                                 :
                                                 <button className="flex flex-row justify-center items-center w-[90%] mt-2 py-2" key={item.id} onClick={() => { setSelectedUser(item.id) }}>
                                                     <div className="flex flex-row items-center">
-                                                        <img src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />
+                                                        <Image width={200} height={200} src="/userPFP.png" className="w-14 h-14 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />
                                                         <p className="text-base text-black font-semibold">{item.nom}</p>
                                                     </div>
                                                 </button>}
