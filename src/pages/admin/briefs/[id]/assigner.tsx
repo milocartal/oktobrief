@@ -195,7 +195,7 @@ const AssignBrief: NextPage = () => {
                         return (
                             <>
                                 {item.id == selected ?
-                                    <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
+                                    <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
                                         <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                             <BiCheck className="text-white text-3xl"/>
                                         </button>
@@ -207,7 +207,7 @@ const AssignBrief: NextPage = () => {
                                         </div>
                                     </div>
                                 :
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
                                         <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                         <div className="w-full p-3 flex flex-row justify-between items-center">
                                             <div className="flex flex-row justify-start items-center">
@@ -228,7 +228,7 @@ const AssignBrief: NextPage = () => {
                         return (
                             <>
                             {item.id == selected && item.id == open ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
                                     <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                         <BiCheck className="text-white text-3xl"/>
@@ -241,7 +241,7 @@ const AssignBrief: NextPage = () => {
                                     </div>
                                 </div>
                                 : item.id == selected ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
                                     <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                         <BiCheck className="text-white text-3xl"/>
@@ -255,7 +255,7 @@ const AssignBrief: NextPage = () => {
                                 </div>
                                 :
                                 item.id == open ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
                                     <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                     <div className="w-full p-3 flex flex-row justify-between items-center">
@@ -266,7 +266,7 @@ const AssignBrief: NextPage = () => {
                                     </div>
                                 </div>
                                 :
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
                                     <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                     <div className="w-full p-3 flex flex-row justify-between items-center">

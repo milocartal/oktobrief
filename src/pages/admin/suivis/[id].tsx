@@ -248,7 +248,7 @@ const Suivi: NextPage = () => {
                                 return (
                                     <>
                                         {selected === item.id ?
-                                            <button className="w-full bg-white flex flex-col rounded-lg my-2" onClick={() => { setSelected(item.id) }}>
+                                            <button className="w-full bg-white flex flex-col rounded-lg my-2" onClick={() => { setSelected(item.id) }} key={item.id}>
                                                 <div className="w-full flex flex-row justify-between items-center p-5">
                                                     <p>C{item.id}</p>
                                                     <p>{item.nom}</p>
@@ -261,7 +261,7 @@ const Suivi: NextPage = () => {
                                                     {item.corrections.map((comp) => {
                                                         return (
                                                             <>
-                                                                <div className="w-full bg-white flex flex-row justify-between items-center p-5 my-1 rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                                                                <div className="w-full bg-white flex flex-row justify-between items-center p-5 my-1 rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={item.id}>
                                                                     <p>{comp.nom}</p>
                                                                     <div className="flex flex-row justify-between">
                                                                         {comp.validation ?
