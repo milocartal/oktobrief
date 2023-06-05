@@ -4,6 +4,7 @@ import Head from "next/head";
 import { NavBar, Notifs } from "~/components/barrel";
 
 import { type Session as SessionAuth } from 'next-auth'
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   session: SessionAuth
@@ -140,7 +141,7 @@ const AddApprenants: NextPage = () => {
                       <button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-2">
                         <p className="text-[#0E6073]">-</p>
                       </button>
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                      <Image width={200} height={200}  src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                       <p className="text-base text-black font-semibold">{item.nom}</p>
                     </div>
                     <p className="text-xs text-[#8C8C8C] mr-1">{item.email}</p>

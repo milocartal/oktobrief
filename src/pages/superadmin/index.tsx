@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar, Promos } from "~/components/barrel";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
@@ -80,7 +81,7 @@ const SuperAdmin: NextPage = () => {
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Les dernières promos créées</h2>
                             <span className="flex w-[45%] flex-row items-center justify-end">
-                                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg">
+                                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                                     Gérer les promos
                                 </button>
                             </span>
@@ -88,19 +89,19 @@ const SuperAdmin: NextPage = () => {
 
                         <div className="flex gap-3">
                             <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><img src="promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
+                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
                                 <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
                                 <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                             </div>
 
                             <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><img src="promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
+                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
                                 <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
                                 <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                             </div>
 
                             <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><img src="promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
+                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
                                 <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
                                 <p className="text-[14px] px-5 pb-5 test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                             </div>

@@ -1,4 +1,4 @@
-import { GetServerSideProps, type NextPage } from "next";
+import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
@@ -9,6 +9,7 @@ import { BiCheck, BiLeftArrowAlt, BiRightArrowAlt, BiSearch } from "react-icons/
 import Link from "next/link";
 import { IoChevronDownCircle, IoChevronUpCircle } from "react-icons/io5";
 import { useState } from "react";
+import Image from "next/image";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -194,23 +195,23 @@ const AssignBrief: NextPage = () => {
                         return (
                             <>
                                 {item.id == selected ?
-                                    <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
+                                    <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
                                         <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                             <BiCheck className="text-white text-3xl"/>
                                         </button>
                                         <div className="w-full p-3 flex flex-row justify-between items-center">
                                             <div className="flex flex-row justify-start items-center">
-                                            <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                                            <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                                             <p>{item.nom}</p>
                                             </div>
                                         </div>
                                     </div>
                                 :
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
                                         <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                         <div className="w-full p-3 flex flex-row justify-between items-center">
                                             <div className="flex flex-row justify-start items-center">
-                                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                                                <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                                                 <p>{item.nom}</p>
                                             </div>
                                         </div>
@@ -227,8 +228,8 @@ const AssignBrief: NextPage = () => {
                         return (
                             <>
                             {item.id == selected && item.id == open ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
-                                    <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
+                                    <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                         <BiCheck className="text-white text-3xl"/>
                                     </button>
@@ -240,8 +241,8 @@ const AssignBrief: NextPage = () => {
                                     </div>
                                 </div>
                                 : item.id == selected ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative">
-                                    <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 border-4 border-[#0E6073] relative" key={item.id}>
+                                    <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-[#0E6073] absolute top-3 right-3 flex flex-row justify-center items-center" onClick={() => setSelected(0)}>
                                         <BiCheck className="text-white text-3xl"/>
                                     </button>
@@ -254,8 +255,8 @@ const AssignBrief: NextPage = () => {
                                 </div>
                                 :
                                 item.id == open ?
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
-                                    <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[520px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
+                                    <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                     <div className="w-full p-3 flex flex-row justify-between items-center">
                                         <p>{item.nom}</p>
@@ -265,8 +266,8 @@ const AssignBrief: NextPage = () => {
                                     </div>
                                 </div>
                                 :
-                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative">
-                                    <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[260px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] my-2 mx-1 relative" key={item.id}>
+                                    <Image width={400} height={400} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                     <button className=" h-[40px] w-[40px] rounded-full shadow-[inset_0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-white absolute top-3 right-3" onClick={() => setSelected(item.id)}></button>
                                     <div className="w-full p-3 flex flex-row justify-between items-center">
                                         <p>{item.nom}</p>
@@ -299,7 +300,7 @@ const AssignBrief: NextPage = () => {
                                 {<button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-5">
                                     <p className="text-[#0E6073]">-</p>
                                 </button>}
-                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
+                                <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
                                 <p className="text-base text-black font-semibold">{item.nom}</p>
                             </div>
                         </span>
