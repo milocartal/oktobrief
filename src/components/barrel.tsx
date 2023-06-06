@@ -11,7 +11,6 @@ import { promoSel } from "~/pages/_app";
 type UserWithAll = Prisma.UserGetPayload<{
     include: { promos: true, assignations: true }
 }>
-import Image from "next/image";
 
 interface Props {
     referentiel?: string;
@@ -36,13 +35,13 @@ export const NavBar: React.FC<Props> = (props) => {
 
             <div className="flex flex-col items-center justify-start gap-[3px]">
                 <Link href={"/"}>
-                    <Image src="/logo-carre.png" width={100} height={100} className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
+                    <img src="/logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
                 </Link>
                 <Link href={"/briefs"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
                 <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-                {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-4xl mb-1" />Suivi</Link>}
+                {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
                 {props.referentiel && <Link href={`/referentiel/${props.referentiel}`} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
-                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon"/>Super Admin</Link>}
+                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
             </div>
 
             <AuthShowcase />
@@ -121,7 +120,7 @@ export const Notifs: React.FC = () => {
                     {DATA.map((item) => {
                         return (
                             <span className="flex flex-row justify-start items-center w-full mt-5" key={item.id}>
-                                <Image width={50} height={50} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                                 <div>
                                     <p className="text-base text-black font-semibold">{item.nom}</p>
                                     <p className="text-sm text-black mr-1">{item.message}</p>
@@ -192,21 +191,18 @@ const AuthShowcase: React.FC = () => {
     const { data: sessionData } = useSession();
     const [open, setOpen] = useState(false)
 
-    
-    const userPFP = sessionData ? sessionData.user.image : undefined
-
     return (
         <div className="flex flex-row items-center justify-center">
             <button
                 className="rounded-full font-semibold no-underline transition"
                 onClick={() => setOpen(!open)}
             >
-                {sessionData ? sessionData.user.image && sessionData.user.name ? <Image width={50} height={50} loader={() => userPFP} src={userPFP} className="w-[4rem] h-[4rem] object-cover rounded-full" alt={sessionData.user.name} /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
+                {sessionData ? sessionData.user.image && sessionData.user.name ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" alt={sessionData.user.name} /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
             </button>
             {open &&
                 <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
                     <span className="flex flex-row justify-start items-center">
-                        {sessionData?.user.image && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
+                        {sessionData?.user.image && (sessionData?.user.image.includes("http://") || sessionData?.user.image.includes("https://")) && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
                         <div>
                             <p className="text-base text-black font-semibold">{sessionData?.user.name}</p>
                             <p className="text-sm text-black">{sessionData?.user.email}</p>
