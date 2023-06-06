@@ -116,8 +116,8 @@ const Rendus: NextPage = () => {
                                             <FaInbox className="text-3xl text-[#2EA3A5]"/>
                                         </div>
                                         <div className="flex flex-col items-start justify-center">
-                                            <p>{item.nom}</p>
-                                            <p>{item.apprenant}</p>
+                                            <p className="text-base">{item.nom}</p>
+                                            <p className="text-sm">{item.apprenant}</p>
                                         </div>
                                     </span>
                                 )
