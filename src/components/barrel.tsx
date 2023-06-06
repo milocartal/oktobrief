@@ -171,7 +171,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
             </button>
             {open &&
                 <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
-                    {promos && promos as Promo[] && promos.length > 0 && promos.map((item) => {
+                    {promos && promos.length > 0 && promos.map((item) => {
                         if (test && item.id !== test.id)
                             return (
                                 <button className="text-sm text-[#0E6073] py-4" onClick={()=>(setTest(item), window.location.reload())}>{item.title}</button>

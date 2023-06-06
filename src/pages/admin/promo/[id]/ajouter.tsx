@@ -62,13 +62,6 @@ export const getServerSideProps: GetServerSideProps<{
 const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promo }) => {
   const { data: user } = api.user.getApprenants.useQuery()
 
-
-  async function handleAdd(e: React.SyntheticEvent){
-    e.preventDefault()
-    await console.log("test")
-
-  }
-
   return (
     <>
       <Head>

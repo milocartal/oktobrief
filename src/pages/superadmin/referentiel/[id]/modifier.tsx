@@ -289,7 +289,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
 
-                    <form onSubmit={handleCompetence} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
+                    <form onSubmit={()=>{handleCompetence}} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
                         <h2 className="text-2xl text-black w-full">Ajouter une compétence</h2>
                         <input
                             type='text'

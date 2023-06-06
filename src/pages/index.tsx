@@ -31,8 +31,6 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
-  console.log("test index", test)
-
   const user = await prisma.user.findUnique({
     where: {
       id: session.user.id
@@ -65,7 +63,6 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const { data: sessionData } = useSession()
   const formateur = sessionData?.user.formateur
   const superadmin = sessionData?.user.superadmin
-  console.log("promosel",promoSel)
 
   return (
     <>

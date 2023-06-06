@@ -60,11 +60,6 @@ const AddBrief: NextPage = () => {
     const [livrable, setLivrable] = useState("")
     const [perf, setPerf] = useState("")
 
-    async function handleBrief(e: React.SyntheticEvent) {
-        e.preventDefault()
-        await console.log("test")
-    }
-
     return (
         <>
             <Head>
