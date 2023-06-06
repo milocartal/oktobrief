@@ -16,7 +16,6 @@ export const ressourceRouter = createTRPCRouter({
             data: {
                 title: input.title,
                 link: input.link
-
             }
         })
     }),
@@ -50,6 +49,21 @@ export const ressourceRouter = createTRPCRouter({
                 briefs:{
                     connect:{
                         id: input.idBrief
+                    }
+                }
+            }
+        })
+    }),
+
+    addToPromo: protectedProcedure.input(z.object({ id: z.string(), idPromo: z.string()})).mutation(({input})=>{
+        return prisma.ressource.update({
+            where:{
+                id: input.id
+            },
+            data:{
+                promos:{
+                    connect:{
+                        id: input.idPromo
                     }
                 }
             }

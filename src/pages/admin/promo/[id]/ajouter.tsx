@@ -1,12 +1,30 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { NavBar, Notifs } from "~/components/barrel";
 
-import { type Session as SessionAuth } from 'next-auth'
+import { api } from "~/utils/api";
+import { type Prisma } from "@prisma/client";
+import { prisma } from "~/server/db";
+import React from "react";
+
+type UserWithAll = Prisma.UserGetPayload<{
+  include: { promos: true, assignations: true }
+}>
+
+type PromoWithStudent = Prisma.PromoGetPayload<{
+  include: {
+    apprenants: {
+      include: {
+        promos: true,
+        assignations: true
+      }
+    }
+  }
+}>
 
 export const getServerSideProps: GetServerSideProps<{
-  session: SessionAuth
+  promo: PromoWithStudent
 }> = async function (context) {
   const session = await getSession(context)
 
@@ -19,70 +37,36 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
+  const promo = await prisma.promo.findUnique({
+    where: {
+      id: context.query.id as string
+    },
+    include: {
+      apprenants: {
+        include: {
+          promos: true,
+          assignations: true
+        }
+      }
+    }
+  })
+
   return {
-    props: { session }
+    props: {
+      promo: JSON.parse(JSON.stringify(promo)) as PromoWithStudent
+    }
   }
 };
 
-const AddApprenants: NextPage = () => {
+const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promo }) => {
+  const { data: user } = api.user.getApprenants.useQuery()
 
-  const DATA = [
-    {
-      "id": 1,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 2,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 3,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 4,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 5,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 6,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 7,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 8,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 9,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 10,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    },
-    {
-      "id": 11,
-      "nom": "Lorem Ipsum",
-      "email": "loremipsum@mail.com"
-    }
-  ]
+
+  async function handleAdd(e: React.SyntheticEvent){
+    e.preventDefault()
+    await console.log("test")
+
+  }
 
   return (
     <>
@@ -133,15 +117,15 @@ const AddApprenants: NextPage = () => {
 
 
             <div className="bg-white h-full w-[40%] p-5 overflow-auto">
-              {DATA.map((item) => {
+              {promo.apprenants && promo.apprenants as UserWithAll[] && promo.apprenants.length > 0 && promo.apprenants.map((item) => {
                 return (
                   <span className="flex flex-row justify-between items-center w-full mt-5" key={item.id}>
                     <div className="flex flex-row items-center">
                       <button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-2">
                         <p className="text-[#0E6073]">-</p>
                       </button>
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                      <p className="text-base text-black font-semibold">{item.nom}</p>
+                      {item.image && (item.image.includes("http://") || item.image.includes("https://")) ? <img src={item.image} className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} /> : <img src="/Kristen.png" className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} />}
+                      <p className="text-base text-black font-semibold">{item.name}</p>
                     </div>
                     <p className="text-xs text-[#8C8C8C] mr-1">{item.email}</p>
                   </span>

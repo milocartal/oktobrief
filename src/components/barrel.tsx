@@ -5,11 +5,28 @@ import { BiChevronDown, BiClipboard, BiListCheck } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 import { FaBell, FaCircle } from "react-icons/fa"
 import { BiX } from "react-icons/bi";
+import { type Prisma, type Promo, type User } from "@prisma/client";
+import { promoSel } from "~/pages/_app";
+
+type UserWithAll = Prisma.UserGetPayload<{
+    include: { promos: true, assignations: true }
+}>
 
 interface Props {
     referentiel?: string;
     selected?: number
 }
+
+interface PropsUser {
+    user?: UserWithAll;
+}
+
+export let test: Promo
+
+export function setTest(e: (typeof test)) {
+    test = e
+}
+
 
 export const NavBar: React.FC<Props> = (props) => {
     const { data: sessionData } = useSession();
@@ -24,7 +41,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
                 {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
                 {props.referentiel && <Link href={`/referentiel/${props.referentiel}`} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
-                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon"/>Super Admin</Link>}
+                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
             </div>
 
             <AuthShowcase />
@@ -126,7 +143,7 @@ export const Notifs: React.FC = () => {
                 <div className="fixed bottom-16 right-16">
                     <button className="pointer-events-auto fixed bottom-16 right-16 w-20 h-20 bg-[#2EA3A5] flex flex-row items-center justify-center rounded-full" onClick={() => {
                         setOpen(!open)
-                        if(notifs){setNotifs(false)}
+                        if (notifs) { setNotifs(false) }
                     }}>
                         <div className="w-full h-full flex flex-row items-center justify-center rounded-full relative">
                             <FaBell className="text-3xl text-white" />
@@ -139,20 +156,28 @@ export const Notifs: React.FC = () => {
     )
 }
 
-export const Promos: React.FC = () => {
+export const Promos: React.FC<PropsUser> = (props) => {
     const [open, setOpen] = useState(false)
+    const promos = props.user?.promos
+    const [select, setSelect] = useState(promoSel)
 
     return (
+
         <div className="relative">
+
             <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
-                <p className="text-base mr-2">Promo 1 2022/2023</p>
+                {test && <p className="text-base mr-2">{promoSel?.title}</p>}
                 <BiChevronDown className="text-4xl" />
             </button>
             {open &&
                 <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
-                    <p className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</p>
-                    <p className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</p>
-                    <p className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</p>
+                    {promos && promos as Promo[] && promos.length > 0 && promos.map((item) => {
+                        if (test && item.id !== test.id)
+                            return (
+                                <button className="text-sm text-[#0E6073] py-4" onClick={()=>(setTest(item), window.location.reload())}>{item.title}</button>
+                            )
+                    })}
+
                     <Link href={"/admin/promo/creer"} className="flex flex-row items-center justify-center bg-[#0E6073] text-white rounded-b-lg w-full h-12">
                         <p className="text-sm">+ Créer une promo</p>
                     </Link>
@@ -177,7 +202,7 @@ const AuthShowcase: React.FC = () => {
             {open &&
                 <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
                     <span className="flex flex-row justify-start items-center">
-                        {sessionData?.user.image && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
+                        {sessionData?.user.image && (sessionData?.user.image.includes("http://") || sessionData?.user.image.includes("https://")) && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
                         <div>
                             <p className="text-base text-black font-semibold">{sessionData?.user.name}</p>
                             <p className="text-sm text-black">{sessionData?.user.email}</p>

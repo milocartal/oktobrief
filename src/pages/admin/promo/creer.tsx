@@ -39,11 +39,22 @@ export const getServerSideProps: GetServerSideProps<{
   referentiel: Referentiel[]
 }> = async function (context) {
   const session = await getSession(context)
+  const admin = session?.user.formateur
+  const superadmin = session?.user.superadmin
 
   if (!session) {
     return {
       redirect: {
         destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  if(!superadmin || !admin){
+    return {
+      redirect: {
+        destination: '/',
         permanent: false,
       },
     }
@@ -58,10 +69,11 @@ export const getServerSideProps: GetServerSideProps<{
   }
 };
 
-const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = () => {
   const [selected, setSelected] = useState<Referentiel>()
   const [description, setDesc] = useState("")
   const create = api.promo.create.useMutation()
+  const {data: ref} = api.referentiel.getAll.useQuery()
 
   async function handleCrea(e: React.SyntheticEvent) {
     e.preventDefault()
@@ -76,7 +88,6 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     const dateEnd = new Date(target.promoDateEnd.value)
     const img = target.imgPromo.value
     if (selected !== undefined) {
-      console.log("ici batard")
       const temp = await create.mutateAsync({ title: title, desc: description, idRef: selected?.id, start: dateStart, end: dateEnd, image: img })
       await Router.push(`/admin/promo/${temp.id}/ajouter`)
     }
@@ -99,7 +110,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
           <Promos />
         </span>
 
-        <form onSubmit={() => handleCrea} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
+        <form onSubmit={handleCrea} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
 
           <div className="flex h-[80%] w-full flex justify-between">
 
@@ -133,7 +144,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                 <p>Référentiel<span className="text-[#A10000]">*</span></p>
 
                 <div className='grid grid-cols-2 gap-3 overflow-y-auto max-h-[150px]'>
-                  {referentiel && referentiel.map((item) => {
+                  {ref && ref.map((item) => {
                     return (
                       <div className={`py-5 shadow-[inset_3px_4px_12px_0px_rgba(0,0,0,0.25)] text-center text-sm rounded-lg ${item.id === selected?.id ? 'bg-[#0E6073] text-white' : 'bg-white'} hover:cursor-pointer`} onClick={() => setSelected(item)} key={item.id}>
                         {item.title}
@@ -182,7 +193,8 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                   name='imgPromo'
                   id='imgPromo'
                   className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
-                  placeholder="url de l'image" />
+                  placeholder="url de l'image"
+                  autoComplete='off'  />
               </fieldset>
 
             </fieldset>

@@ -2,6 +2,9 @@ import { type GetServerSideProps, type NextPage } from "next";
 import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
 import { type Session as SessionAuth } from 'next-auth'
+import { prisma } from "~/server/db";
+import { test, setTest } from "~/components/barrel";
+import { promoSel, setPromoSel } from "./_app";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth | null
@@ -9,6 +12,22 @@ export const getServerSideProps: GetServerSideProps<{
     const session = await getSession(context)
 
     if (session) {
+        const promo = await prisma.promo.findFirst({
+            where: {
+                apprenants: {
+                    some: {
+                        id: session?.user.id
+                    }
+                }
+            }
+        })
+
+        if (promo !== null) {
+            setPromoSel(promo)
+        }
+        console.log("promo ", promo)
+        console.log("test ", promoSel)
+
         return {
             redirect: {
                 destination: '/',

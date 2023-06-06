@@ -5,8 +5,13 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
 import 'react-quill/dist/quill.snow.css'
+import { Promo } from "@prisma/client";
 
+export let promoSel: Promo
 
+export function setPromoSel(e: (typeof promoSel)) {
+  promoSel = e
+}
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

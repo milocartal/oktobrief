@@ -4,6 +4,7 @@ import {
     protectedProcedure,
 } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
+import { generatePassword } from "~/utils/genertor";
 
 export const userRouter = createTRPCRouter({
 
@@ -16,14 +17,39 @@ export const userRouter = createTRPCRouter({
         });
     }),
 
-    update: protectedProcedure.input(z.object({ id: z.string(), name: z.string(), url: z.string() })).mutation(({ input }) => {
+    getApprenants: protectedProcedure.query(() => {
+        return prisma.user.findMany({
+            include:{
+                assignations: true,
+                promos: true
+            },
+            where:{
+                formateur: false,
+                superadmin: false
+            }
+        });
+    }),
+
+    create: protectedProcedure.input(z.object({name: z.string(), firstname: z.string(), email: z.string()})).mutation(({input})=>{
+        return prisma.user.create({
+            data:{
+                name: input.name,
+                email: input.email,
+                firstName: input.firstname,
+                password: generatePassword()
+            }
+        })
+    }),
+
+    update: protectedProcedure.input(z.object({ id: z.string(), name: z.string(), firstname: z.string(), url: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
             where: {
                 id: input.id
             },
             data: {
                 name: input.name,
-                image: input.url
+                firstName: input.firstname,
+                image: input.url,
             }
         })
     }),
@@ -71,5 +97,16 @@ export const userRouter = createTRPCRouter({
             }
         })
     }),
+
+    resetPassword: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+        return prisma.user.update({
+            where:{
+                id: input.id
+            },
+            data:{
+                password: generatePassword()
+            }
+        })
+    })
 
 });

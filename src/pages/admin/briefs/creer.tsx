@@ -5,6 +5,31 @@ import Head from "next/head";
 import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar } from "~/components/barrel";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+    ssr: false,
+    loading: () => <p>Loading ...</p>,
+})
+
+const modules = {
+    toolbar: [
+        [{ header: ['1', '2', '3', false] }],
+        //[{ size: [] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
+        [{ color: [] }],
+        [
+            { list: 'ordered' },
+            { list: 'bullet' },
+        ],
+        ['link'],
+    ],
+    clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+    },
+}
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -26,7 +51,19 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const addBrief: NextPage = () => {
+const AddBrief: NextPage = () => {
+
+    const [desc, setDesc] = useState("")
+    const [contexte, setContexte] = useState("")
+    const [modaPeda, setPeda] = useState("")
+    const [evals, setEvals] = useState("")
+    const [livrable, setLivrable] = useState("")
+    const [perf, setPerf] = useState("")
+
+    async function handleBrief(e: React.SyntheticEvent) {
+        e.preventDefault()
+        await console.log("test")
+    }
 
     return (
         <>
@@ -37,12 +74,91 @@ const addBrief: NextPage = () => {
             </Head>
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] pt-10 gap-5">
 
-                <h1 className="text-4xl font-extrabold text-black w-full">Créer un référentiel</h1>
+                <h1 className="text-4xl font-extrabold text-black w-full">Créer un peojet : Description générel</h1>
 
-                <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
-                    <span className="flex w-full flex-row items-center justify-between mb-3">
-                        <h2 className="text-2xl text-black">Données sur la plateforme</h2>
-                    </span>
+                <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
+
+                    <form className="flex w-full flex-col items-center justify-start gap-5" method="POST">
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <label htmlFor="briefTitle" className="text-2xl text-black w-full">Titre du projet<span className="text-[#A10000]">*</span></label>
+                            <input
+                                type='text'
+                                name="briefTitle"
+                                id="briefTitle"
+                                className="px-[1rem] py-3 rounded-xl bg-white shadow-[inset_0px_2px_9px_4px_rgba(0,0,0,0.25)] w-full"
+                                autoComplete="off"
+                                placeholder="Titre du projet"
+                                required
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Description rapide<span className="text-[#A10000]">*</span></h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Description"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Contexte<span className="text-[#A10000]">*</span></h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Contexte"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Modalités pédagogiques<span className="text-[#A10000]">*</span></h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Modalités pédagogiques"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Modalités d&apos;évaluation<span className="text-[#A10000]">*</span></h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Modalités d'évaluation"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Livrable(s) attendu(s)<span className="text-[#A10000]">*</span></h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Livrable(s)"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <h2 className="text-2xl text-black w-full">Critères de performance</h2>
+                            <QuillNoSSRWrapper
+                                theme="snow"
+                                placeholder="Critères de performance"
+                                className="pb-11 bg-white w-full h-[250px]"
+                                modules={modules}
+                            />
+                        </fieldset>
+
+
+                        <button type="submit" className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-lg">
+                            Ajouter les compétences
+                        </button>
+
+                    </form>
+
                 </section>
 
 
@@ -53,4 +169,4 @@ const addBrief: NextPage = () => {
     );
 };
 
-export default addBrief;
+export default AddBrief;
