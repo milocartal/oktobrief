@@ -7,6 +7,8 @@ import { type Session as SessionAuth } from 'next-auth'
 import { NavBar } from "~/components/barrel";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { api } from "~/utils/api";
+import { Referentiel } from "@prisma/client";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -53,12 +55,35 @@ export const getServerSideProps: GetServerSideProps<{
 
 const AddBrief: NextPage = () => {
 
+    const createBrief = api.brief.create.useMutation()
+
     const [desc, setDesc] = useState("")
     const [contexte, setContexte] = useState("")
     const [modaPeda, setPeda] = useState("")
     const [evals, setEvals] = useState("")
     const [livrable, setLivrable] = useState("")
     const [perf, setPerf] = useState("")
+
+    const [selected, setSelected] = useState<Referentiel>()
+
+    async function handleCrea(e: React.SyntheticEvent) {
+        e.preventDefault()
+        const target = e.target as typeof e.target & {
+            briefTitle: { value: string };
+        };
+        const title = target.briefTitle.value
+        if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
+            if (selected !== undefined) {
+                await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: selected.id, eval: evals, peda: modaPeda })
+            }
+            else {
+                alert("Sélectionné un référentiel")
+            }
+        }
+        else {
+            alert("Merci de remplir tous les champs requis")
+        }
+    }
 
     return (
         <>
@@ -73,7 +98,7 @@ const AddBrief: NextPage = () => {
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
 
-                    <form className="flex w-full flex-col items-center justify-start gap-5" method="POST">
+                    <form onSubmit={handleCrea} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
                         <fieldset className="w-full flex flex-col gap-2">
                             <label htmlFor="briefTitle" className="text-2xl text-black w-full">Titre du projet<span className="text-[#A10000]">*</span></label>
                             <input
@@ -94,6 +119,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Description"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setDesc }}
                             />
                         </fieldset>
 
@@ -104,6 +130,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Contexte"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setContexte }}
                             />
                         </fieldset>
 
@@ -114,6 +141,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Modalités pédagogiques"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setPeda }}
                             />
                         </fieldset>
 
@@ -124,6 +152,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Modalités d'évaluation"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setEvals }}
                             />
                         </fieldset>
 
@@ -134,6 +163,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Livrable(s)"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setLivrable }}
                             />
                         </fieldset>
 
@@ -144,6 +174,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Critères de performance"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
+                                onChange={() => { setPerf }}
                             />
                         </fieldset>
 

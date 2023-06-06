@@ -3,13 +3,10 @@ import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
 import { NavBar, Notifs, Promos } from "../components/barrel";
-import { type Session as SessionAuth } from 'next-auth'
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { test, setTest } from "~/components/barrel"
 import { generatePassword } from "~/utils/genertor";
-import { Brief, Prisma } from "@prisma/client";
-import { promoSel } from "./_app";
+import { Brief, Prisma, Promo } from "@prisma/client";
 
 type UserWithAll = Prisma.UserGetPayload<{
   include: { promos: true, assignations: true }
@@ -18,7 +15,7 @@ import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: Brief[],
-  user: UserWithAll
+  promos: Promo[]
 }> = async function (context) {
   const session = await getSession(context)
 
@@ -31,13 +28,14 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session.user.id
-    },
-    include: {
-      promos: true,
-      assignations: true
+
+  const promos = await prisma.promo.findMany({
+    where:{
+      apprenants:{
+        some:{
+          id: session.user.id
+        }
+      }
     }
   })
 
@@ -54,15 +52,15 @@ export const getServerSideProps: GetServerSideProps<{
   return {
     props: {
       briefs: JSON.parse(JSON.stringify(briefs)) as Brief[],
-      user: JSON.parse(JSON.stringify(user)) as UserWithAll,
+      promos: JSON.parse(JSON.stringify(promos)) as Promo[]
     }
   }
 };
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, user }) => {
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, promos }) => {
   const { data: sessionData } = useSession()
-  const formateur = sessionData?.user.formateur
-  const superadmin = sessionData?.user.superadmin
+  let test = sessionData?.promo
+  console.log(test)
 
   return (
     <>
@@ -76,7 +74,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <span className="flex w-full flex-row items-center justify-between mb-10">
             <h1 className="text-4xl font-extrabold text-black">Votre dashboard</h1>
-            <Promos user={user} />
+            <Promos promos={promos} />
           </span>
 
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
@@ -88,14 +86,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </span>
 
             <div className="flex w-full flex-row items-center">
-              <Image width={900} height={900} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />
+              {sessionData && sessionData.promo && sessionData.promo.image !== "" && <Image width={900} height={900} loader={()=>sessionData.promo.image} src={sessionData.promo.image} className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />}
               <div className="w-[45%]">
-                <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
-                <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
+                <h3 className="text-xl text-black mb-2">{sessionData?.promo.title}</h3>
+                {sessionData && sessionData.promo && sessionData.promo.description && <div className="text-sm mb-5" dangerouslySetInnerHTML={{__html:sessionData.promo.description}}/>}
                 <span className="flex w-full flex-row items-center justify-between">
                   <span className="flex w-full flex-row items-center">
                     <BiGroup className="text-4xl text-[#0E6073] mr-1" />
-                    <p>12 apprenants</p>
+                    <p>{sessionData && sessionData.promo && sessionData?.promo.apprenants ? sessionData.promo.apprenants.length: "0"} apprenants</p>
                   </span>
                   <span className="flex w-full flex-row items-center">
                     <BiCalendar className="text-4xl text-[#0E6073] mr-1" />

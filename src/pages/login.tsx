@@ -3,8 +3,6 @@ import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
 import { type Session as SessionAuth } from 'next-auth'
 import { prisma } from "~/server/db";
-import { test, setTest } from "~/components/barrel";
-import { promoSel, setPromoSel } from "./_app";
 
 export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth | null
@@ -21,12 +19,6 @@ export const getServerSideProps: GetServerSideProps<{
                 }
             }
         })
-
-        if (promo !== null) {
-            setPromoSel(promo)
-        }
-        console.log("promo ", promo)
-        console.log("test ", promoSel)
 
         return {
             redirect: {

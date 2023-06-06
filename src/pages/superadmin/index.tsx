@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
 }> = async function (context) {
     const session = await getSession(context)
-    const superadmin = session?.user.superadmin
+    const superadmin = session?.superadmin
 
 
     if (!session) {

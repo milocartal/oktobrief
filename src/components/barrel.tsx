@@ -1,16 +1,11 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { BiChevronDown, BiClipboard, BiListCheck } from "react-icons/bi";
+import { BiChevronDown, BiChevronUp, BiClipboard, BiListCheck } from "react-icons/bi";
 import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 import { FaBell, FaCircle } from "react-icons/fa"
 import { BiX } from "react-icons/bi";
-import { type Prisma, type Promo, type User } from "@prisma/client";
-import { promoSel } from "~/pages/_app";
-
-type UserWithAll = Prisma.UserGetPayload<{
-    include: { promos: true, assignations: true }
-}>
+import { type Promo } from "@prisma/client";
 
 interface Props {
     referentiel?: string;
@@ -18,13 +13,7 @@ interface Props {
 }
 
 interface PropsUser {
-    user?: UserWithAll;
-}
-
-export let test: Promo
-
-export function setTest(e: (typeof test)) {
-    test = e
+    promos?: Promo[];
 }
 
 
@@ -39,9 +28,9 @@ export const NavBar: React.FC<Props> = (props) => {
                 </Link>
                 <Link href={"/briefs"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
                 <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-                {(sessionData?.user.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
+                {(sessionData?.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
                 {props.referentiel && <Link href={`/referentiel/${props.referentiel}`} className="flex flex-col items-center justify-center transition rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
-                {sessionData?.user.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
+                {sessionData?.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transitionn rounded-xl hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
             </div>
 
             <AuthShowcase />
@@ -158,24 +147,25 @@ export const Notifs: React.FC = () => {
 
 export const Promos: React.FC<PropsUser> = (props) => {
     const [open, setOpen] = useState(false)
-    const promos = props.user?.promos
-    const [select, setSelect] = useState(promoSel)
+    const { data: sessionData, update } = useSession();
+    const promos = props.promos
+    console.log(sessionData?.user)
 
     return (
-
         <div className="relative">
 
             <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
-                {test && <p className="text-base mr-2">{promoSel?.title}</p>}
-                <BiChevronDown className="text-4xl" />
+                {sessionData && sessionData.promo && <p className="text-base mr-2">{sessionData?.promo.title}</p>}
+                {open ? <BiChevronUp className="text-4xl" /> : <BiChevronDown className="text-4xl" />}
             </button>
             {open &&
                 <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
                     {promos && promos.length > 0 && promos.map((item) => {
-                        if (test && item.id !== test.id)
+                        if (item.id !== sessionData!.promo.id) {
                             return (
-                                <button className="text-sm text-[#0E6073] py-4" onClick={()=>(setTest(item), window.location.reload())}>{item.title}</button>
+                                <button className="text-sm text-[#0E6073] py-4" onClick={() => update({ promo: item })} key={item.id}>{item.title}</button>
                             )
+                        }
                     })}
 
                     <Link href={"/admin/promo/creer"} className="flex flex-row items-center justify-center bg-[#0E6073] text-white rounded-b-lg w-full h-12">

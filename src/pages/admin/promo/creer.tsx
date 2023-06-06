@@ -39,8 +39,8 @@ export const getServerSideProps: GetServerSideProps<{
   referentiel: Referentiel[]
 }> = async function (context) {
   const session = await getSession(context)
-  const admin = session?.user.formateur
-  const superadmin = session?.user.superadmin
+  const admin = session?formateur
+  const superadmin = session?.superadmin
 
   if (!session) {
     return {

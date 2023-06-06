@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp
 }> = async function (context) {
     const session = await getSession(context)
-    const superadmin = session?.user.superadmin
+    const superadmin = session?.superadmin
 
     if (!session) {
         return {
