@@ -25,3 +25,7 @@
 #switchlabel #switchinput[type="checkbox"]:checked + #switchspan::before {
     transform: translateX(125px);
 }
+
+#switchlabelm #switchinputm[type="checkbox"]:checked + #switchspanm::before {
+    transform: translateX(137px);
+}

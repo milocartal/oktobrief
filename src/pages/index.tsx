@@ -115,7 +115,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                   <BiSearch className="text-3xl text-black ml-4" />
                   <input
                     type='text'
-                    name="promoDateStart"
+                    name="searchProject"
                     className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
                     autoComplete="off"
                   />
@@ -173,7 +173,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                   <input
                     type='text'
                     placeholder="Rechercher"
-                    name="promoDateStart"
+                    name="searchResources"
                     className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
                     autoComplete="off"
                   />
