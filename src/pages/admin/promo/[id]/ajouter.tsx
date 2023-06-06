@@ -22,6 +22,7 @@ type PromoWithStudent = Prisma.PromoGetPayload<{
     }
   }
 }>
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   promo: PromoWithStudent

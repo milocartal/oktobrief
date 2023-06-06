@@ -14,6 +14,7 @@ import { promoSel } from "./_app";
 type UserWithAll = Prisma.UserGetPayload<{
   include: { promos: true, assignations: true }
 }>
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: Brief[],
@@ -90,7 +91,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </span>
 
             <div className="flex w-full flex-row items-center">
-              <img src="promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />
+              <Image width={900} height={900} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />
               <div className="w-[45%]">
                 <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
@@ -127,39 +128,38 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                 </button>
               </span>
             </span>
-
-            <div className="grid grid-cols-3 gap-3">
-              <Link className="flex flex-col max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+            <div className="flex flex-row justify-between w-full">
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
               </Link>
 
-              <Link className="flex flex-col max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
               </Link>
 
-              <Link className="flex flex-col max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <img src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                 <div className="m-5 text-start">
                   <h3 className="text-lg text-black">Découvrir React Native</h3>
                   <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                   <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                     <p className="text-sm text-black">Lorem ipsum</p>
                   </span>
                 </div>
@@ -194,7 +194,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                      <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -220,7 +220,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
                   </div>
                 </div>
-                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
+                <Image width={200} height={200} src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
               </div>
 
               <div className="flex flex-col w-full rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] relative">
@@ -229,7 +229,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     <h3 className="text-lg text-black">Ressource 1</h3>
                     <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
                     <span className="flex flex-row justify-start items-center w-full mt-5">
-                      <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                      <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                       <p className="text-sm text-black">Lorem ipsum</p>
                     </span>
                   </div>
@@ -255,7 +255,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
                   </div>
                 </div>
-                <img src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
+                <Image width={200} height={200} src="/promo.jpeg" className="w-[20%] h-full bg-center bg-cover rounded-r-lg absolute right-0" alt="Image de la promo sélectionnée" />
               </div>
             </div>
           </div>

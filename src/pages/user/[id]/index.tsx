@@ -7,6 +7,7 @@ import { NavBar } from "~/components/barrel";
 import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
 import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";
+import Image from "next/image";
 
 
 export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
@@ -31,6 +32,8 @@ const ProfileScreen: NextPage = () => {
 
     const { data: sessionData } = useSession();
     const [open, setOpen] = useState(false)
+    const userPFP = sessionData ? sessionData.user.image : undefined
+
     return (
         <>
             <Head>
@@ -47,7 +50,7 @@ const ProfileScreen: NextPage = () => {
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5 relative">
                         <h2 className="text-2xl text-black self-start mb-5">Mon compte</h2>
                         <div className="flex flex-row items-center justify-between w-[80%] self-start">
-                            {sessionData && sessionData.user && sessionData.user.image && <img src={sessionData.user.image} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
+                            {sessionData && sessionData.user && sessionData.user.image && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
                             <div>
                                 <h2 className="text-2xl text-black self-start">{sessionData?.user.name}</h2>
                                 {sessionData?.formateur ? <p className="text-lg text-black self-start">Formateur.rice</p> : <p className="text-lg text-black self-start">Apprenant.e</p>}
@@ -94,7 +97,7 @@ const ProfileScreen: NextPage = () => {
                             </div>}
                             <div className="w-[60%] flex flex-col items-end justify-between">
                                 <div className="w-full flex flex-row items-center justify-end">
-                                    {sessionData && sessionData.user && sessionData.user.image && <img src={sessionData.user.image} className="w-40 h-40 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />}
+                                    {sessionData && sessionData.user && sessionData.user.image && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />}
                                     <div>
                                         <p>Mot de passe actuel</p>
                                         <div className="rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] h-12 w-full flex flex-row justify-between items-center">
@@ -135,7 +138,7 @@ const ProfileScreen: NextPage = () => {
                     </span>
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                         <div className="flex w-full flex-row items-center">
-                            <img src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                            <Image width={400} height={400} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                             <div className="w-[45%]">
                                 <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
@@ -154,7 +157,7 @@ const ProfileScreen: NextPage = () => {
                     </div>
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                         <div className="flex w-full flex-row items-center">
-                            <img src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                            <Image width={400} height={400} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
                             <div className="w-[45%]">
                                 <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
                                 <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
