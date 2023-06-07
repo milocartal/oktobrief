@@ -5,8 +5,7 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { generatePassword } from "~/utils/genertor";
-import { Brief, Prisma, Promo } from "@prisma/client";
+import { Brief, Prisma } from "@prisma/client";
 
 type BriefWithAll = Prisma.BriefGetPayload<{
   include: { promos: true, assignations: true, formateur: true }
@@ -16,6 +15,7 @@ type PromoWithAll = Prisma.PromoGetPayload<{
 }>
 
 import Image from "next/image";
+import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],
@@ -78,6 +78,165 @@ export const getServerSideProps: GetServerSideProps<{
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, promos }) => {
   const { data: sessionData } = useSession()
+
+  const [tab, setTab] = useState("normal")
+  const [selectedCat, setSelectedCat] = useState(0)
+  const [selectedTags, setSelectedTags] = useState<number[]>([])
+
+  const CATEGORIES = [
+    {
+      "id": 1,
+      "title": "CMS",
+      "tags": [
+        {
+          "id": 1,
+          "title": "Big data"
+          
+        },
+        {
+          "id": 2,
+          "title": "Algorithmique"
+        },
+        {
+          "id": 3,
+          "title": "SQL"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Data",
+      "tags": [
+        {
+          "id": 4,
+          "title": "Algorithmique"
+        },
+        {
+          "id": 5,
+          "title": "Big data"
+        },
+        {
+          "id": 6,
+          "title": "SQL"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Cybersécurité",
+      "tags": [
+        {
+          "id": 7,
+          "title": "SQL"
+        },
+        {
+          "id": 8,
+          "title": "Big data"
+          
+        },
+        {
+          "id": 9,
+          "title": "SQL"
+          
+        },
+        {
+          "id": 10,
+          "title": "Algorithmique"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Data",
+      "tags": [
+        {
+          "id": 11,
+          "title": "Algorithmique"
+        },
+        {
+          "id": 12,
+          "title": "Big data"
+        },
+        {
+          "id": 13,
+          "title": "SQL"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cybersécurité",
+      "tags": [
+        {
+          "id": 14,
+          "title": "Big data"
+          
+        },
+        {
+          "id": 15,
+          "title": "SQL"
+          
+        },
+        {
+          "id": 16,
+          "title": "Algorithmique"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 7,
+      "title": "Data",
+      "tags": []
+    },
+    {
+      "id": 8,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 9,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 10,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 11,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 12,
+      "title": "CMS",
+      "tags": []
+    },
+    {
+      "id": 13,
+      "title": "CMS",
+      "tags": []
+    },
+  ];
+
+
+  let test = sessionData?.promo
+  console.log(test)
+
+  function removeTag(tab: number[], item: number){
+    const index = tab.indexOf(item);
+
+    tab.splice(index, 1);
+    console.log(tab)
+
+    return(tab)
+  }
 
   return (
     <>
@@ -175,7 +334,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     autoComplete="off"
                   />
                 </div>
-                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base text-center">
+                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base text-center" onClick={() => setTab("ressource")}>
                   Ajouter une ressource
                 </button>
               </span>
@@ -257,6 +416,106 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
         <Notifs />
         <NavBar />
+        {tab === "ressource" &&
+          <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
+            <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-8/12 max-h-[90%] text-[#041f25]">
+              <span className="flex flex-row justify-between">
+                <h1 className="text-4xl font-extrabold text-black">Créer une ressource</h1>
+                <p className="text-base text-[#A10000]">*Obligatoire</p>
+              </span>
+              <div className="w-full h-full max-h-[50%] flex flex-row justify-between items-start">
+                <div className="w-[38%]">
+                  <fieldset>
+                    <label htmlFor='ressourceTitle'>Titre de la ressource <span className="text-[#A10000] text-1xl">*</span></label>
+                    <input
+                      type='text'
+                      name="ressourceTitle"
+                      className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                      autoComplete="off" />
+                  </fieldset>
+                  <fieldset>
+                    <label htmlFor='ressourceDescription'>Description de la ressource <span className="text-[#A10000] text-1xl">*</span></label>
+                    <textarea
+                      name="ressourceDescription"
+                      rows={3}
+                      className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full"
+                      autoComplete="off" />
+                  </fieldset>
+                  <fieldset>
+                    <label htmlFor='imgRessource'>Image de la ressource</label>
+                    <input
+                      type='url'
+                      name='imgRessource'
+                      id='imgRessource'
+                      className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
+                      placeholder="url de l'image"
+                      autoComplete='off' />
+                  </fieldset>
+                </div>
+              
+                <div className="w-[60%] h-full">
+                  <fieldset>
+                    <label htmlFor='ressourceUrl'>URL de la ressource <span className="text-[#A10000] text-1xl">*</span></label>
+                    <input
+                      type='url'
+                      name="ressourceUrl"
+                      className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                      autoComplete="off" />
+                  </fieldset>
+                  <p>Tags</p>
+                  
+                  <div className="w-full flex flex-row justify-between min-h-[300px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
+                    <div className="w-[40%] h-full max-h-[300px] bg-white shadow-[4px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-l-lg flex flex-col items-start py-5 overflow-auto">
+                      <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[80%] flex flex-row justify-between items-center self-center mr-2 mb-3">
+                        <BiSearch className="text-3xl text-black ml-4" />
+                        <input
+                          type='text'
+                          name="searchProject"
+                          className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
+                          autoComplete="off"
+                        />
+                      </div>
+                      {CATEGORIES.map((item) => {
+                        return (
+                          <>
+                          {selectedCat == item.id ?
+                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                              <p>{item.title}</p>
+                              <p>({selectedTags.length})</p>
+                            </button>
+                            :
+                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                              <p>{item.title}</p>
+                              <p>({selectedTags.length})</p>  
+                            </button>
+                          }
+                          </>
+                        )
+                      })}
+                    </div>
+                    <div className="w-[66%] h-full p-3 flex flex-row flex-wrap">
+                      {CATEGORIES[selectedCat]?.tags.map((item) => {
+                        return (
+                          <>
+                            {selectedTags.includes(item.id) ?
+                              <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedTags(removeTag(selectedTags, item.id))}>{item.title}</button>
+                              :
+                              <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id} onClick={() => setSelectedTags([...selectedTags, item.id])}>{item.title}</button>
+                            }
+                          </>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span className="self-end">
+                <button onClick={() => setTab("normal")}>Annuler</button>
+                <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10">Enregistrer modifications</button>
+              </span>
+            </form>
+          </div>
+        }
       </main>
     </>
   );
