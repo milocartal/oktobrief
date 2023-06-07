@@ -5,7 +5,7 @@ import Head from "next/head";
 import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar } from "~/components/barrel";
-import { FaArrowDown, FaInbox } from "react-icons/fa";
+import { FaArrowDown, FaCheckSquare, FaInbox } from "react-icons/fa";
 import { BiCheck, BiX } from "react-icons/bi";
 import { useState } from "react";
 import Image from "next/image";
@@ -38,47 +38,56 @@ const Rendus: NextPage = () => {
         {
             "id": 1,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 2,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 3,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": false
         },
         {
             "id": 4,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 5,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 6,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": false
         },
         {
             "id": 7,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 8,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         },
         {
             "id": 9,
             "nom": "Projet 2",
-            "apprenant": "Lorem Ipsum"
+            "apprenant": "Lorem Ipsum",
+            "rendu": true
         }
     ]
 
@@ -111,10 +120,16 @@ const Rendus: NextPage = () => {
                         {DATA.map((item) => {
                                 return (
                                     <span key={item.id} className="flex flex-row my-2">
-                                        <div className="flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4">
-                                            <FaArrowDown className="absolute text-2xl top-2 text-black"/>
-                                            <FaInbox className="text-3xl text-[#2EA3A5]"/>
-                                        </div>
+                                            {item.rendu ?
+                                                <div className="flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4">
+                                                    <FaCheckSquare className="text-3xl text-[#0e6073]"/>
+                                                </div>
+                                                :
+                                                <div className="flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4">
+                                                    <FaArrowDown className="absolute text-2xl top-2 text-[#0e6073]"/>
+                                                    <FaInbox className="text-3xl text-[#2EA3A5]"/>
+                                                </div>
+                                            }
                                         <div className="flex flex-col items-start justify-center">
                                             <p className="text-base">{item.nom}</p>
                                             <p className="text-sm">{item.apprenant}</p>
