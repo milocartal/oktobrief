@@ -2,24 +2,16 @@ import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPag
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
-import { NavBar, Notifs, Promos } from "../components/barrel";
+import { NavBar, Notifs, Promos } from "~/components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { generatePassword } from "~/utils/genertor";
-import { Brief, Prisma, Promo } from "@prisma/client";
-
-type UserWithAll = Prisma.UserGetPayload<{
-  include: { promos: true, assignations: true }
-}>
-type PromoWithAll = Prisma.PromoGetPayload<{
-  include: { apprenants: true, referentiel: true }
-}>
+import { type Brief, type Prisma, type Promo } from "@prisma/client";
 
 import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: Brief[],
-  promos: PromoWithAll[]
+  promos: Promo[]
 }> = async function (context) {
   const session = await getSession(context)
 
@@ -32,27 +24,16 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
-  let promos;
 
-  if(session.superadmin){
-    promos = await prisma.promo.findMany()
-  }
-  else{
-    promos = await prisma.promo.findMany({
-      where:{
-        apprenants:{
-          some:{
-            id: session.user.id
-          }
+  const promos = await prisma.promo.findMany({
+    where:{
+      apprenants:{
+        some:{
+          id: session.user.id
         }
-      },
-      include: {
-        apprenants: true,
-        referentiel: true
       }
-    })
-  }
-  
+    }
+  })
 
   const briefs = await prisma.brief.findMany({
     where: {
@@ -67,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<{
   return {
     props: {
       briefs: JSON.parse(JSON.stringify(briefs)) as Brief[],
-      promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[]
+      promos: JSON.parse(JSON.stringify(promos)) as Promo[]
     }
   }
 };

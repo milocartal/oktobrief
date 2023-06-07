@@ -10,7 +10,7 @@ export const userRouter = createTRPCRouter({
 
     getAll: protectedProcedure.query(() => {
         return prisma.user.findMany({
-            include:{
+            include: {
                 assignations: true,
                 promos: true
             }
@@ -19,20 +19,28 @@ export const userRouter = createTRPCRouter({
 
     getApprenants: protectedProcedure.query(() => {
         return prisma.user.findMany({
-            include:{
+            include: {
                 assignations: true,
                 promos: true
             },
-            where:{
+            where: {
                 formateur: false,
                 superadmin: false
             }
         });
     }),
 
-    create: protectedProcedure.input(z.object({name: z.string(), firstname: z.string(), email: z.string()})).mutation(({input})=>{
+    find: protectedProcedure.input(z.object({ email: z.string() })).mutation(({ input }) => {
+        return prisma.user.findUnique({
+            where: {
+                email: input.email
+            }
+        })
+    }),
+
+    create: protectedProcedure.input(z.object({ name: z.string(), firstname: z.string(), email: z.string() })).mutation(({ input }) => {
         return prisma.user.create({
-            data:{
+            data: {
                 name: input.name,
                 email: input.email,
                 firstName: input.firstname,
@@ -54,56 +62,56 @@ export const userRouter = createTRPCRouter({
         })
     }),
 
-    setFormateur: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+    setFormateur: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
-            where:{
+            where: {
                 id: input.id
             },
-            data:{
+            data: {
                 formateur: true
             }
         })
     }),
 
-    setHero: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+    setHero: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
-            where:{
+            where: {
                 id: input.id
             },
-            data:{
+            data: {
                 superadmin: true
             }
         })
     }),
 
-    unsetFormateur: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+    unsetFormateur: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
-            where:{
+            where: {
                 id: input.id
             },
-            data:{
+            data: {
                 formateur: false
             }
         })
     }),
 
-    unsetHero: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+    unsetHero: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
-            where:{
+            where: {
                 id: input.id
             },
-            data:{
+            data: {
                 superadmin: false
             }
         })
     }),
 
-    resetPassword: protectedProcedure.input(z.object({id: z.string()})).mutation(({input})=>{
+    resetPassword: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
-            where:{
+            where: {
                 id: input.id
             },
-            data:{
+            data: {
                 password: generatePassword()
             }
         })

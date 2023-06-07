@@ -1,5 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { Prisma, Promo } from "@prisma/client";
+import { cp } from "fs";
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
@@ -26,7 +27,8 @@ declare module "next-auth" {
       promo: PromoWithAll,
       id: string;
       formateur: boolean;
-      superadmin: boolean
+      superadmin: boolean;
+      firstname: string
     } & DefaultSession["user"];
   }
 
@@ -55,28 +57,71 @@ export const authOptions: NextAuthOptions = {
   },*/
   callbacks: {
     async session({ session, user, trigger, newSession }) {
-      if (trigger === "update" && newSession?.promo) {
-        session.promo = newSession.promo
-      }
-      else{
-        const promo = await prisma.promo.findFirstOrThrow({
-          where:{
-            apprenants:{
-              some:{
-                id: user.id
-              }
-            }
-          },
-          include:{
-            apprenants: true,
-            referentiel: true
-          }
-        })
-        session.promo = promo
-      }
+
+      session.user.firstname = user.firstname
       session.user.id = user.id
       session.formateur = user.formateur
       session.superadmin = user.superadmin
+
+      if (trigger === "update" && newSession?.promo) {
+        session.promo = newSession.promo;
+        const sessionRAW = await prisma.session.findFirst({
+          where: {
+            userId: session.user.id,
+            expires: session.expires
+          }
+        })
+        await prisma.session.update({
+          data: {
+            promoId: session.promo.id
+          },
+          where: {
+            id: sessionRAW!.id
+          }
+        })
+      }
+      if (!session.promo) {
+        const sessionRAW = await prisma.session.findFirst({
+          where: {
+            userId: session.user.id,
+            expires: session.expires
+          }
+        })
+
+        let promo;
+
+        if(user.superadmin && sessionRAW && sessionRAW.promoId === null){
+          promo = await prisma.promo.findFirst()
+        }
+        else{
+          if (sessionRAW && sessionRAW.promoId !== null) {
+            promo = await prisma.promo.findFirst({
+              where: {
+                id: sessionRAW!.promoId as string
+              },
+              include: {
+                apprenants: true,
+                referentiel: true
+              }
+            })
+          } else {
+            promo = await prisma.promo.findFirstOrThrow({
+              where: {
+                apprenants: {
+                  some: {
+                    id: user.id
+                  }
+                }
+              },
+              include: {
+                apprenants: true,
+                referentiel: true
+              }
+            })
+          }
+        }
+        session.promo = promo as PromoWithAll;
+      }
       return session
     }
   },

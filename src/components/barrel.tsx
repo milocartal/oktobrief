@@ -6,6 +6,7 @@ import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 import { FaBell, FaCircle } from "react-icons/fa"
 import { BiX } from "react-icons/bi";
 import { type Promo } from "@prisma/client";
+import Router from "next/router";
 
 interface Props {
     referentiel?: string;
@@ -149,7 +150,6 @@ export const Promos: React.FC<PropsUser> = (props) => {
     const [open, setOpen] = useState(false)
     const { data: sessionData, update } = useSession();
     const promos = props.promos
-    console.log(sessionData?.user)
 
     return (
         <div className="relative">
@@ -163,7 +163,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
-                                <button className="text-sm text-[#0E6073] py-4" onClick={() => update({ promo: item })} key={item.id}>{item.title}</button>
+                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {update({ promo: item }), window.location.reload()}} key={item.id}>{item.title}</button>
                             )
                         }
                     })}

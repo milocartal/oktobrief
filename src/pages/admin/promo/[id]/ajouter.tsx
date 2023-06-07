@@ -62,6 +62,33 @@ export const getServerSideProps: GetServerSideProps<{
 const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promo }) => {
   const { data: user } = api.user.getApprenants.useQuery()
 
+  const findUser = api.user.find.useMutation()
+  const createUser = api.user.create.useMutation()
+
+  const addStudent = api.promo.addStudent.useMutation()
+
+  async function handleAdd(e: React.SyntheticEvent) {
+    e.preventDefault()
+    const target = e.target as typeof e.target & {
+      studentEmail: { value: string };
+      studentName: { value: string };
+      studentLastName: { value: string };
+    };
+    const mail = target.studentEmail.value
+    const name = target.studentLastName.value
+    const firstname = target.studentName.value
+    const temp = await findUser.mutateAsync({ email: mail })
+    if (!temp) {
+      const newUser = await createUser.mutateAsync({ firstname: firstname, name: name, email: mail })
+      await addStudent.mutateAsync({id: promo.id, idU: newUser.id})
+      window.location.reload()
+    }
+    else{
+      await addStudent.mutateAsync({id: promo.id, idU: temp.id})
+      window.location.reload()
+    }
+  }
+
   return (
     <>
       <Head>
@@ -72,42 +99,46 @@ const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
       <main className="flex min-h-screen min-w-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
         <div className="flex min-h-screen h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <div className="flex flex-row h-[90%] w-full flex flex-row justify-between">
-            <div className="bg-white h-full w-[59%] p-5 flex flex-col justify-between">
+            <form onSubmit={(e)=>handleAdd(e)} className="bg-white h-full w-[59%] p-5 flex flex-col justify-between">
               <h2 className="text-2xl text-black">Ajouter des apprenants</h2>
-              <div>
-                <span className="flex flex-row">
-                  <p>Adresse email</p>
-                  <p className="text-[#A10000]">*</p>
-                </span>
+              <fieldset>
+                <label htmlFor="studentEmail" className="flex flex-row">Adresse email<span className="text-[#A10000]">*</span></label>
                 <input
-                  type='text'
+                  type='email'
                   name="studentEmail"
+                  id="studentEmail"
                   className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
                   autoComplete="off"
+                  required
                 />
-                <span className="flex flex-row mt-10">
-                  <p>Prénom</p>
-                  <p className="text-[#A10000]">*</p>
-                </span>
+              </fieldset>
+
+              <fieldset>
+                <label htmlFor="studentEmail" className="flex flex-row mt-10">Prénom<span className="text-[#A10000]">*</span></label>
                 <input
                   type='text'
                   name="studentName"
+                  id="studentName"
                   className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
                   autoComplete="off"
+                  required
                 />
-                <span className="flex flex-row mt-10">
-                  <p>Nom</p>
-                  <p className="text-[#A10000]">*</p>
-                </span>
+              </fieldset>
+
+              <fieldset>
+                <label className="flex flex-row mt-10">Nom<span className="text-[#A10000]">*</span></label>
                 <input
                   type='text'
                   name="studentLastName"
+                  id="studentLastName"
                   className="px-[1rem] py-3 rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-full"
                   autoComplete="off"
+                  required
                 />
-              </div>
-              <button className="bg-[#0E6073] self-end py-2 px-7 text-white rounded-lg">Ajouter</button>
-            </div>
+              </fieldset>
+
+              <button type="submit" className="bg-[#0E6073] self-end py-2 px-7 text-white rounded-lg">Ajouter</button>
+            </form>
 
 
             <div className="bg-white h-full w-[40%] p-5 overflow-auto">

@@ -98,7 +98,7 @@ const AddBrief: NextPage = () => {
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
 
-                    <form onSubmit={handleCrea} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
+                    <form onSubmit={(e)=>handleCrea(e)} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
                         <fieldset className="w-full flex flex-col gap-2">
                             <label htmlFor="briefTitle" className="text-2xl text-black w-full">Titre du projet<span className="text-[#A10000]">*</span></label>
                             <input

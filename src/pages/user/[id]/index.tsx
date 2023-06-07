@@ -62,39 +62,35 @@ const ProfileScreen: NextPage = () => {
                         </div>
                         {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button>}
                         {open && <div className="w-full mt-10 flex flex-row justify-around px-12">
-                            {sessionData && sessionData.user.name && sessionData.user.email && <div className="w-[30%]">
-                                <p className="mt-2">Prénom</p>
+                            {sessionData && sessionData.user.name && sessionData.user.email && <form className="w-[30%]">
+                                <label className="mt-2">Prénom</label>
                                 <input
                                     type='text'
                                     name="userName"
                                     placeholder={sessionData?.user.name}
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
+                                    defaultValue={sessionData.user.firstname}
                                 />
-                                <p className="mt-2">Nom</p>
+                                <label className="mt-2">Nom</label>
                                 <input
                                     type='text'
                                     name="userLastName"
                                     placeholder={sessionData?.user.name}
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
+                                    defaultValue={sessionData.user.name}
                                 />
-                                <p className="mt-2">Email</p>
-                                {sessionData.user.email ? <input
-                                    type='text'
+                                <label className="mt-2">Email</label>
+                                <input
+                                    type='mail'
                                     name="userEmail"
                                     placeholder={sessionData?.user.email}
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
-                                /> :
-                                    <input
-                                        type='text'
-                                        name="userEmail"
-                                        placeholder="votre mail"
-                                        className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
-                                        autoComplete="off"
-                                    />}
-                            </div>}
+                                    defaultValue={sessionData.user.email}
+                                />
+                            </form>}
                             <div className="w-[60%] flex flex-col items-end justify-between">
                                 <div className="w-full flex flex-row items-center justify-end">
                                     {sessionData && sessionData.user && sessionData.user.image && userPFP && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />}

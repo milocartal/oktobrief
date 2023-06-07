@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<{
   referentiel: Referentiel[]
 }> = async function (context) {
   const session = await getSession(context)
-  const admin = session?formateur
+  const admin = session?.formateur
   const superadmin = session?.superadmin
 
   if (!session) {
@@ -110,7 +110,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
           <Promos />
         </span>
 
-        <form onSubmit={() => {handleCrea}} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
+        <form onSubmit={(e) => handleCrea(e)} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
 
           <div className="flex h-[80%] w-full flex justify-between">
 
