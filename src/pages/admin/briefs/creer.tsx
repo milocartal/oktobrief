@@ -1,5 +1,5 @@
 import { type GetServerSideProps, type NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 
 import { type Session as SessionAuth } from 'next-auth'
@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { Referentiel } from "@prisma/client";
+import Router from "next/router";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -55,6 +56,9 @@ export const getServerSideProps: GetServerSideProps<{
 
 const AddBrief: NextPage = () => {
 
+    const { data: sessionData } = useSession()
+    const idRef = sessionData?.promo.referentiel.id
+
     const createBrief = api.brief.create.useMutation()
 
     const [desc, setDesc] = useState("")
@@ -68,16 +72,20 @@ const AddBrief: NextPage = () => {
 
     async function handleCrea(e: React.SyntheticEvent) {
         e.preventDefault()
+        console.log("desc", desc)
+        console.log("contexte", contexte)
+        console.log("peda", modaPeda)
+        console.log("evals", evals)
+        console.log("livrable", livrable)
+        console.log("perf", perf)
         const target = e.target as typeof e.target & {
             briefTitle: { value: string };
         };
         const title = target.briefTitle.value
         if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
-            if (selected !== undefined) {
-                await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: selected.id, eval: evals, peda: modaPeda })
-            }
-            else {
-                alert("Sélectionné un référentiel")
+            if (idRef) {
+                const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id })
+                Router.push(`/admin/briefs/${temp.id}`)
             }
         }
         else {
@@ -98,7 +106,7 @@ const AddBrief: NextPage = () => {
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
 
-                    <form onSubmit={(e)=>handleCrea(e)} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
+                    <form onSubmit={(e) => handleCrea(e)} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
                         <fieldset className="w-full flex flex-col gap-2">
                             <label htmlFor="briefTitle" className="text-2xl text-black w-full">Titre du projet<span className="text-[#A10000]">*</span></label>
                             <input
@@ -119,7 +127,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Description"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setDesc }}
+                                onChange={(e) => { setDesc(e) }}
                             />
                         </fieldset>
 
@@ -130,7 +138,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Contexte"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setContexte }}
+                                onChange={(e) => { setContexte(e) }}
                             />
                         </fieldset>
 
@@ -141,7 +149,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Modalités pédagogiques"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setPeda }}
+                                onChange={(e) => { setPeda(e) }}
                             />
                         </fieldset>
 
@@ -152,7 +160,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Modalités d'évaluation"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setEvals }}
+                                onChange={(e) => { setEvals(e) }}
                             />
                         </fieldset>
 
@@ -163,7 +171,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Livrable(s)"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setLivrable }}
+                                onChange={(e) => { setLivrable(e) }}
                             />
                         </fieldset>
 
@@ -174,7 +182,7 @@ const AddBrief: NextPage = () => {
                                 placeholder="Critères de performance"
                                 className="pb-11 bg-white w-full h-[250px]"
                                 modules={modules}
-                                onChange={() => { setPerf }}
+                                onChange={(e) => { setPerf(e) }}
                             />
                         </fieldset>
 

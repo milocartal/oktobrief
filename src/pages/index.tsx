@@ -8,8 +8,8 @@ import { prisma } from "~/server/db";
 import { generatePassword } from "~/utils/genertor";
 import { Brief, Prisma, Promo } from "@prisma/client";
 
-type UserWithAll = Prisma.UserGetPayload<{
-  include: { promos: true, assignations: true }
+type BriefWithAll = Prisma.BriefGetPayload<{
+  include: { promos: true, assignations: true, formateur: true }
 }>
 type PromoWithAll = Prisma.PromoGetPayload<{
   include: { apprenants: true, referentiel: true }
@@ -18,7 +18,7 @@ type PromoWithAll = Prisma.PromoGetPayload<{
 import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
-  briefs: Brief[],
+  briefs: BriefWithAll[],
   promos: PromoWithAll[]
 }> = async function (context) {
   const session = await getSession(context)
@@ -34,14 +34,14 @@ export const getServerSideProps: GetServerSideProps<{
 
   let promos;
 
-  if(session.superadmin){
+  if (session.superadmin) {
     promos = await prisma.promo.findMany()
   }
-  else{
+  else {
     promos = await prisma.promo.findMany({
-      where:{
-        apprenants:{
-          some:{
+      where: {
+        apprenants: {
+          some: {
             id: session.user.id
           }
         }
@@ -52,21 +52,25 @@ export const getServerSideProps: GetServerSideProps<{
       }
     })
   }
-  
+
 
   const briefs = await prisma.brief.findMany({
     where: {
       assignations: {
         some: {
-          idUser: session.user.id
+          idUser: session.user.id,
+          idPromo: session.promo.id
         }
-      }
+      },
+    },
+    include: {
+      formateur: true
     }
   })
 
   return {
     props: {
-      briefs: JSON.parse(JSON.stringify(briefs)) as Brief[],
+      briefs: JSON.parse(JSON.stringify(briefs)) as BriefWithAll[],
       promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[]
     }
   }
@@ -99,14 +103,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </span>
 
             <div className="flex w-full flex-row items-center">
-              {sessionData && sessionData.promo && sessionData.promo.image !== "" && <Image width={900} height={900} loader={()=>sessionData.promo.image} src={sessionData.promo.image} className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />}
+              {sessionData && sessionData.promo && sessionData.promo.image !== "" && <Image width={900} height={900} loader={() => sessionData.promo.image} src={sessionData.promo.image} className="w-[55%] max-h-[300px] bg-center bg-cover mr-5 object-cover" alt="Image de la promo sélectionnée" />}
               <div className="w-[45%]">
                 <h3 className="text-xl text-black mb-2">{sessionData?.promo.title}</h3>
-                {sessionData && sessionData.promo && sessionData.promo.description && <div className="text-sm mb-5" dangerouslySetInnerHTML={{__html:sessionData.promo.description}}/>}
+                {sessionData && sessionData.promo && sessionData.promo.description && <div className="text-sm mb-5" dangerouslySetInnerHTML={{ __html: sessionData.promo.description }} />}
                 <span className="flex w-full flex-row items-center justify-between">
                   <span className="flex w-full flex-row items-center">
                     <BiGroup className="text-4xl text-[#0E6073] mr-1" />
-                    <p>{sessionData && sessionData.promo && sessionData?.promo.apprenants ? sessionData.promo.apprenants.length: "0"} apprenants</p>
+                    <p>{sessionData && sessionData.promo && sessionData?.promo.apprenants ? sessionData.promo.apprenants.length : "0"} apprenants</p>
                   </span>
                   <span className="flex w-full flex-row items-center">
                     <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
@@ -120,7 +124,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
 
             <span className="flex w-full flex-row items-center justify-between mb-3">
-              <h2 className="text-2xl text-black">Les projets de ma promo</h2>
+              <h2 className="text-2xl text-black">Les projets de la promo</h2>
               <span className="flex flex-row items-center justify-end w-[50%]">
                 <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center mr-2">
                   <BiSearch className="text-3xl text-black ml-4" />
@@ -131,47 +135,29 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     autoComplete="off"
                   />
                 </div>
-                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                {(sessionData?.superadmin || sessionData?.formateur) && <Link href={"/admin/briefs/creer"} className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                   Créer un projet
-                </button>
+                </Link>}
               </span>
             </span>
             <div className="flex flex-row justify-between w-full">
-              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                <div className="m-5 text-start">
-                  <h3 className="text-lg text-black">Découvrir React Native</h3>
-                  <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                  <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                    <p className="text-sm text-black">Lorem ipsum</p>
-                  </span>
-                </div>
-              </Link>
-
-              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                <div className="m-5 text-start">
-                  <h3 className="text-lg text-black">Découvrir React Native</h3>
-                  <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                  <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                    <p className="text-sm text-black">Lorem ipsum</p>
-                  </span>
-                </div>
-              </Link>
-
-              <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                <div className="m-5 text-start">
-                  <h3 className="text-lg text-black">Découvrir React Native</h3>
-                  <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                  <span className="flex flex-row justify-end items-center w-full mt-5">
-                    <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                    <p className="text-sm text-black">Lorem ipsum</p>
-                  </span>
-                </div>
-              </Link>
+              {briefs && briefs.length > 0 && briefs.map((item) => {
+                return (
+                  <>
+                    <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                      <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                      <div className="m-5 text-start">
+                        <h3 className="text-lg text-black">{item.title}</h3>
+                        <p className="text-sm text-black">{item.desc}</p>
+                        <span className="flex flex-row justify-end items-center w-full mt-5">
+                          <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                          <p className="text-sm text-black">{item.formateur.name}</p>
+                        </span>
+                      </div>
+                    </Link>
+                  </>
+                )
+              })}
             </div>
           </section>
 
