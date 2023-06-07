@@ -249,7 +249,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
-              <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+              <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg" onClick={() => setTab("tags")}>
                 Modifier
               </button>
             </span>
@@ -448,12 +448,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                   <fieldset>
                     <label htmlFor='imgRessource'>Image de la ressource</label>
                     <input
-                      type='url'
-                      name='imgRessource'
-                      id='imgRessource'
+                      type="url"
+                      name="imgRessource"
+                      id="imgRessource"
                       className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                       placeholder="url de l'image"
-                      autoComplete='off' />
+                      autoComplete="off" />
                   </fieldset>
                 </div>
               
@@ -512,6 +512,77 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     </div>
                   </div>
                 </div>
+              </div>
+              <span className="self-end">
+                <button onClick={() => setTab("normal")}>Annuler</button>
+                <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10">Enregistrer modifications</button>
+              </span>
+            </form>
+          </div>
+        }
+
+        {tab === "tags" &&
+          <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
+            <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-10/12 text-[#041f25]">
+                <h1 className="text-4xl font-extrabold text-black">Gérer les tags</h1>
+              <div className="w-full h-full flex flex-row justify-between items-start">
+                <div className="w-[60%] h-full">                
+                <div className="w-full flex flex-row justify-between min-h-[450px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
+                    <div className="w-[40%] h-full max-h-[450px] bg-white shadow-[4px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-l-lg flex flex-col items-start py-5 overflow-auto">
+                      <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[80%] flex flex-row justify-between items-center self-center mr-2 mb-3">
+                        <BiSearch className="text-3xl text-black ml-4" />
+                        <input
+                          type='text'
+                          name="searchProject"
+                          className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
+                          autoComplete="off"
+                        />
+                      </div>
+                      {CATEGORIES.map((item) => {
+                        return (
+                          <>
+                          {selectedCat == item.id ?
+                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                              <p>{item.title}</p>
+                              <p>({selectedTags.length})</p>
+                            </button>
+                            :
+                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                              <p>{item.title}</p>
+                              <p>({selectedTags.length})</p>  
+                            </button>
+                          }
+                          </>
+                        )
+                      })}
+                    </div>
+                    <div className="w-[66%] h-full flex flex-col justify-start">
+                      <div className="w-full h-16 p-3 px-6 flex flex-row justify-between items-center bg-[#2EA3A5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-tr-lg">
+                        <p className="text-white">{CATEGORIES[selectedCat]?.title}</p>
+                        <div className="flex flex-row items-center justify-between w-16">
+                          <button><BiPencil className="text-2xl text-white"/></button>
+                          <button><BiTrash className="text-2xl text-[#A10000]"/></button>
+                        </div>
+                      </div>
+                      <div className="w-full h-full p-3 flex flex-row flex-wrap">
+                        {CATEGORIES[selectedCat]?.tags.map((item) => {
+                          return (
+                            <>
+                              {selectedTags.includes(item.id) ?
+                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedTags(removeTag(selectedTags, item.id))}>{item.title}</button>
+                                :
+                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id} onClick={() => setSelectedTags([...selectedTags, item.id])}>{item.title}</button>
+                              }
+                            </>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-[38%]">
+                </div>
+              
               </div>
               <span className="self-end">
                 <button onClick={() => setTab("normal")}>Annuler</button>
