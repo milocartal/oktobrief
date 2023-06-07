@@ -5,8 +5,7 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { generatePassword } from "~/utils/genertor";
-import { Brief, Prisma, Promo } from "@prisma/client";
+import { Brief, Prisma } from "@prisma/client";
 
 type BriefWithAll = Prisma.BriefGetPayload<{
   include: { promos: true, assignations: true, formateur: true }
@@ -16,8 +15,7 @@ type PromoWithAll = Prisma.PromoGetPayload<{
 }>
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { referentielRouter } from "~/server/api/routers/referentiel";
+import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],
@@ -231,8 +229,6 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   let test = sessionData?.promo
   console.log(test)
 
-  let i = 0
-
   function removeTag(tab: number[], item: number){
     const index = tab.indexOf(item);
 
@@ -241,10 +237,6 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
     return(tab)
   }
-
-  // useEffect(() => {
-  //   console.log(selectedTags)
-  // },[selectedTags])
 
   return (
     <>
@@ -398,7 +390,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     <span className="flex flex-row justify-center">
                       <BiPencil className="text-3xl text-[#2EA3A5] mx-2" />
                       <BiTrash className="text-3xl text-[#A10000] mx-2" />
-                    </span>ƒ
+                    </span>
                     <span className="flex flex-row justify-start mt-5 w-full flex-wrap">
                       <div className="bg-[#EDEDED] px-3 py-1 w-fit rounded-full m-1">
                         <p className="text-sm">WordPress</p>
