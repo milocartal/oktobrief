@@ -5,7 +5,7 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi
 import { NavBar, Notifs, Promos } from "~/components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { type Brief, type Prisma, type Promo } from "@prisma/client";
+import { type Brief, type Promo } from "@prisma/client";
 
 import Image from "next/image";
 

@@ -8,7 +8,6 @@ import { NavBar } from "~/components/barrel";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import { Referentiel } from "@prisma/client";
 import Router from "next/router";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
@@ -68,18 +67,18 @@ const AddBrief: NextPage = () => {
     const [livrable, setLivrable] = useState("")
     const [perf, setPerf] = useState("")
 
-    const [selected, setSelected] = useState<Referentiel>()
-
     async function handleCrea(e: React.SyntheticEvent) {
         e.preventDefault()
         const target = e.target as typeof e.target & {
             briefTitle: { value: string };
+            briefImg: { value: string };
         };
+        console.log(target.briefImg.value)
         const title = target.briefTitle.value
         if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
             if (idRef) {
                 const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id })
-                Router.push(`/admin/briefs/${temp.id}`)
+                await Router.push(`/admin/briefs/${temp.id}`)
             }
         }
         else {
@@ -96,11 +95,11 @@ const AddBrief: NextPage = () => {
             </Head>
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] pt-10 gap-5">
 
-                <h1 className="text-4xl font-extrabold text-black w-full">Créer un peojet : Description générel</h1>
+                <h1 className="text-4xl font-extrabold text-black w-full">Créer un projet : Description générel</h1>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
 
-                    <form onSubmit={(e) => handleCrea(e)} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
+                    <form onSubmit={(e) => void handleCrea(e)} className="flex w-full flex-col items-center justify-start gap-5" method="POST">
                         <fieldset className="w-full flex flex-col gap-2">
                             <label htmlFor="briefTitle" className="text-2xl text-black w-full">Titre du projet<span className="text-[#A10000]">*</span></label>
                             <input
@@ -111,6 +110,18 @@ const AddBrief: NextPage = () => {
                                 autoComplete="off"
                                 placeholder="Titre du projet"
                                 required
+                            />
+                        </fieldset>
+
+                        <fieldset className="w-full flex flex-col gap-2">
+                            <label htmlFor="briefImg" className="text-2xl text-black w-full">Image du projet</label>
+                            <input
+                                type='url'
+                                name="briefImg"
+                                id="briefImg"
+                                className="px-[1rem] py-3 rounded-xl bg-white shadow-[inset_0px_2px_9px_4px_rgba(0,0,0,0.25)] w-full"
+                                autoComplete="off"
+                                placeholder="Titre du projet"
                             />
                         </fieldset>
 

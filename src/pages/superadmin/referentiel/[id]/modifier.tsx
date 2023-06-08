@@ -11,7 +11,7 @@ import { useState } from "react";
 import { prisma } from "~/server/db";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { HiXMark } from 'react-icons/hi2';
-import { RefeWithComp, CompWithLvl } from "~/utils/type";
+import { type RefeWithComp, type CompWithLvl } from "~/utils/type";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,

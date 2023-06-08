@@ -6,7 +6,6 @@ import { api } from "~/utils/api";
 import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar } from "~/components/barrel";
-import { useState } from "react";
 import Router from "next/router";
 
 export const getServerSideProps: GetServerSideProps<{

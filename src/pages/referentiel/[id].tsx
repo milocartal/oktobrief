@@ -5,7 +5,7 @@ import Head from "next/head";
 import { NavBar } from "~/components/barrel";
 import { prisma } from "~/server/db";
 import { useState } from "react";
-import { RefeWithComp, CompWithLvl } from "~/utils/type";
+import type { RefeWithComp, CompWithLvl } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp

@@ -8,7 +8,7 @@ import { useState } from "react";
 import Router from "next/router";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { api } from "~/utils/api";
-import { RefeWithComp, CompWithLvl } from "~/utils/type";
+import type { RefeWithComp, CompWithLvl } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{

@@ -6,9 +6,7 @@ import { NavBar, Notifs } from "~/components/barrel";
 import { api } from "~/utils/api";
 import { prisma } from "~/server/db";
 import React from "react";
-
-import Image from "next/image";
-import { PromoWithStudent, UserWithAll } from "~/utils/type";
+import type { PromoWithStudent, UserWithAll } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
   promo: PromoWithStudent
@@ -46,7 +44,6 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promo }) => {
-  const { data: user } = api.user.getApprenants.useQuery()
 
   const findUser = api.user.find.useMutation()
   const createUser = api.user.create.useMutation()
@@ -85,7 +82,7 @@ const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
       <main className="flex min-h-screen min-w-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
         <div className="flex min-h-screen h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
           <div className="flex flex-row h-[90%] w-full flex flex-row justify-between">
-            <form onSubmit={(e)=>handleAdd(e)} className="bg-white h-full w-[59%] p-5 flex flex-col justify-between">
+            <form onSubmit={(e)=> void handleAdd(e)} className="bg-white h-full w-[59%] p-5 flex flex-col justify-between">
               <h2 className="text-2xl text-black">Ajouter des apprenants</h2>
               <fieldset>
                 <label htmlFor="studentEmail" className="flex flex-row">Adresse email<span className="text-[#A10000]">*</span></label>

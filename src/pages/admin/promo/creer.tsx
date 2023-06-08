@@ -110,7 +110,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
           <Promos />
         </span>
 
-        <form onSubmit={(e) => handleCrea(e)} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
+        <form onSubmit={(e) => void handleCrea(e)} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
 
           <div className="flex h-[80%] w-full flex justify-between">
 

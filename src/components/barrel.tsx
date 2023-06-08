@@ -6,7 +6,6 @@ import { FaInbox, FaOctopusDeploy } from "react-icons/fa"
 import { FaBell, FaCircle } from "react-icons/fa"
 import { BiX } from "react-icons/bi";
 import { type Promo } from "@prisma/client";
-import Router from "next/router";
 
 interface Props {
     referentiel?: string;
@@ -18,7 +17,7 @@ interface PropsUser {
 }
 
 
-export const NavBar: React.FC<Props> = (props) => {
+export const NavBar: React.FC = () => {
     const { data: sessionData } = useSession();
     return (
         <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
@@ -164,7 +163,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
-                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {update({ promo: item }), window.location.reload()}} key={item.id}>{item.title}</button>
+                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {void update({ promo: item }), window.location.reload()}} key={item.id}>{item.title}</button>
                             )
                         }
                     })}

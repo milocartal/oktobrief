@@ -1,6 +1,4 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { Prisma, Promo } from "@prisma/client";
-import { cp } from "fs";
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
@@ -10,7 +8,10 @@ import {
 import GithubProvider from "next-auth/providers/github"
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-import { PromoWithAll } from "~/utils/type";
+import { type PromoWithAll } from "~/utils/type";
+import { type Session as SessionAuth } from 'next-auth';
+import { type AdapterUser } from "next-auth/adapters";
+
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -53,14 +54,14 @@ export const authOptions: NextAuthOptions = {
     }),
   },*/
   callbacks: {
-    async session({ session, user, trigger, newSession }) {
+    async session({ session, user, trigger, newSession }: {session: SessionAuth, user: AdapterUser, trigger: string, newSession: SessionAuth}) {
 
       session.user.firstname = user.firstname
       session.user.id = user.id
       session.formateur = user.formateur
       session.superadmin = user.superadmin
 
-      if (trigger === "update" && newSession?.promo) {
+      if (trigger === "update" && newSession && newSession.promo) {
         session.promo = newSession.promo;
         const sessionRAW = await prisma.session.findFirst({
           where: {
@@ -94,7 +95,7 @@ export const authOptions: NextAuthOptions = {
           if (sessionRAW && sessionRAW.promoId !== null) {
             promo = await prisma.promo.findFirst({
               where: {
-                id: sessionRAW!.promoId as string
+                id: sessionRAW.promoId
               },
               include: {
                 apprenants: true,

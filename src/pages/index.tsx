@@ -8,7 +8,7 @@ import { prisma } from "~/server/db";
 
 import Image from "next/image";
 import { useState } from "react";
-import { BriefWithAll, PromoWithAll } from "~/utils/type";
+import type { BriefWithAll, PromoWithAll } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],
@@ -219,7 +219,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   ];
 
 
-  let test = sessionData?.promo
+  const test = sessionData?.promo
   console.log(test)
 
   function removeTag(tab: number[], item: number){
