@@ -4,25 +4,11 @@ import Head from "next/head";
 import { NavBar, Notifs } from "~/components/barrel";
 
 import { api } from "~/utils/api";
-import { type Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";
 import React from "react";
 
-type UserWithAll = Prisma.UserGetPayload<{
-  include: { promos: true, assignations: true }
-}>
-
-type PromoWithStudent = Prisma.PromoGetPayload<{
-  include: {
-    apprenants: {
-      include: {
-        promos: true,
-        assignations: true
-      }
-    }
-  }
-}>
 import Image from "next/image";
+import { PromoWithStudent, UserWithAll } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
   promo: PromoWithStudent

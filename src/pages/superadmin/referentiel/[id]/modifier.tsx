@@ -8,10 +8,10 @@ import dynamic from "next/dynamic";
 
 import { NavBar } from "~/components/barrel";
 import { useState } from "react";
-import { type Prisma } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { HiXMark } from 'react-icons/hi2';
+import { RefeWithComp, CompWithLvl } from "~/utils/type";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -35,22 +35,6 @@ const modules = {
         matchVisual: false,
     },
 }
-
-type RefeWithComp = Prisma.ReferentielGetPayload<{
-    include: {
-        competences: {
-            include: {
-                niveaux: true
-            }
-        }
-    }
-}>
-
-type CompWithLvl = Prisma.CompetenceGetPayload<{
-    include: {
-        niveaux: true
-    }
-}>
 
 export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp

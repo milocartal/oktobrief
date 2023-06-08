@@ -3,25 +3,9 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar } from "~/components/barrel";
-import { type Prisma } from '@prisma/client';
 import { prisma } from "~/server/db";
 import { useState } from "react";
-
-type RefeWithComp = Prisma.ReferentielGetPayload<{
-    include: {
-        competences: {
-            include: {
-                niveaux: true
-            }
-        }
-    }
-}>
-
-type CompWithLvl = Prisma.CompetenceGetPayload<{
-    include: {
-        niveaux: true
-    }
-}>
+import { RefeWithComp, CompWithLvl } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
     referentiel: RefeWithComp

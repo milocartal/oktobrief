@@ -5,17 +5,10 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { Brief, Prisma } from "@prisma/client";
-
-type BriefWithAll = Prisma.BriefGetPayload<{
-  include: { promos: true, assignations: true, formateur: true }
-}>
-type PromoWithAll = Prisma.PromoGetPayload<{
-  include: { apprenants: true, referentiel: true }
-}>
 
 import Image from "next/image";
 import { useState } from "react";
+import { BriefWithAll, PromoWithAll } from "~/utils/type";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],

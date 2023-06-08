@@ -72,12 +72,6 @@ const AddBrief: NextPage = () => {
 
     async function handleCrea(e: React.SyntheticEvent) {
         e.preventDefault()
-        console.log("desc", desc)
-        console.log("contexte", contexte)
-        console.log("peda", modaPeda)
-        console.log("evals", evals)
-        console.log("livrable", livrable)
-        console.log("perf", perf)
         const target = e.target as typeof e.target & {
             briefTitle: { value: string };
         };

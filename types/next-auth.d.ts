@@ -1,9 +1,5 @@
-import { Prisma, Promo } from "@prisma/client";
+import { PromoWithAll } from "~/utils/type";
 import { Session } from "next-auth";
-
-type PromoWithAll = Prisma.PromoGetPayload<{
-  include: { apprenants: true, referentiel: true }
-}>
 
 declare module "next-auth" {
     interface Session {
