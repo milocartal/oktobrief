@@ -39,4 +39,34 @@ export const tagRouter = createTRPCRouter({
         })
     }),
 
+    addToCateg: protectedProcedure.input(z.object({ id: z.string(), idCateg: z.string() })).mutation(({ input }) => {
+        return prisma.tag.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                categories:{
+                    connect:{
+                        id: input.idCateg
+                    }
+                }
+            }
+        })
+    }),
+
+    removeFromCateg: protectedProcedure.input(z.object({ id: z.string(), idCateg: z.string() })).mutation(({ input }) => {
+        return prisma.tag.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                categories:{
+                    disconnect:{
+                        id: input.idCateg
+                    }
+                }
+            }
+        })
+    }),
+
 });

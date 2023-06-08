@@ -26,7 +26,7 @@ export const briefRouter = createTRPCRouter({
         })
     }),
 
-    create: protectedProcedure.input(z.object({ title: z.string(), desc: z.string(), idRef: z.string(), idForma: z.string(), contexte: z.string(), peda: z.string(), eval: z.string(), livrable: z.string(), perf: z.string() })).mutation(({ input }) => {
+    create: protectedProcedure.input(z.object({ title: z.string(), desc: z.string(), idRef: z.string(), idForma: z.string(), contexte: z.string(), peda: z.string(), eval: z.string(), livrable: z.string(), perf: z.string(), img: z.string() })).mutation(({ input }) => {
         return prisma.brief.create({
             data: {
                 title: input.title,
@@ -37,7 +37,8 @@ export const briefRouter = createTRPCRouter({
                 modal_eval: input.eval,
                 livrable: input.livrable,
                 perf: input.perf,
-                idFormateur: input.idForma
+                idFormateur: input.idForma,
+                img: input.img
             }
         })
     }),

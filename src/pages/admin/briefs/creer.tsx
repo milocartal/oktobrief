@@ -73,11 +73,11 @@ const AddBrief: NextPage = () => {
             briefTitle: { value: string };
             briefImg: { value: string };
         };
-        console.log(target.briefImg.value)
         const title = target.briefTitle.value
+        const url = target.briefImg.value
         if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
             if (idRef) {
-                const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id })
+                const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id, img: url })
                 await Router.push(`/admin/briefs/${temp.id}`)
             }
         }

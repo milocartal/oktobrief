@@ -294,15 +294,26 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </span>
             <div className="flex flex-row justify-between w-full">
               {briefs && briefs.length > 0 && briefs.map((item) => {
+
+                let pp = "/Kristen.png";
+                if(item.formateur.image){
+                  pp= item.formateur.image
+                }
+
+                let briefIlu = "/promo.jepg";
+                if(item.img){
+                  briefIlu = item.img
+                }
+
                 return (
                   <>
                     <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                      <Image width={200} height={200} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                      <Image width={200} height={200} loader={()=>briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                       <div className="m-5 text-start">
                         <h3 className="text-lg text-black">{item.title}</h3>
                         <p className="text-sm text-black">{item.desc}</p>
                         <span className="flex flex-row justify-end items-center w-full mt-5">
-                          <Image width={200} height={200} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                          <Image width={200} height={200} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                           <p className="text-sm text-black">{item.formateur.name}</p>
                         </span>
                       </div>
