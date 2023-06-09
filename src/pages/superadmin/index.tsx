@@ -61,18 +61,18 @@ const SuperAdmin: NextPage = () => {
                             <h2 className="text-2xl text-black">Données sur la plateforme</h2>
                         </span>
 
-                        <div className="flex w-full flex-row items-center justify-center gap-16">
+                        <div className="flex w-full flex-row items-center justify-center gap-20">
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">76</h3>
-                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Apprenants</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">76</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Apprenants</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">26</h3>
-                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Promos créées</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">26</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Promos créées</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-7xl mb-2 text-[#2EA3A5]">62</h3>
-                                <p className="text-3xl mb-5 text-[#0E6073] font-[700]">Projets créés</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">62</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Projets créés</p>
                             </div>
                         </div>
                     </div>
@@ -81,9 +81,9 @@ const SuperAdmin: NextPage = () => {
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Les dernières promos créées</h2>
                             <span className="flex w-[45%] flex-row items-center justify-end">
-                                <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                                <Link className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg" href={"/superadmin/promos"}>
                                     Gérer les promos
-                                </button>
+                                </Link>
                             </span>
                         </span>
 
