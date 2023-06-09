@@ -102,8 +102,8 @@ export const Notifs: React.FC = () => {
 
     return (
         <>
-            {open ? <div className="fixed bottom-16 right-16 w-[300px] h-[400px]">
-                <div className="bg-white w-full h-[300px] flex flex-col items-start p-5 overflow-auto rounded-lg">
+            {open ? <div className="fixed bottom-16 right-16 w-[300px] h-[500px]">
+                <div className="bg-white w-full h-[400px] flex flex-col items-start p-5 overflow-auto rounded-lg">
                     <button className="self-end">
                         <p className="text-sm mr-2">Tout effacer</p>
                     </button>
