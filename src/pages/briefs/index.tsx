@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { Header, Notifs, NavBar } from "~/components/barrel";
 import { useState } from "react";
 import Image from "next/image";
 import { prisma } from "~/server/db";
-import { BriefWithAll } from "~/utils/type";
+import type { BriefWithAll } from "~/utils/type";
 import { aleatoirePP } from "~/utils/genertor";
 
 

@@ -2,8 +2,6 @@ import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPag
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-import { type Session as SessionAuth } from 'next-auth'
-
 import { NavBar, Notifs } from "~/components/barrel";
 import { BiLeftArrowAlt, BiLink, BiCheck } from "react-icons/bi";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
@@ -59,7 +57,6 @@ export const getServerSideProps: GetServerSideProps<{
 
 const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ brief }) => {
     const [open, setOpen] = useState(true)
-    console.log(brief)
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 
@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { prisma } from "~/server/db";
-import { BriefWithAll } from "~/utils/type";
+import type { BriefWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{

@@ -1,4 +1,3 @@
-import { string } from 'zod';
 export function generatePassword() {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

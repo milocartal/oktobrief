@@ -82,7 +82,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const [SearchTerm, setSearchTerm] = useState('');
   
   const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+    const value = e.target.value;
     setSearchTerm(value);
   };
 
