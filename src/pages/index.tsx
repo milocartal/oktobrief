@@ -5,7 +5,7 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch, BiChevronDown, BiChev
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 import Image from "next/image";
 import React, { useState } from "react";
@@ -299,141 +299,148 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             <div className="flex flex-row overflow-x-auto max-w-full pb-2">
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full">
                 <p>Lorem ipsum</p>
-                  <BarChart
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                      layout="vertical"
-                      barCategoryGap="20%"
-                      barGap={2}
-                      maxBarSize={20}
-                      width={300}
-                      height={200}
-                      radius={[10, 10, 10, 10]}
-                  >
-                      <XAxis
-                          type="number"
-                          axisLine={false}
-                          tick={false}
-                          strokeWidth={0.5}
-                      />
-                      <YAxis
-                          axisLine={false}
-                          type="category"
-                          tickLine={false}
-                          dataKey="name"
-                          width={40}
-                      />
-                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                  </BarChart>
+                <ResponsiveContainer width={300} height={200}>
+                    <BarChart
+                        data={data}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        layout="vertical"
+                        barCategoryGap="20%"
+                        barGap={2}
+                        maxBarSize={20}
+                        width={300}
+                        height={200}
+                        radius={[10, 10, 10, 10]}
+                    >
+                        <XAxis
+                            type="number"
+                            axisLine={false}
+                            tick={false}
+                            strokeWidth={0.5}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            type="category"
+                            tickLine={false}
+                            dataKey="name"
+                            width={40}
+                        />
+                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <BarChart
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                      layout="vertical"
-                      barCategoryGap="20%"
-                      barGap={2}
-                      maxBarSize={20}
-                      width={300}
-                      height={200}
-                      radius={[10, 10, 10, 10]}
-                  >
-                      <XAxis
-                          type="number"
-                          axisLine={false}
-                          tick={false}
-                          strokeWidth={0.5}
-                      />
-                      <YAxis
-                          axisLine={false}
-                          type="category"
-                          tickLine={false}
-                          dataKey="name"
-                          width={40}
-                      />
-                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                  </BarChart>
+                  <ResponsiveContainer width={300} height={200}>
+                    <BarChart
+                        data={data}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        layout="vertical"
+                        barCategoryGap="20%"
+                        barGap={2}
+                        maxBarSize={20}
+                        width={300}
+                        height={200}
+                        radius={[10, 10, 10, 10]}
+                    >
+                        <XAxis
+                            type="number"
+                            axisLine={false}
+                            tick={false}
+                            strokeWidth={0.5}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            type="category"
+                            tickLine={false}
+                            dataKey="name"
+                            width={40}
+                        />
+                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <BarChart
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                      layout="vertical"
-                      barCategoryGap="20%"
-                      barGap={2}
-                      maxBarSize={20}
-                      width={300}
-                      height={200}
-                      radius={[10, 10, 10, 10]}
-                  >
-                      <XAxis
-                          type="number"
-                          axisLine={false}
-                          tick={false}
-                          strokeWidth={0.5}
-                      />
-                      <YAxis
-                          axisLine={false}
-                          type="category"
-                          tickLine={false}
-                          dataKey="name"
-                          width={40}
-                      />
-                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                  </BarChart>
+                  <ResponsiveContainer width={300} height={200}>
+                    <BarChart
+                        data={data}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        layout="vertical"
+                        barCategoryGap="20%"
+                        barGap={2}
+                        maxBarSize={20}
+                        width={300}
+                        height={200}
+                        radius={[10, 10, 10, 10]}
+                    >
+                        <XAxis
+                            type="number"
+                            axisLine={false}
+                            tick={false}
+                            strokeWidth={0.5}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            type="category"
+                            tickLine={false}
+                            dataKey="name"
+                            width={40}
+                        />
+                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <BarChart
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                      layout="vertical"
-                      barCategoryGap="20%"
-                      barGap={2}
-                      maxBarSize={20}
-                      width={300}
-                      height={200}
-                      radius={[10, 10, 10, 10]}
-                  >
-                      <XAxis
-                          type="number"
-                          axisLine={false}
-                          tick={false}
-                          strokeWidth={0.5}
-                      />
-                      <YAxis
-                          axisLine={false}
-                          type="category"
-                          tickLine={false}
-                          dataKey="name"
-                          width={40}
-                      />
-                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                  </BarChart>
-              </div>
-              
+                  <ResponsiveContainer width={300} height={200}>
+                    <BarChart
+                        data={data}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        layout="vertical"
+                        barCategoryGap="20%"
+                        barGap={2}
+                        maxBarSize={20}
+                        width={300}
+                        height={200}
+                        radius={[10, 10, 10, 10]}
+                    >
+                        <XAxis
+                            type="number"
+                            axisLine={false}
+                            tick={false}
+                            strokeWidth={0.5}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            type="category"
+                            tickLine={false}
+                            dataKey="name"
+                            width={40}
+                        />
+                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
             </div>
           </section>
 
