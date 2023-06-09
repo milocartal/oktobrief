@@ -5,9 +5,10 @@ import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch, BiChevronDown, BiChev
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
+import { BarChart, Bar, XAxis, YAxis } from 'recharts';
 
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 import type { BriefWithAll, PromoWithAll } from "~/utils/type";
 import { aleatoirePP } from "~/utils/genertor";
 
@@ -236,6 +237,21 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     return(tab)
   }
 
+  const data = [
+    {
+      name: 'n 1',
+      val: 20
+    },
+    {
+      name: 'n 2',
+      val: 50
+    },
+    {
+      name: 'n 3',
+      val: 100
+    }
+  ];
+
   return (
     <>
       <Head>
@@ -278,8 +294,150 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </div>
           </section>
 
-          <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
+          <section className="flex flex-col justify-start items-start w-full mb-5">
+            <h2 className="text-2xl text-black ml-5 mb-5">Les projets de la promo</h2>
+            <div className="flex flex-row overflow-x-auto max-w-full pb-2">
+              <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full">
+                <p>Lorem ipsum</p>
+                  <BarChart
+                      data={data}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                      layout="vertical"
+                      barCategoryGap="20%"
+                      barGap={2}
+                      maxBarSize={20}
+                      width={300}
+                      height={200}
+                      radius={[10, 10, 10, 10]}
+                  >
+                      <XAxis
+                          type="number"
+                          axisLine={false}
+                          tick={false}
+                          strokeWidth={0.5}
+                      />
+                      <YAxis
+                          axisLine={false}
+                          type="category"
+                          tickLine={false}
+                          dataKey="name"
+                          width={40}
+                      />
+                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                  </BarChart>
+              </div>
+              <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
+                <p>Lorem ipsum</p>
+                  <BarChart
+                      data={data}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                      layout="vertical"
+                      barCategoryGap="20%"
+                      barGap={2}
+                      maxBarSize={20}
+                      width={300}
+                      height={200}
+                      radius={[10, 10, 10, 10]}
+                  >
+                      <XAxis
+                          type="number"
+                          axisLine={false}
+                          tick={false}
+                          strokeWidth={0.5}
+                      />
+                      <YAxis
+                          axisLine={false}
+                          type="category"
+                          tickLine={false}
+                          dataKey="name"
+                          width={40}
+                      />
+                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                  </BarChart>
+              </div>
+              <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
+                <p>Lorem ipsum</p>
+                  <BarChart
+                      data={data}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                      layout="vertical"
+                      barCategoryGap="20%"
+                      barGap={2}
+                      maxBarSize={20}
+                      width={300}
+                      height={200}
+                      radius={[10, 10, 10, 10]}
+                  >
+                      <XAxis
+                          type="number"
+                          axisLine={false}
+                          tick={false}
+                          strokeWidth={0.5}
+                      />
+                      <YAxis
+                          axisLine={false}
+                          type="category"
+                          tickLine={false}
+                          dataKey="name"
+                          width={40}
+                      />
+                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                  </BarChart>
+              </div>
+              <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
+                <p>Lorem ipsum</p>
+                  <BarChart
+                      data={data}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                      layout="vertical"
+                      barCategoryGap="20%"
+                      barGap={2}
+                      maxBarSize={20}
+                      width={300}
+                      height={200}
+                      radius={[10, 10, 10, 10]}
+                  >
+                      <XAxis
+                          type="number"
+                          axisLine={false}
+                          tick={false}
+                          strokeWidth={0.5}
+                      />
+                      <YAxis
+                          axisLine={false}
+                          type="category"
+                          tickLine={false}
+                          dataKey="name"
+                          width={40}
+                      />
+                      <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
+                  </BarChart>
+              </div>
+              
+            </div>
+          </section>
 
+          <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Les projets de la promo</h2>
               <span className="flex flex-row items-center justify-end w-[50%]">
