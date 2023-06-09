@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { prisma } from "~/server/db";
 import type { BriefWithAll } from "~/utils/type";
 import { aleatoirePP } from "~/utils/genertor";
+import Router from "next/router";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -65,6 +66,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
+    const {data: sessionData} = useSession()
 
     return (
         <>
@@ -108,40 +110,40 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                         </div>
                                     }
                                 </div>
-                                <button className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
-                                    Créer un projet
-                                </button>
+                                {(sessionData?.formateur || sessionData?.superadmin) && 
+                                    <Link href={`/admin/briefs/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                                        Créer un projet
+                                    </Link>
+                                }
                             </span>
                         </span>
-                        <div className="flex flex-row flex-wrap justify-between w-full">
+                        <div className="grid grid-cols-3 gap-3">
                             {briefs && briefs.length > 0 && briefs.map((item) => {
                                 let pp = aleatoirePP();
-                                if(item.formateur.image && item.formateur.image !== ""){
-                                  pp= item.formateur.image
+                                if (item.formateur.image && item.formateur.image !== "") {
+                                    pp = item.formateur.image
                                 }
-                
+
                                 let briefIlu = "/promo.jpeg";
-                                if(item.img && item.img !== ""){
-                                  briefIlu = item.img
+                                if (item.img && item.img !== "") {
+                                    briefIlu = item.img
                                 }
 
                                 return (
-                                    <>
-                                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={`/briefs/${item.id}`} key={item.id}>
-                                            {item && item.img && item.img !== "" && <Image width={300} height={300} loader={() => briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />}
-                                            <div className="m-5 text-start">
-                                                <h3 className="text-lg text-black">{item.title}</h3>
-                                                <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: item.desc }} />
-                                                <span className="flex flex-row justify-end items-center w-full mt-5">
-                                                     <Image width={300} height={300} loader={()=>pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                                    <p className="text-sm text-black">{item.formateur.name}</p>
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    </>
+                                    <div className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025]" onClick={() => void Router.push(`/briefs/${item.id}`)} key={item.id}>
+                                        <Image width={300} height={300} loader={() => briefIlu} src={briefIlu} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                        <div className="m-5 text-start">
+                                            <h3 className="text-lg text-black">{item.title}</h3>
+                                            <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: item.desc }} />
+                                            <span className="flex flex-row justify-end items-center w-full mt-5">
+                                                <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                                <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
+                                            </span>
+                                        </div>
+                                    </div>
                                 )
                             })}
-                            
+
                         </div>
                     </div>
 

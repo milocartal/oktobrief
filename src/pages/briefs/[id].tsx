@@ -14,7 +14,7 @@ import type { BriefWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    brief: BriefWithAll
+    brief: BriefWithAll,
 }> = async function (context) {
     const session = await getSession(context)
 
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<{
 
     return {
         props: {
-            brief: JSON.parse(JSON.stringify(brief)) as BriefWithAll
+            brief: JSON.parse(JSON.stringify(brief)) as BriefWithAll,
         }
     }
 };
@@ -66,12 +66,12 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
 
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] px-[50px] gap-5 pb-10">
                 <div className="w-full h-[400px] absolute z-0 bg-red-500 pl-[100px] flex justify-center">
-                    <Image width={1000} height={1000} src="/promo.jpeg" className="h-full w-full bg-center bg-cover z-0 object-cover" alt="Image de la promo sélectionnée" />
+                    <Image width={1000} height={1000} loader={()=> briefIlu} src={briefIlu} className="h-full w-full bg-center bg-cover object-cover" alt="Image de la promo sélectionnée" />
                 </div>
 
-                <Link href={""} className="px-5 py-2 bg-[#fff]/40 text-white rounded-lg text-base self-start absolute top-[50px] flex flex-row items-center justify-between w-32 ml-[100px]"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                <Link href={"/briefs"} className="px-5 py-2 bg-[#fff]/40 text-white rounded-lg text-base self-start z-10 absolute top-[50px] flex flex-row items-center justify-between w-32 ml-[100px]"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
 
-                <div className="flex w-[80%] flex-col items-center justify-start pt-[200px] z-10 relative ml-[100px]">
+                <div className="flex w-[80%] flex-col items-center justify-start pt-[200px] relative ml-[100px]">
                     <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h1 className="text-4xl font-semibold text-black">{brief.title}</h1>

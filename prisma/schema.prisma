@@ -18,10 +18,8 @@ datasource db {
 model Ressource {
     id     String  @id @default(cuid())
     title  String
-    desc   String? // @db.Text
     link   String
     briefs Brief[]
-    promos Promo[]
 }
 
 model Categorie {
@@ -80,7 +78,6 @@ model Promo {
     image       String
     apprenants  User[]
     referentiel Referentiel   @relation(fields: [idRef], references: [id], onDelete: Cascade)
-    Ressources  Ressource[]
     Assignation Assignation[]
     Session     Session[]
 }
