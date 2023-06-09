@@ -1,7 +1,7 @@
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
-import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
+import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch, BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
@@ -75,6 +75,15 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const [tab, setTab] = useState("normal")
   const [selectedCat, setSelectedCat] = useState(0)
   const [selectedTags, setSelectedTags] = useState<number[]>([])
+  const [modifyTag, setModifyTag] = useState(0)
+  const [modifyCat, setModifyCat] = useState(0)
+  const [creating, setCreating] = useState("")
+  const [SearchTerm, setSearchTerm] = useState('');
+  
+  const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    setSearchTerm(value);
+  };
 
   const CATEGORIES = [
     {
@@ -424,7 +433,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
             <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-8/12 max-h-[90%] text-[#041f25]">
               <span className="flex flex-row justify-between">
-                <h1 className="text-4xl font-extrabold text-black">Créer une ressource</h1>
+                <h1 className="text-3xl text-black">Créer une ressource</h1>
                 <p className="text-base text-[#A10000]">*Obligatoire</p>
               </span>
               <div className="w-full h-full max-h-[50%] flex flex-row justify-between items-start">
@@ -477,9 +486,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                           name="searchProject"
                           className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
                           autoComplete="off"
+                          onChange={handleSearchTerm}
                         />
                       </div>
-                      {CATEGORIES.map((item) => {
+                      {CATEGORIES.filter((cat) => {
+                      return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                      }).map((item) => {
                         return (
                           <>
                           {selectedCat == item.id ?
@@ -498,7 +510,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                       })}
                     </div>
                     <div className="w-[66%] h-full p-3 flex flex-row flex-wrap">
-                      {CATEGORIES[selectedCat]?.tags.map((item) => {
+                      {CATEGORIES[selectedCat-1]?.tags.map((item) => {
                         return (
                           <>
                             {selectedTags.includes(item.id) ?
@@ -514,7 +526,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                 </div>
               </div>
               <span className="self-end">
-                <button onClick={() => setTab("normal")}>Annuler</button>
+                <button onClick={() => setTab("normal")} className="text-[#A10000]">Annuler</button>
                 <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10">Enregistrer modifications</button>
               </span>
             </form>
@@ -524,10 +536,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {tab === "tags" &&
           <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
             <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-10/12 text-[#041f25]">
-                <h1 className="text-4xl font-extrabold text-black">Gérer les tags</h1>
+                <h1 className="text-3xl text-black">Gérer les tags</h1>
               <div className="w-full h-full flex flex-row justify-between items-start">
-                <div className="w-[60%] h-full">                
-                <div className="w-full flex flex-row justify-between min-h-[450px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
+                <div className="w-[55%] h-full">                
+                  <div className="w-full flex flex-row justify-between min-h-[450px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
                     <div className="w-[40%] h-full max-h-[450px] bg-white shadow-[4px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-l-lg flex flex-col items-start py-5 overflow-auto">
                       <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[80%] flex flex-row justify-between items-center self-center mr-2 mb-3">
                         <BiSearch className="text-3xl text-black ml-4" />
@@ -536,20 +548,21 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                           name="searchProject"
                           className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
                           autoComplete="off"
+                          onChange={handleSearchTerm}
                         />
                       </div>
-                      {CATEGORIES.map((item) => {
+                      {CATEGORIES.filter((cat) => {
+                      return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                      }).map((item) => {
                         return (
                           <>
                           {selectedCat == item.id ?
                             <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
                               <p>{item.title}</p>
-                              <p>({selectedTags.length})</p>
                             </button>
                             :
                             <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
                               <p>{item.title}</p>
-                              <p>({selectedTags.length})</p>  
                             </button>
                           }
                           </>
@@ -558,20 +571,20 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     </div>
                     <div className="w-[66%] h-full flex flex-col justify-start">
                       <div className="w-full h-16 p-3 px-6 flex flex-row justify-between items-center bg-[#2EA3A5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-tr-lg">
-                        <p className="text-white">{CATEGORIES[selectedCat]?.title}</p>
+                        <p className="text-white">{CATEGORIES[selectedCat-1]?.title}</p>
                         <div className="flex flex-row items-center justify-between w-16">
-                          <button><BiPencil className="text-2xl text-white"/></button>
-                          <button><BiTrash className="text-2xl text-[#A10000]"/></button>
+                          <button type="button" onClick={() => setModifyCat(CATEGORIES[selectedCat-1]?.id)}><BiPencil className="text-2xl text-white"/></button>
+                          <button type="button"><BiTrash className="text-2xl text-[#A10000]"/></button>
                         </div>
                       </div>
                       <div className="w-full h-full p-3 flex flex-row flex-wrap">
-                        {CATEGORIES[selectedCat]?.tags.map((item) => {
+                        {CATEGORIES[selectedCat-1]?.tags.map((item) => {
                           return (
                             <>
-                              {selectedTags.includes(item.id) ?
-                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedTags(removeTag(selectedTags, item.id))}>{item.title}</button>
+                              {item.id == modifyTag ?
+                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id} onClick={() => setModifyTag(item.id)}>{item.title}</button>
                                 :
-                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id} onClick={() => setSelectedTags([...selectedTags, item.id])}>{item.title}</button>
+                                <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id} onClick={() => setModifyTag(item.id)}>{item.title}</button>
                               }
                             </>
                           )
@@ -580,12 +593,142 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     </div>
                   </div>
                 </div>
-                <div className="w-[38%]">
+                <div className="w-[43%]">
+                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => {creating =="tag" ? setCreating("") : setCreating("tag")}}>
+                      <p>Créer un tag</p>
+                      {creating == "tag" ? <BiChevronUp className="text-2xl"/> : <BiChevronDown className="text-2xl"/>}
+                  </button>
+                  {creating == "tag" && modifyTag == 0 &&
+                    <>
+                      <div className="mt-5 flex flex-col">
+                        <fieldset>
+                          <label htmlFor='newTagTitle'>Titre du tag <span className="text-[#A10000] text-1xl">*</span></label>
+                          <input
+                            type='url'
+                            name="newTagTitle"
+                            className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                            autoComplete="off" />
+                        </fieldset>
+
+                        <span className="flex flex-row justify-between items-center">
+                          <p>Catégorie(s) du tag</p>
+                          <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[40%] flex flex-row justify-between items-center self-center mr-2 mb-3">
+                            <BiSearch className="text-3xl text-black ml-4" />
+                            <input
+                              type='text'
+                              name="searchProject"
+                              className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
+                              autoComplete="off"
+                              onChange={handleSearchTerm}
+                            />
+                          </div>
+                        </span>
+                        <div className="w-full h-full p-3 flex flex-row justify-between flex-wrap">
+                          {CATEGORIES.filter((cat) => {
+                          return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                          }).map((item) => {
+                            return (
+                              <>
+                                {item.id == selectedCat ?
+                                  <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id}>{item.title}</button>
+                                  :
+                                  <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id}>{item.title}</button>
+                                }
+                              </>
+                            )
+                          })}
+                        </div>
+                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Créer</button>
+                      </div>
+                    </>
+                  }
+                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => {creating =="cat" ? setCreating("") : setCreating("cat")}}>
+                      <p>Créer une catégorie</p>
+                      {creating == "cat" ? <BiChevronUp className="text-2xl"/> : <BiChevronDown className="text-2xl"/>}
+                  </button>
+                  {creating == "cat" && modifyTag == 0 &&
+                    <>
+                      <div className="mt-5 flex flex-col">
+                        <fieldset>
+                          <label htmlFor='newCatTitle'>Titre de la catégorie <span className="text-[#A10000] text-1xl">*</span></label>
+                          <input
+                            type='url'
+                            name="newCatTitle"
+                            className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                            autoComplete="off" />
+                        </fieldset>
+                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Créer</button>
+                      </div>
+                    </>
+                  }
+                  {CATEGORIES[selectedCat-1]?.tags.map((item) => {
+                    return (
+                      <>
+                        {item.id == modifyTag && modifyCat == 0 && 
+                          <div className="mt-5 flex flex-col">
+                            <fieldset>
+                              <label htmlFor='tagUpdateTitle'>Titre du tag <span className="text-[#A10000] text-1xl">*</span></label>
+                              <input
+                                type='url'
+                                placeholder={item.title}
+                                name="tagUpdateTitle"
+                                className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                                autoComplete="off" />
+                            </fieldset>
+
+                            <span className="flex flex-row justify-between items-center">
+                              <p>Catégorie(s) du tag</p>
+                              <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[40%] flex flex-row justify-between items-center self-center mr-2 mb-3">
+                                <BiSearch className="text-3xl text-black ml-4" />
+                                <input
+                                  type='text'
+                                  name="searchProject"
+                                  className="pr-[1rem] pl-1 py-2 w-full bg-transparent"
+                                  autoComplete="off"
+                                  onChange={handleSearchTerm}
+                                />
+                              </div>
+                            </span>
+                            <div className="w-full h-full p-3 flex flex-row justify-between flex-wrap">
+                            {CATEGORIES.filter((cat) => {
+                            return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                            }).map((item) => {
+                                return (
+                                  <>
+                                    {item.id == selectedCat ?
+                                      <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#2EA3A5] text-white" key={item.id}>{item.title}</button>
+                                      :
+                                      <button type="button" className="py-2 px-5 mr-2 my-1 text-start rounded-full bg-[#F0F0F0]" key={item.id}>{item.title}</button>
+                                    }
+                                  </>
+                                )
+                              })}
+                            </div>
+                            <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Enregistrer</button>
+                          </div>
+                        }
+                      </>
+                    )
+                  })}
+                  {CATEGORIES[selectedCat-1]?.id == modifyCat && modifyTag == 0 &&
+                          <div className="mt-5 flex flex-col">
+                            <fieldset>
+                              <label htmlFor='catUpdateTitle'>Titre de la catégorie <span className="text-[#A10000] text-1xl">*</span></label>
+                              <input
+                                type='url'
+                                placeholder={CATEGORIES[selectedCat-1]?.title}
+                                name="catUpdateTitle"
+                                className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                                autoComplete="off" />
+                            </fieldset>
+                            <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyCat(0)}}>Enregistrer</button>
+                          </div>
+                        }
                 </div>
               
               </div>
               <span className="self-end">
-                <button onClick={() => setTab("normal")}>Annuler</button>
+                <button onClick={() => setTab("normal")} className="text-[#A10000]">Annuler</button>
                 <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10">Enregistrer modifications</button>
               </span>
             </form>
