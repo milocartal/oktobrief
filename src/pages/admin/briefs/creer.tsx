@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<{
 const AddBrief: NextPage = () => {
 
     const { data: sessionData } = useSession()
-    const idRef = sessionData?.promo.referentiel.id
+    const idRef = sessionData?.promo.idRef
 
     const createBrief = api.brief.create.useMutation()
 
@@ -80,6 +80,7 @@ const AddBrief: NextPage = () => {
                 const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id, img: url })
                 await Router.push(`/admin/briefs/${temp.id}`)
             }
+            alert("créer")
         }
         else {
             alert("Merci de remplir tous les champs requis")

@@ -9,6 +9,7 @@ import { prisma } from "~/server/db";
 import Image from "next/image";
 import { useState } from "react";
 import type { BriefWithAll, PromoWithAll } from "~/utils/type";
+import { aleatoirePP } from "~/utils/genertor";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],
@@ -218,15 +219,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     },
   ];
 
-
-  const test = sessionData?.promo
-  console.log(test)
-
   function removeTag(tab: number[], item: number){
     const index = tab.indexOf(item);
 
     tab.splice(index, 1);
-    console.log(tab)
 
     return(tab)
   }
@@ -295,12 +291,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             <div className="flex flex-row justify-between w-full">
               {briefs && briefs.length > 0 && briefs.map((item) => {
 
-                let pp = "/Kristen.png";
+                let pp = aleatoirePP();
                 if(item.formateur.image){
                   pp= item.formateur.image
                 }
 
-                let briefIlu = "/promo.jepg";
+                let briefIlu = "/promo.jpeg";
                 if(item.img){
                   briefIlu = item.img
                 }

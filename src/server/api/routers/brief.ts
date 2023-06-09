@@ -38,7 +38,7 @@ export const briefRouter = createTRPCRouter({
                 livrable: input.livrable,
                 perf: input.perf,
                 idFormateur: input.idForma,
-                img: input.img
+                img: input.img,
             }
         })
     }),

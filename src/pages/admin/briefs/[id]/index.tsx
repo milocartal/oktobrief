@@ -1,4 +1,4 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
@@ -11,10 +11,12 @@ import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { prisma } from "~/server/db";
+import type { BriefWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    session: SessionAuth
+    brief : BriefWithAll
 }> = async function (context) {
     const session = await getSession(context)
 
@@ -27,13 +29,37 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
+    if(!session.formateur || !session.superadmin){
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    const brief = await prisma.brief.findUnique({
+        where: {
+            id: context.query.id as string
+        },
+        include: {
+            ressources: true,
+            referentiel: true,
+            tags: true,
+            formateur: true
+        }
+    })
+
     return {
-        props: { session }
+        props: {
+            brief: JSON.parse(JSON.stringify(brief)) as BriefWithAll
+        }
     }
 };
 
-const Brief: NextPage = () => {
+const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ brief }) => {
     const [open, setOpen] = useState(true)
+    console.log(brief)
 
     return (
         <>

@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import { prisma } from "~/server/db";
 import React from "react";
 import type { PromoWithStudent, UserWithAll } from "~/utils/type";
+import { aleatoirePP } from "~/utils/genertor";
 
 export const getServerSideProps: GetServerSideProps<{
   promo: PromoWithStudent
@@ -132,7 +133,7 @@ const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
                       <button className="flex flex-row items-center justify-center w-6 h-6 bg-[#D9D9D9] rounded-full mr-2">
                         <p className="text-[#0E6073]">-</p>
                       </button>
-                      {item.image && (item.image.includes("http://") || item.image.includes("https://")) ? <img src={item.image} className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} /> : <img src="/Kristen.png" className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} />}
+                      {item.image && (item.image.includes("http://") || item.image.includes("https://")) ? <img src={item.image} className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} /> : <img src={aleatoirePP()} className="w-12 h-12 rounded-full object-cover mr-3" alt={item.name ? item.name : ""} />}
                       <p className="text-base text-black font-semibold">{item.name}</p>
                     </div>
                     <p className="text-xs text-[#8C8C8C] mr-1">{item.email}</p>

@@ -1,19 +1,20 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-
-import { type Session as SessionAuth } from 'next-auth'
 
 import { BiChevronDown, BiSearch } from "react-icons/bi";
 
 import { Header, Notifs, NavBar } from "~/components/barrel";
 import { useState } from "react";
 import Image from "next/image";
+import { prisma } from "~/server/db";
+import { BriefWithAll } from "~/utils/type";
+import { aleatoirePP } from "~/utils/genertor";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    session: SessionAuth
+    briefs: BriefWithAll[]
 }> = async function (context) {
     const session = await getSession(context)
 
@@ -25,14 +26,48 @@ export const getServerSideProps: GetServerSideProps<{
             },
         }
     }
+    let briefs
+
+    if (session.superadmin || session.formateur) {
+        console.log("admin")
+        briefs = await prisma.brief.findMany({
+            include: {
+                ressources: true,
+                referentiel: true,
+                tags: true,
+                formateur: true
+            }
+        })
+    }
+    else {
+        console.log("ratio")
+        briefs = await prisma.brief.findMany({
+            include: {
+                ressources: true,
+                referentiel: true,
+                tags: true,
+                formateur: true
+            },
+            where: {
+                assignations: {
+                    some: {
+                        idUser: session.user.id
+                    }
+                }
+            }
+        })
+    }
 
     return {
-        props: { session }
+        props: {
+            briefs: JSON.parse(JSON.stringify(briefs)) as BriefWithAll[]
+        }
     }
 };
 
-const IndexBrief: NextPage = () => {
+const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
+    console.log(briefs)
 
     return (
         <>
@@ -82,89 +117,34 @@ const IndexBrief: NextPage = () => {
                             </span>
                         </span>
                         <div className="flex flex-row flex-wrap justify-between w-full">
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
+                            {briefs && briefs.length > 0 && briefs.map((item) => {
+                                let pp = aleatoirePP();
+                                if(item.formateur.image && item.formateur.image !== ""){
+                                  pp= item.formateur.image
+                                }
+                
+                                let briefIlu = "/promo.jpeg";
+                                if(item.img && item.img !== ""){
+                                  briefIlu = item.img
+                                }
 
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg object-cover" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                    <span className="flex flex-row justify-end items-center w-full mt-5">
-                                        <Image width={300} height={300} src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                        <p className="text-sm text-black">Lorem ipsum</p>
-                                    </span>
-                                </div>
-                            </Link>
+                                return (
+                                    <>
+                                        <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={`/briefs/${item.id}`} key={item.id}>
+                                            {item && item.img && item.img !== "" && <Image width={300} height={300} loader={() => briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />}
+                                            <div className="m-5 text-start">
+                                                <h3 className="text-lg text-black">{item.title}</h3>
+                                                <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: item.desc }} />
+                                                <span className="flex flex-row justify-end items-center w-full mt-5">
+                                                     <Image width={300} height={300} loader={()=>pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                                    <p className="text-sm text-black">{item.formateur.name}</p>
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    </>
+                                )
+                            })}
+                            
                         </div>
                     </div>
 

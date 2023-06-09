@@ -163,7 +163,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
-                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {void update({ promo: item }), window.location.reload()}} key={item.id}>{item.title}</button>
+                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {void update({ promo: item }), setOpen(false),window.location.reload()}} key={item.id}>{item.title}</button>
                             )
                         }
                     })}
