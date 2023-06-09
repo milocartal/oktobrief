@@ -1,14 +1,15 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { PieChart, Pie, Label, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell } from 'recharts';
 
 import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar, Notifs, Promos } from "~/components/barrel";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Image from "next/image";
-import React, { useState, PureComponent } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -62,7 +63,7 @@ const IndexPromo: NextPage = () => {
                     </div>
                     <span className="flex w-[80%] flex-row items-center justify-between mb-5 pl-10">
                         <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
-                        <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[30%] flex flex-row justify-between items-center">
+                        <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input
                                 type='text'
@@ -100,49 +101,68 @@ const IndexPromo: NextPage = () => {
                                 </span>
                             </span>
 
-                            <div className="flex gap-3">
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                        <div className="flex flex-wrap w-full gap-3 flex-row justify-center">
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                                 </div>
+                            </Link>
 
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                                 </div>
+                            </Link>
 
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5 test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                                 </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
+                            </Link>
 
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                                 </div>
+                            </Link>
 
-                                <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                    <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                    <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                    <p className="text-[14px] px-5 pb-5 test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
                                 </div>
-                            </div>
+                            </Link>
+
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                </div>
+                            </Link>
+
+                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg object-cover" alt="Image de la promo sélectionnée" />
+                                <div className="m-5 text-start">
+                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
+                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
+                                </div>
+                            </Link>
+                        </div>
                         </div>
                         <div className="flex w-[19%] flex-col items-center justify-start bg-white h-fit p-5 py-10 mb-5 rounded-xl">
                             <div className="flex flex-col items-center justify-center">
                                 <h3 className="text-6xl mb-2 text-[#2EA3A5]">26</h3>
-                                <p className="text-2xl mb-5 text-[#0E6073]">Promotions créées</p>
+                                <p className="text-xl mb-5 text-[#0E6073] text-center">Promotions créées</p>
                             </div>
                             <div className="flex flex-col items-center justify-center relative">
                                 <div className="flex flex-col items-center justify-center absolute">
@@ -150,9 +170,8 @@ const IndexPromo: NextPage = () => {
                                     <p className="text-base mb-1 text-[#0E6073]">Promos actives</p>
                                 </div>
                                 <PieChart width={200} height={200}>
-                                    <p className="text-black text-2xl">test</p>
                                     <Pie
-                                    data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false} 
+                                    data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false}
                                     />
                                     <Pie
                                     data={data}
@@ -168,7 +187,7 @@ const IndexPromo: NextPage = () => {
                                     stroke="none"
                                     >
                                     {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                                        <Cell key={`cell-${index}`} fill={entry.fill}/>
                                     ))}
                                     </Pie>
                                     
