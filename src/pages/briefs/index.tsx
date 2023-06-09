@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps<{
     let briefs
 
     if (session.superadmin || session.formateur) {
-        console.log("admin")
         briefs = await prisma.brief.findMany({
             include: {
                 ressources: true,
@@ -40,7 +39,6 @@ export const getServerSideProps: GetServerSideProps<{
         })
     }
     else {
-        console.log("ratio")
         briefs = await prisma.brief.findMany({
             include: {
                 ressources: true,
@@ -67,7 +65,6 @@ export const getServerSideProps: GetServerSideProps<{
 
 const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
-    console.log(briefs)
 
     return (
         <>
