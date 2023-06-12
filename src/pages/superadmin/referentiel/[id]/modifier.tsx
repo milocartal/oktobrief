@@ -219,12 +219,12 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                     <div className="flex w-full items-start justify-start bg-white gap-5">
 
-                        <aside className=" flex flex-col gap-5 border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
-                            <h2 className="text-2xl text-[#0e6073] font-bold w-full">Compétences</h2>
+                        <aside className=" flex flex-col border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
+                            <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-3">Compétences</h2>
                             {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
                                 return (
                                     <button
-                                        className={`flex w-full gap-5 px-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] py-3 rounded-md' : ''}`}
+                                        className={`flex w-full px-2 py-3 mt-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] rounded-md' : ''}`}
                                         key={competence.id}
                                         onClick={() => { setComp(competence), setLvl(competence.niveaux[0]) }}
                                     >
@@ -289,7 +289,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
                                 <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-full max-w-[475px] h-[250px]" onChange={setTODO1} modules={modules} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-full max-w-[475px] max-w-[50%] h-[250px]" onChange={setEval1} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-full max-w-[50%] h-[250px]" onChange={setEval1} modules={modules} />
                             </fieldset>
 
                         </fieldset>
@@ -300,7 +300,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
                                 <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-full max-w-[475px] h-[250px]" onChange={setTODO2} modules={modules} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-whitew-full max-w-[475px] h-[250px]" onChange={setEval2} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-full max-w-[50%] h-[250px]" onChange={setEval2} modules={modules} />
                             </fieldset>
 
                         </fieldset>
@@ -311,7 +311,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                             </span>
                             <fieldset className="w-full flex gap-5 justify-center">
                                 <QuillNoSSRWrapper theme="snow" placeholder="TODO" className="pb-11 bg-white w-full max-w-[475px] h-[250px]" onChange={setTODO3} modules={modules} />
-                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-full max-w-[475px] h-[250px]" onChange={setEval3} modules={modules} />
+                                <QuillNoSSRWrapper theme="snow" placeholder="Critères d'évaluations" className="pb-11 bg-white w-full max-w-[50%] h-[250px]" onChange={setEval3} modules={modules} />
                             </fieldset>
 
                         </fieldset>

@@ -68,6 +68,8 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     const [open, setOpen] = useState(false)
     const {data: sessionData} = useSession()
 
+    const [selected, setSelected] = useState(0)
+
     return (
         <>
             <Head>
@@ -93,8 +95,8 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                     <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <span className="flex w-[45%] flex-row items-center justify-start">
-                                <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Brouillons</button>
-                                <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Publiés</button>
+                                <button className={selected == 1 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(1)}>Brouillons</button>
+                                <button className={selected == 2 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(2)}>Publiés</button>
                             </span>
                             <span className="flex w-[50%] flex-row items-center justify-end">
                                 <div className="relative">
