@@ -6,7 +6,7 @@ import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar } from "~/components/barrel";
 import { FaArrowDown, FaCheckSquare, FaInbox } from "react-icons/fa";
-import { BiCheck, BiX } from "react-icons/bi";
+import { BiCheck, BiLink, BiX } from "react-icons/bi";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -32,7 +32,8 @@ export const getServerSideProps: GetServerSideProps<{
 
 const Rendus: NextPage = () => {
     const [isToggled, setIsToggled] = useState(false);
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(0);
+    const [selectedProject, setSelectedProject] = useState(1);
 
     const DATA = [
         {
@@ -91,6 +92,56 @@ const Rendus: NextPage = () => {
         }
     ]
 
+    const MESSAGES = [
+        {
+            "id": 1,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales bibendum. Praesent porta pellentesque arcu. In eu diam venenatis, sagittis ante vitae, tempor nunc. Mauris eleifend purus nulla, in ultrices turpis ullamcorper in. In venenatis dolor condimentum lobortis tempor.",
+            "nom": "User 1",
+            "heure": "22/10/21, 12:56",
+            "pj": []
+        },
+        {
+            "id": 2,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.",
+            "nom": "User 2",
+            "heure": "22/10/21, 14:36",
+            "pj": []
+        },
+        {
+            "id": 3,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.",
+            "nom": "User 1",
+            "heure": "22/10/21, 14:36",
+            "pj": []
+        },
+        {
+            "id": 4,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales bibendum. Praesent porta pellentesque arcu. In eu diam venenatis, sagittis ante vitae, tempor nunc. Mauris eleifend purus nulla, in ultrices turpis ullamcorper in. In venenatis dolor condimentum lobortis tempor.",
+            "nom": "User 2",
+            "heure": "22/10/21, 14:36",
+            "pj": []
+        },
+        {
+            "id": 5,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.",
+            "nom": "User 2",
+            "heure": "22/10/21, 15:56",
+            "pj": [
+                {
+                    "id": 1,
+                    "lien": "https://lien.fr"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "contenu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.",
+            "nom": "User 1",
+            "heure": "22/10/21, 15:59",
+            "pj": []
+        }
+    ]
+
     return (
         <>
             <Head>
@@ -116,16 +167,16 @@ const Rendus: NextPage = () => {
                             </span>
                         </label>
                     </div>
-                    <div className="mt-10 px-3 flex flex-col items-start self-start">
+                    <div className="mt-10 px-3 flex flex-col items-start self-start w-full">
                         {DATA.map((item) => {
                                 return (
-                                    <span key={item.id} className="flex flex-row my-2">
+                                    <button key={item.id} className={selectedProject == item.id ? "flex flex-row items-center bg-[#F3F3F3] py-2 w-full pl-3 " : "flex flex-row items-center py-2 w-full pl-3"} onClick={() => setSelectedProject(item.id)}>
                                             {item.rendu ?
-                                                <div className="flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4">
+                                                <div className={selectedProject == item.id ? "flex flex-row items-center justify-center bg-white rounded-full h-[60px] w-[60px] relative mr-4" : "flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4"}>
                                                     <FaCheckSquare className="text-3xl text-[#0e6073]"/>
                                                 </div>
                                                 :
-                                                <div className="flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4">
+                                                <div className={selectedProject == item.id ? "flex flex-row items-center justify-center bg-white rounded-full h-[60px] w-[60px] relative mr-4" : "flex flex-row items-center justify-center bg-[#F3F3F3] rounded-full h-[60px] w-[60px] relative mr-4"}>
                                                     <FaArrowDown className="absolute text-2xl top-2 text-[#0e6073]"/>
                                                     <FaInbox className="text-3xl text-[#2EA3A5]"/>
                                                 </div>
@@ -134,7 +185,7 @@ const Rendus: NextPage = () => {
                                             <p className="text-base">{item.nom}</p>
                                             <p className="text-sm">{item.apprenant}</p>
                                         </div>
-                                    </span>
+                                    </button>
                                 )
                         })}
                     </div>
@@ -143,50 +194,26 @@ const Rendus: NextPage = () => {
                 <section className="relative bg-white h-full w-[50%] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] pr-2 flex flex-col items-start">
                     <div className="flex flex-row items-center absolute top-5 left-5">
                         <Image width={200} height={200} src="/userPFP.png" className="w-16 h-16 rounded-full object-cover mr-3" alt="Photo de profil utilisateur"/>
-                        <p className="text-lg mb-3">Lorem Ipsum, projet 2</p>
+                        <p className="text-lg mb-3">{DATA[selectedProject]?.apprenant}, {DATA[selectedProject]?.nom}</p>
                     </div>
-                    <div className="mt-24 pl-5 pr-3 overflow-auto mb-20 flex flex-col flex-col-reverse">
-                        
-                        <div className="my-1">
-                            <div className="bg-[#F0F0F0] py-3 px-5 max-w-[70%] rounded-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales bibendum. Praesent porta pellentesque arcu. In eu diam venenatis, sagittis ante vitae, tempor nunc. Mauris eleifend purus nulla, in ultrices turpis ullamcorper in. In venenatis dolor condimentum lobortis tempor.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 ml-5">22/10/21, 12:54</p>
-                        </div>
 
-                        <div className="w-full flex flex-col my-1">
-                            <div className="bg-[#2EA3A5]/30 py-3 px-5 max-w-[70%] rounded-lg self-end">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 mr-5 self-end">22/10/21, 14:36</p>
-                        </div>
-
-                        <div className="my-1">
-                            <div className="bg-[#F0F0F0] py-3 px-5 max-w-[70%] rounded-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 ml-5">22/10/21, 14:36</p>
-                        </div>
-                        <div className="my-1">
-                            <div className="bg-[#F0F0F0] py-3 px-5 max-w-[70%] rounded-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales bibendum. Praesent porta pellentesque arcu. In eu diam venenatis, sagittis ante vitae, tempor nunc. Mauris eleifend purus nulla, in ultrices turpis ullamcorper in. In venenatis dolor condimentum lobortis tempor.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 ml-5">22/10/21, 12:54</p>
-                        </div>
-
-                        <div className="w-full flex flex-col my-1">
-                            <div className="bg-[#2EA3A5]/30 py-3 px-5 max-w-[70%] rounded-lg self-end">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 mr-5 self-end">22/10/21, 14:36</p>
-                        </div>
-
-                        <div className="my-1">
-                            <div className="bg-[#F0F0F0] py-3 px-5 max-w-[70%] rounded-lg">
-                                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo sollicitudin est. Nulla a est id quam sodales.</p>
-                            </div>
-                            <p className="text-sm text-[#888888] mt-2 ml-5">22/10/21, 14:36</p>
-                        </div>
+                    <div className="mt-24 pl-5 pr-3 overflow-auto mb-20 flex flex-col flex-col-reverse">    
+                        {MESSAGES.reverse().map((item) => {
+                            return (
+                                <div className={item.nom == "User 1" ? "my-1" : "w-full flex flex-col my-1" } key={item.id}>
+                                    <div className={item.nom == "User 1" ? "bg-[#F0F0F0] py-3 px-5 max-w-[70%] rounded-lg" : "bg-[#2EA3A5]/30 py-3 px-5 max-w-[70%] rounded-lg self-end"}>
+                                        <p className="text-sm">{item.contenu}</p>
+                                        {item.pj[0] &&
+                                            <span className="bg-white w-full flex flex-row justify-center items-center rounded-full py-2 mt-2">
+                                                <BiLink className="text-2xl text[#0E6073]"/>
+                                                <p className="text-sm text-[#0E6073] ml-2">{item.pj[0]?.lien}</p>
+                                            </span>
+                                        }
+                                    </div>
+                                    <p className={item.nom == "User 1" ? "text-sm text-[#888888] mt-2 ml-5" : "text-sm text-[#888888] mt-2 mr-5 self-end"}>{item.heure}</p>
+                                </div>
+                            )
+                        })}
                     </div>
                     <input
                         type='text'
@@ -204,29 +231,14 @@ const Rendus: NextPage = () => {
                     </div>
                     <p className="text-base ml-2 mb-3 mt-5">Compétence 1</p>
                     <span className="w-full flex flex-row justify-around">
-                        {selected ?
-                            <>
-                                <button className="flex flex-row items-center justify-between bg-[#00B01C]/20 px-2 py-1 rounded-lg min-w-[40%]" onClick={() => setSelected(true)}>
-                                    <p className="text-sm text-[#00B01C]">Valider</p>
-                                    <BiCheck className="text-2xl text-[#00B01C]" />
-                                </button>
-                                <button className="flex flex-row items-center justify-between bg-[#F0F0F0] px-2 py-1 rounded-lg min-w-[40%]" onClick={() => setSelected(false)}>
-                                    <p className="text-sm">Invalider</p>
-                                    <BiX className="text-2xl text-[#CD0202]" />
-                                </button>
-                            </>
-                        :
-                            <>
-                                <button className="flex flex-row items-center justify-between bg-[#F0F0F0] px-2 py-1 rounded-lg min-w-[40%]" onClick={() => setSelected(true)}>
-                                    <p className="text-sm">Valider</p>
-                                    <BiCheck className="text-2xl text-[#00B01C]" />
-                                </button>
-                                <button className="flex flex-row items-center justify-between bg-[#CD0202]/20 px-2 py-1 rounded-lg min-w-[40%]" onClick={() => setSelected(false)}>
-                                    <p className="text-sm text-[#CD0202]">Invalider</p>
-                                    <BiX className="text-2xl text-[#CD0202]" />
-                                </button>
-                            </>
-                        }
+                        <button className={selected == 1 ? "flex flex-row items-center justify-between bg-[#00B01C]/20 px-2 py-1 rounded-lg min-w-[40%]" : "flex flex-row items-center justify-between bg-[#F0F0F0] px-2 py-1 rounded-lg min-w-[40%]"} onClick={() => setSelected(1)}>
+                            <p className={selected == 1 ? "text-sm text-[#00B01C]" : "text-sm"}>Valider</p>
+                            <BiCheck className="text-2xl text-[#00B01C]" />
+                        </button>
+                        <button className={selected == 2 ? "flex flex-row items-center justify-between bg-[#CD0202]/20 px-2 py-1 rounded-lg min-w-[40%]" : "flex flex-row items-center justify-between bg-[#F0F0F0] px-2 py-1 rounded-lg min-w-[40%]"} onClick={() => setSelected(2)}>
+                            <p className={selected == 2 ? "text-sm text-[#CD0202]" : "text-sm"}>Invalider</p>
+                            <BiX className="text-2xl text-[#CD0202]"/>
+                        </button>
                     </span>
                     <button className="absolute self-center bottom-5 px-8 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">Enregistrer</button>
                 </section>
