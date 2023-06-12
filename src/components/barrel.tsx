@@ -28,7 +28,7 @@ export const NavBar: React.FC = () => {
                 </Link>
                 <Link href={"/briefs"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
                 <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-                {(sessionData?.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
+                {(sessionData?.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-4xl mb-1" />Suivi</Link>}
                 {sessionData?.promo.referentiel && <Link href={`/referentiel/${sessionData?.promo.referentiel.id}`} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
                 {sessionData?.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhero icon" />Super Admin</Link>}
             </div>
