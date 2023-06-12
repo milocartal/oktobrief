@@ -1,7 +1,7 @@
 import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 import { NavBar, Notifs, Promos } from "~/components/barrel";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
@@ -56,15 +56,15 @@ export const getServerSideProps: GetServerSideProps<{
 const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, nbActive }) => {
 
     const nb: number = nbActive
-    const nbPromo:number = promos.length
+    const nbPromo: number = promos.length
 
     let dataGrA = 0
     let dataGrB = 100
-    if(nb === nbPromo){
+    if (nb === nbPromo) {
         dataGrA = 100
         dataGrB = 0
     }
-    else{
+    else {
         dataGrA = Math.round((nb / nbPromo) * 100)
         dataGrB = 100 - dataGrA
     }
@@ -84,12 +84,9 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-start justify-start px-10 pt-[40px]">
-                    <div className="self-end mb-5">
-                        <Promos />
-                    </div>
                     <span className="flex w-[80%] flex-row items-center justify-between mb-5 pl-10">
                         <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
-                        <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">
+                        <span className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input
                                 type='text'
@@ -97,17 +94,21 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
                                 autoComplete="off"
                             />
-                        </div>
+                        </span>
                     </span>
 
                     <div className="w-full flex flex-row justify-between">
                         <div className="flex w-[80%] flex-col items-center justify-start bg-white p-10 mb-5 rounded-xl">
+
                             <span className="flex w-full flex-row items-center justify-between mb-3">
+
                                 <span className="flex w-[45%] flex-row items-center justify-start">
                                     <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Actives</button>
                                     <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Inactives</button>
                                 </span>
+
                                 <span className="flex w-[60%] flex-row items-center justify-end">
+
                                     <div className="relative">
                                         <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
                                             <p className="text-base mr-2">Tri par: Date de début</p>
@@ -121,6 +122,7 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             </div>
                                         }
                                     </div>
+
                                     <Link href={`/admin/promo/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer une promo
                                     </Link>
@@ -135,14 +137,13 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     }
 
                                     return (
-
-                                        <div className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                        <Link href={`/admin/promo/${promo.id}/modifier`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
                                             <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                             <div className="m-5 text-start">
                                                 <h3 className="text-lg text-black">{promo.title}</h3>
-                                                <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100)+"..." }} />
+                                                <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100) + "..." }} />
                                             </div>
-                                        </div>
+                                        </Link>
 
                                     )
                                 })}
@@ -159,30 +160,32 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     <h3 className="text-4xl text-[#0E6073]">{data[0]?.value}%</h3>
                                     <p className="text-base mb-1 text-[#0E6073]">Promos actives</p>
                                 </div>
-            
-                                <PieChart width={200} height={200}>
-                                    <Pie
-                                        data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false}
-                                    />
-                                    <Pie
-                                        data={data}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={75}
-                                        outerRadius={95}
-                                        startAngle={90}
-                                        endAngle={450}
-                                        cornerRadius={90}
-                                        paddingAngle={0}
-                                        dataKey="value"
-                                        stroke="none"
-                                    >
-                                        {data.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                                        ))}
-                                    </Pie>
+                                <ResponsiveContainer width={300} height={200}>
+                                    <PieChart width={200} height={200}>
+                                        <Pie
+                                            data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false}
+                                        />
+                                        <Pie
+                                            data={data}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={75}
+                                            outerRadius={95}
+                                            startAngle={90}
+                                            endAngle={450}
+                                            cornerRadius={90}
+                                            paddingAngle={0}
+                                            dataKey="value"
+                                            stroke="none"
+                                        >
+                                            {data.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                                            ))}
+                                        </Pie>
 
-                                </PieChart>
+                                    </PieChart>
+                                </ResponsiveContainer>
+
 
                             </div>
                         </aside>

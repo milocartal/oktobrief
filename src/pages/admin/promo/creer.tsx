@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs, Promos } from "~/components/barrel";
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
-  if(!superadmin || !admin){
+  if (!superadmin || !admin) {
     return {
       redirect: {
         destination: '/',
@@ -73,7 +73,8 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
   const [selected, setSelected] = useState<Referentiel>()
   const [description, setDesc] = useState("")
   const create = api.promo.create.useMutation()
-  const {data: ref} = api.referentiel.getAll.useQuery()
+  const { data: ref } = api.referentiel.getAll.useQuery()
+  const { data: sessionData, update } = useSession();
 
   async function handleCrea(e: React.SyntheticEvent) {
     e.preventDefault()
@@ -89,6 +90,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     const img = target.imgPromo.value
     if (selected !== undefined) {
       const temp = await create.mutateAsync({ title: title, desc: description, idRef: selected?.id, start: dateStart, end: dateEnd, image: img })
+      update({ promo: temp })
       await Router.push(`/admin/promo/${temp.id}/ajouter`)
     }
     else {
@@ -105,16 +107,13 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
       </Head>
       <main className="flex h-screen min-w-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px] pt-[40px] gap-7">
 
-        <span className="flex w-full flex-row items-center justify-between px-[10%]">
-          <h1 className="text-4xl font-extrabold text-black">Nouvelle promo</h1>
-          <Promos />
-        </span>
+        <h1 className="text-4xl font-extrabold text-black w-full px-[10%]">Nouvelle promo</h1>
 
         <form onSubmit={(e) => void handleCrea(e)} className="flex h-full w-full flex-col items-center px-[10%] gap-3" method='POST'>
 
           <div className="flex h-[80%] w-full flex justify-between">
 
-            <fieldset className="bg-white h-full w-[59%] p-5 flex flex-col gap-3">
+            <fieldset className="bg-white h-full w-[59%] p-5 flex flex-col gap-3 rounded-lg">
               <p className="text-[#A10000]">* Obligatoire</p>
 
               <fieldset>
@@ -158,7 +157,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
 
             </fieldset>
 
-            <fieldset className="bg-white h-full w-[40%] p-5 flex flex-col gap-3 pt-9">
+            <fieldset className="bg-white h-full w-[40%] p-5 flex flex-col gap-3 pt-9 rounded-lg">
               <fieldset>
                 <label htmlFor='promoDateStart'>Date de début<span className="text-[#A10000]">*</span></label>
 
@@ -194,7 +193,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                   id='imgPromo'
                   className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                   placeholder="url de l'image"
-                  autoComplete='off'  />
+                  autoComplete='off' />
               </fieldset>
 
             </fieldset>

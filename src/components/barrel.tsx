@@ -20,7 +20,7 @@ interface PropsUser {
 export const NavBar: React.FC = () => {
     const { data: sessionData } = useSession();
     return (
-        <div className="fixed top-0 left-0 w-[100px] bg-[#0e6073] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
+        <div className="fixed top-0 left-0 w-[100px] bg-gradient-to-tr from-[#0e6073] to-[#33a5a6] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
 
             <div className="flex flex-col items-center justify-start gap-[3px]">
                 <Link href={"/"}>
@@ -163,7 +163,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
-                                <button className="text-sm text-[#0E6073] py-4" onClick={() => {void update({ promo: item }), setOpen(false),window.location.reload()}} key={item.id}>{item.title}</button>
+                                <button className="text-sm text-[#0E6073] py-4" onClick={() => { void update({ promo: item }), setOpen(false), window.location.reload() }} key={item.id}>{item.title}</button>
                             )
                         }
                     })}

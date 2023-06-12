@@ -81,7 +81,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const [modifyCat, setModifyCat] = useState(0)
   const [creating, setCreating] = useState("")
   const [SearchTerm, setSearchTerm] = useState('');
-  
+
   const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -95,7 +95,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {
           "id": 1,
           "title": "Big data"
-          
+
         },
         {
           "id": 2,
@@ -136,12 +136,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {
           "id": 8,
           "title": "Big data"
-          
+
         },
         {
           "id": 9,
           "title": "SQL"
-          
+
         },
         {
           "id": 10,
@@ -174,12 +174,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {
           "id": 14,
           "title": "Big data"
-          
+
         },
         {
           "id": 15,
           "title": "SQL"
-          
+
         },
         {
           "id": 16,
@@ -229,12 +229,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     },
   ];
 
-  function removeTag(tab: number[], item: number){
+  function removeTag(tab: number[], item: number) {
     const index = tab.indexOf(item);
 
     tab.splice(index, 1);
 
-    return(tab)
+    return (tab)
   }
 
   const data = [
@@ -294,155 +294,151 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </div>
           </section>
 
-          <section className="flex flex-col justify-start items-start w-full mb-5">
+          {/*<section className="flex flex-col justify-start items-start w-full mb-5">
             <h2 className="text-2xl text-black ml-5 mb-5">Les projets de la promo</h2>
             <div className="flex flex-row overflow-x-auto max-w-full pb-2">
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full">
                 <p>Lorem ipsum</p>
                 <ResponsiveContainer width={300} height={200}>
-                    <BarChart
-                        data={data}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                        layout="vertical"
-                        barCategoryGap="20%"
-                        barGap={2}
-                        maxBarSize={20}
-                        width={300}
-                        height={200}
-                        radius={[10, 10, 10, 10]}
-                    >
-                        <XAxis
-                            type="number"
-                            axisLine={false}
-                            tick={false}
-                            strokeWidth={0.5}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            type="category"
-                            tickLine={false}
-                            dataKey="name"
-                            width={40}
-                        />
-                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <BarChart
+                    data={data}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={20}
+                    width={300}
+                    height={200}
+                  >
+                    <XAxis
+                      type="number"
+                      axisLine={false}
+                      tick={false}
+                      strokeWidth={0.5}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      type="category"
+                      tickLine={false}
+                      dataKey="name"
+                      width={40}
+                    />
+                    <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius: [10, 10, 10, 10] }} radius={[10, 10, 10, 10]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <ResponsiveContainer width={300} height={200}>
-                    <BarChart
-                        data={data}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                        layout="vertical"
-                        barCategoryGap="20%"
-                        barGap={2}
-                        maxBarSize={20}
-                        width={300}
-                        height={200}
-                        radius={[10, 10, 10, 10]}
-                    >
-                        <XAxis
-                            type="number"
-                            axisLine={false}
-                            tick={false}
-                            strokeWidth={0.5}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            type="category"
-                            tickLine={false}
-                            dataKey="name"
-                            width={40}
-                        />
-                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                    </BarChart>
-                  </ResponsiveContainer>
+                <ResponsiveContainer width={300} height={200}>
+                  <BarChart
+                    data={data}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={20}
+                    width={300}
+                    height={200}
+                  >
+                    <XAxis
+                      type="number"
+                      axisLine={false}
+                      tick={false}
+                      strokeWidth={0.5}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      type="category"
+                      tickLine={false}
+                      dataKey="name"
+                      width={40}
+                    />
+                    <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius: [10, 10, 10, 10] }} radius={[10, 10, 10, 10]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <ResponsiveContainer width={300} height={200}>
-                    <BarChart
-                        data={data}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                        layout="vertical"
-                        barCategoryGap="20%"
-                        barGap={2}
-                        maxBarSize={20}
-                        width={300}
-                        height={200}
-                        radius={[10, 10, 10, 10]}
-                    >
-                        <XAxis
-                            type="number"
-                            axisLine={false}
-                            tick={false}
-                            strokeWidth={0.5}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            type="category"
-                            tickLine={false}
-                            dataKey="name"
-                            width={40}
-                        />
-                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                    </BarChart>
-                  </ResponsiveContainer>
+                <ResponsiveContainer width={300} height={200}>
+                  <BarChart
+                    data={data}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={20}
+                    width={300}
+                    height={200}
+                  >
+                    <XAxis
+                      type="number"
+                      axisLine={false}
+                      tick={false}
+                      strokeWidth={0.5}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      type="category"
+                      tickLine={false}
+                      dataKey="name"
+                      width={40}
+                    />
+                    <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius: [10, 10, 10, 10] }} radius={[10, 10, 10, 10]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
               <div className="flex flex-col justify-start bg-white p-5 pb-0 rounded-lg w-full mx-2">
                 <p>Lorem ipsum</p>
-                  <ResponsiveContainer width={300} height={200}>
-                    <BarChart
-                        data={data}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                        layout="vertical"
-                        barCategoryGap="20%"
-                        barGap={2}
-                        maxBarSize={20}
-                        width={300}
-                        height={200}
-                        radius={[10, 10, 10, 10]}
-                    >
-                        <XAxis
-                            type="number"
-                            axisLine={false}
-                            tick={false}
-                            strokeWidth={0.5}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            type="category"
-                            tickLine={false}
-                            dataKey="name"
-                            width={40}
-                        />
-                        <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius:[10, 10, 10, 10] }} radius={[10, 10, 10, 10]}/>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
+                <ResponsiveContainer width={300} height={200}>
+                  <BarChart
+                    data={data}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={20}
+                    width={300}
+                    height={200}
+                  >
+                    <XAxis
+                      type="number"
+                      axisLine={false}
+                      tick={false}
+                      strokeWidth={0.5}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      type="category"
+                      tickLine={false}
+                      dataKey="name"
+                      width={40}
+                    />
+                    <Bar dataKey="val" fill="#2EA3A5" background={{ fill: '#EAEAEA', radius: [10, 10, 10, 10] }} radius={[10, 10, 10, 10]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </section>
+                  </section>*/}
 
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
@@ -466,19 +462,19 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
               {briefs && briefs.length > 0 && briefs.map((item) => {
 
                 let pp = aleatoirePP();
-                if(item.formateur.image){
-                  pp= item.formateur.image
+                if (item.formateur.image) {
+                  pp = item.formateur.image
                 }
 
                 let briefIlu = "/promo.jpeg";
-                if(item.img){
+                if (item.img) {
                   briefIlu = item.img
                 }
 
                 return (
                   <>
                     <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                      <Image width={200} height={200} loader={()=>briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                      <Image width={200} height={200} loader={() => briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                       <div className="m-5 text-start">
                         <h3 className="text-lg text-black">{item.title}</h3>
                         <p className="text-sm text-black">{item.desc}</p>
@@ -493,11 +489,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
               })}
             </div>
           </section>
-          
+
         </div>
 
         <Notifs />
         <NavBar />
+        
         {tab === "ressource" &&
           <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
             <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-8/12 max-h-[90%] text-[#041f25]">
@@ -534,7 +531,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                       autoComplete="off" />
                   </fieldset>
                 </div>
-              
+
                 <div className="w-[60%] h-full">
                   <fieldset>
                     <label htmlFor='ressourceUrl'>URL de la ressource <span className="text-[#A10000] text-1xl">*</span></label>
@@ -545,7 +542,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                       autoComplete="off" />
                   </fieldset>
                   <p>Tags</p>
-                  
+
                   <div className="w-full flex flex-row justify-between min-h-[300px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
                     <div className="w-[40%] h-full max-h-[300px] bg-white shadow-[4px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-l-lg flex flex-col items-start py-5 overflow-auto">
                       <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[80%] flex flex-row justify-between items-center self-center mr-2 mb-3">
@@ -559,27 +556,27 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                         />
                       </div>
                       {CATEGORIES.filter((cat) => {
-                      return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                        return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
                       }).map((item) => {
                         return (
                           <>
-                          {selectedCat == item.id ?
-                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
-                              <p>{item.title}</p>
-                              <p>({selectedTags.length})</p>
-                            </button>
-                            :
-                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
-                              <p>{item.title}</p>
-                              <p>({selectedTags.length})</p>  
-                            </button>
-                          }
+                            {selectedCat == item.id ?
+                              <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                                <p>{item.title}</p>
+                                <p>({selectedTags.length})</p>
+                              </button>
+                              :
+                              <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                                <p>{item.title}</p>
+                                <p>({selectedTags.length})</p>
+                              </button>
+                            }
                           </>
                         )
                       })}
                     </div>
                     <div className="w-[66%] h-full p-3 flex flex-row flex-wrap">
-                      {CATEGORIES[selectedCat-1]?.tags.map((item) => {
+                      {CATEGORIES[selectedCat - 1]?.tags.map((item) => {
                         return (
                           <>
                             {selectedTags.includes(item.id) ?
@@ -605,9 +602,9 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {tab === "tags" &&
           <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
             <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-10/12 text-[#041f25]">
-                <h1 className="text-3xl text-black">Gérer les tags</h1>
+              <h1 className="text-3xl text-black">Gérer les tags</h1>
               <div className="w-full h-full flex flex-row justify-between items-start">
-                <div className="w-[55%] h-full">                
+                <div className="w-[55%] h-full">
                   <div className="w-full flex flex-row justify-between min-h-[450px] h-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-lg">
                     <div className="w-[40%] h-full max-h-[450px] bg-white shadow-[4px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-l-lg flex flex-col items-start py-5 overflow-auto">
                       <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[80%] flex flex-row justify-between items-center self-center mr-2 mb-3">
@@ -621,33 +618,33 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                         />
                       </div>
                       {CATEGORIES.filter((cat) => {
-                      return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                        return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
                       }).map((item) => {
                         return (
                           <>
-                          {selectedCat == item.id ?
-                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
-                              <p>{item.title}</p>
-                            </button>
-                            :
-                            <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
-                              <p>{item.title}</p>
-                            </button>
-                          }
+                            {selectedCat == item.id ?
+                              <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between bg-[#2EA3A5] text-white" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                                <p>{item.title}</p>
+                              </button>
+                              :
+                              <button type="button" className="w-full py-2 px-5 text-start flex flex-row justify-between" key={item.id} onClick={() => setSelectedCat(item.id)}>
+                                <p>{item.title}</p>
+                              </button>
+                            }
                           </>
                         )
                       })}
                     </div>
                     <div className="w-[66%] h-full flex flex-col justify-start">
                       <div className="w-full h-16 p-3 px-6 flex flex-row justify-between items-center bg-[#2EA3A5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-tr-lg">
-                        <p className="text-white">{CATEGORIES[selectedCat-1]?.title}</p>
+                        <p className="text-white">{CATEGORIES[selectedCat - 1]?.title}</p>
                         <div className="flex flex-row items-center justify-between w-16">
-                          <button type="button" onClick={() => setModifyCat(CATEGORIES[selectedCat-1]?.id)}><BiPencil className="text-2xl text-white"/></button>
-                          <button type="button"><BiTrash className="text-2xl text-[#A10000]"/></button>
+                          <button type="button" onClick={() => setModifyCat(CATEGORIES[selectedCat - 1]?.id)}><BiPencil className="text-2xl text-white" /></button>
+                          <button type="button"><BiTrash className="text-2xl text-[#A10000]" /></button>
                         </div>
                       </div>
                       <div className="w-full h-full p-3 flex flex-row flex-wrap">
-                        {CATEGORIES[selectedCat-1]?.tags.map((item) => {
+                        {CATEGORIES[selectedCat - 1]?.tags.map((item) => {
                           return (
                             <>
                               {item.id == modifyTag ?
@@ -663,9 +660,9 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                   </div>
                 </div>
                 <div className="w-[43%]">
-                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => {creating =="tag" ? setCreating("") : setCreating("tag")}}>
-                      <p>Créer un tag</p>
-                      {creating == "tag" ? <BiChevronUp className="text-2xl"/> : <BiChevronDown className="text-2xl"/>}
+                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => { creating == "tag" ? setCreating("") : setCreating("tag") }}>
+                    Créer un tag
+                    {creating == "tag" ? <BiChevronUp className="text-2xl" /> : <BiChevronDown className="text-2xl" />}
                   </button>
                   {creating == "tag" && modifyTag == 0 &&
                     <>
@@ -694,7 +691,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                         </span>
                         <div className="w-full h-full p-3 flex flex-row justify-between flex-wrap">
                           {CATEGORIES.filter((cat) => {
-                          return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                            return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
                           }).map((item) => {
                             return (
                               <>
@@ -707,13 +704,13 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                             )
                           })}
                         </div>
-                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Créer</button>
+                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => { setModifyTag(0) }}>Créer</button>
                       </div>
                     </>
                   }
-                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => {creating =="cat" ? setCreating("") : setCreating("cat")}}>
-                      <p>Créer une catégorie</p>
-                      {creating == "cat" ? <BiChevronUp className="text-2xl"/> : <BiChevronDown className="text-2xl"/>}
+                  <button className=" w-full flex flex-row justify-between border-b-2 py-3" type="button" onClick={() => { creating == "cat" ? setCreating("") : setCreating("cat") }}>
+                    <p>Créer une catégorie</p>
+                    {creating == "cat" ? <BiChevronUp className="text-2xl" /> : <BiChevronDown className="text-2xl" />}
                   </button>
                   {creating == "cat" && modifyTag == 0 &&
                     <>
@@ -726,14 +723,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                             className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
                             autoComplete="off" />
                         </fieldset>
-                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Créer</button>
+                        <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => { setModifyTag(0) }}>Créer</button>
                       </div>
                     </>
                   }
-                  {CATEGORIES[selectedCat-1]?.tags.map((item) => {
+                  {CATEGORIES[selectedCat - 1]?.tags.map((item) => {
                     return (
                       <>
-                        {item.id == modifyTag && modifyCat == 0 && 
+                        {item.id == modifyTag && modifyCat == 0 &&
                           <div className="mt-5 flex flex-col">
                             <fieldset>
                               <label htmlFor='tagUpdateTitle'>Titre du tag <span className="text-[#A10000] text-1xl">*</span></label>
@@ -759,9 +756,9 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                               </div>
                             </span>
                             <div className="w-full h-full p-3 flex flex-row justify-between flex-wrap">
-                            {CATEGORIES.filter((cat) => {
-                            return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
-                            }).map((item) => {
+                              {CATEGORIES.filter((cat) => {
+                                return cat.title.toLowerCase().includes(SearchTerm.toLowerCase())
+                              }).map((item) => {
                                 return (
                                   <>
                                     {item.id == selectedCat ?
@@ -773,28 +770,28 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                                 )
                               })}
                             </div>
-                            <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyTag(0)}}>Enregistrer</button>
+                            <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => { setModifyTag(0) }}>Enregistrer</button>
                           </div>
                         }
                       </>
                     )
                   })}
-                  {CATEGORIES[selectedCat-1]?.id == modifyCat && modifyTag == 0 &&
-                          <div className="mt-5 flex flex-col">
-                            <fieldset>
-                              <label htmlFor='catUpdateTitle'>Titre de la catégorie <span className="text-[#A10000] text-1xl">*</span></label>
-                              <input
-                                type='url'
-                                placeholder={CATEGORIES[selectedCat-1]?.title}
-                                name="catUpdateTitle"
-                                className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
-                                autoComplete="off" />
-                            </fieldset>
-                            <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => {setModifyCat(0)}}>Enregistrer</button>
-                          </div>
-                        }
+                  {CATEGORIES[selectedCat - 1]?.id == modifyCat && modifyTag == 0 &&
+                    <div className="mt-5 flex flex-col">
+                      <fieldset>
+                        <label htmlFor='catUpdateTitle'>Titre de la catégorie <span className="text-[#A10000] text-1xl">*</span></label>
+                        <input
+                          type='url'
+                          placeholder={CATEGORIES[selectedCat - 1]?.title}
+                          name="catUpdateTitle"
+                          className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                          autoComplete="off" />
+                      </fieldset>
+                      <button className="bg-[#2EA3A5] hover:bg-[#288F90] text-white py-4 px-7 rounded-lg ml-10 self-end" onClick={() => { setModifyCat(0) }}>Enregistrer</button>
+                    </div>
+                  }
                 </div>
-              
+
               </div>
               <span className="self-end">
                 <button onClick={() => setTab("normal")} className="text-[#A10000]">Annuler</button>

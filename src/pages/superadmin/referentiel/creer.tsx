@@ -63,7 +63,7 @@ const CreerRef: NextPage = () => {
 
                 <h1 className="text-4xl font-extrabold text-black w-full">Créer un référentiel</h1>
 
-                <form onSubmit={(e)=>void handleTitle(e)} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
+                <form onSubmit={(e) => void handleTitle(e)} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
                     <input
                         type='text'
                         name="refTitle"

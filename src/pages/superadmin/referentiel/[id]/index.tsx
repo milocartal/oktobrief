@@ -111,8 +111,8 @@ const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                         Référentiel <i>{referentiel.title}</i>
                     </h1>
                     <span className="flex gap-2">
-                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={() => goToModif} />
-                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={() => handleDelete} />
+                        <BiPencil className="text-4xl text-[#2EA3A5] hover:cursor-pointer" onClick={(e) => goToModif(e)} />
+                        <BiTrash className="text-4xl text-[#A10000] hover:cursor-pointer" onClick={(e) => handleDelete(e)} />
                     </span>
                 </span>
 

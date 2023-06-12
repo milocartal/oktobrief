@@ -9,10 +9,13 @@ import { type Session as SessionAuth } from 'next-auth'
 import { NavBar, Promos } from "~/components/barrel";
 import Image from "next/image";
 import { prisma } from "~/server/db";
-import { Promo } from "@prisma/client";
+import { Brief, Promo, Referentiel, User } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps<{
-    promos: Promo[]
+    promos: Promo[],
+    referentiels: Referentiel[],
+    briefs: Brief[]
+    users: User[]
 }> = async function (context) {
     const session = await getSession(context)
     const superadmin = session?.superadmin
@@ -37,24 +40,26 @@ export const getServerSideProps: GetServerSideProps<{
     }
 
     const promos = await prisma.promo.findMany({
-        take: 3,
-        orderBy:{
+        orderBy: {
             createAT: 'desc'
         }
     })
 
+    const referentiels = await prisma.referentiel.findMany()
+    const briefs = await prisma.brief.findMany()
+    const users = await prisma.user.findMany()
+
     return {
         props: {
-            promos: JSON.parse(JSON.stringify(promos)) as Promo[]
+            promos: JSON.parse(JSON.stringify(promos)) as Promo[],
+            referentiels: JSON.parse(JSON.stringify(referentiels)) as Referentiel[],
+            briefs: JSON.parse(JSON.stringify(briefs)) as Brief[],
+            users: JSON.parse(JSON.stringify(users)) as User[],
         }
     }
 };
 
-const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos }) => {
-    const { data: referentiels } = api.referentiel.getAll.useQuery()
-    const {data: promosList } = api.promo.getAll.useQuery()
-    const {data: users} = api.user.getAll.useQuery()
-    const {data: briefs} = api.brief.getAll.useQuery()
+const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, referentiels, users, briefs }) => {
 
     return (
         <>
@@ -65,12 +70,10 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
-                    <span className="flex w-full flex-row items-center justify-between mb-10">
-                        <h1 className="text-4xl font-extrabold text-black">Votre dashboard super admin</h1>
-                        <Promos />
-                    </span>
 
-                    <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 gap-5 rounded-xl">
+                    <h1 className="text-4xl font-extrabold text-black w-full mb-10">Votre dashboard super admin</h1>
+
+                    <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 gap-5 rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Données sur la plateforme</h2>
                         </span>
@@ -81,7 +84,7 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Apprenant(s)</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{promosList?.length}</h3>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{promos?.length}</h3>
                                 <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Promo(s) créée(s)</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
@@ -89,36 +92,34 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Projet(s) créé(s)</p>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 rounded-xl">
+                    <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Les dernières promos créées</h2>
-                            <span className="flex w-[45%] flex-row items-center justify-end">
-                                <Link className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg" href={"/superadmin/promos"}>
-                                    Gérer les promos
-                                </Link>
-                            </span>
+                            <Link className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg" href={"/superadmin/promos"}>
+                                Gérer les promos
+                            </Link>
                         </span>
 
                         <div className="grid grid-cols-3 gap-3">
-                            {promos && promos.length > 0 && promos.map((promo) => {
+                            {promos && promos.length > 0 && promos.slice(0, 3).map((promo) => {
                                 let img = "/Poulpe---fond-bleu.jpg"
                                 if (promo.image !== "") {
                                     img = promo.image
                                 }
                                 return (
-                                    <div className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                    <Link href={``} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
                                         <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                         <div className="m-5 text-start">
                                             <h3 className="text-lg text-black">{promo.title}</h3>
-                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: promo.description.slice(0,100)+"..." }} />
+                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100) + "..." }} />
                                         </div>
-                                    </div>
+                                    </Link>
                                 )
                             })}
                         </div>
-                    </div>
+                    </section>
 
                     <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 rounded-xl gap-5">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
