@@ -118,7 +118,8 @@ const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
                     <div className="flex w-full items-start justify-start bg-white gap-5">
-
+                    {referentiel.competences[0] ?
+                        <>
                         <aside className=" flex flex-col gap-2 border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12 max-h-[420px] overflow-y-auto">
                             <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-2">Compétences</h2>
                             {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
@@ -165,7 +166,9 @@ const IndexRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
                                 </div>}
                         </aside>
-
+                        </> : 
+                        <p>Ce référentiel ne contient pas de compétences.</p>
+                    }
                     </div>
 
                 </section>
