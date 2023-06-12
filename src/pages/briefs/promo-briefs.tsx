@@ -27,15 +27,35 @@ export const getServerSideProps: GetServerSideProps<{
             },
         }
     }
+    let briefs
 
-    const briefs = await prisma.brief.findMany({
-        include: {
-            ressources: true,
-            referentiel: true,
-            tags: true,
-            formateur: true
-        }
-    })
+    if (session.superadmin || session.formateur) {
+        briefs = await prisma.brief.findMany({
+            include: {
+                ressources: true,
+                referentiel: true,
+                tags: true,
+                formateur: true
+            }
+        })
+    }
+    else {
+        briefs = await prisma.brief.findMany({
+            include: {
+                ressources: true,
+                referentiel: true,
+                tags: true,
+                formateur: true
+            },
+            where: {
+                assignations: {
+                    some: {
+                        idUser: session.user.id
+                    }
+                }
+            }
+        })
+    }
 
     return {
         props: {
@@ -44,9 +64,9 @@ export const getServerSideProps: GetServerSideProps<{
     }
 };
 
-const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
+const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
-    const { data: sessionData } = useSession()
+    const {data: sessionData} = useSession()
 
     return (
         <>
@@ -58,7 +78,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px] mt-12">
                     <span className="flex w-full flex-row items-center justify-between mb-10">
-                        <h1 className="text-4xl font-extrabold text-black w-full">Mes projets</h1>
+                        <h1 className="text-4xl font-extrabold text-black w-full">Projets de la promo</h1>
                         <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[40%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input
@@ -90,7 +110,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
                                         </div>
                                     }
                                 </div>
-                                {(sessionData?.formateur || sessionData?.superadmin) &&
+                                {(sessionData?.formateur || sessionData?.superadmin) && 
                                     <Link href={`/admin/briefs/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer un projet
                                     </Link>
@@ -108,6 +128,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
                                 if (item.img && item.img !== "") {
                                     briefIlu = item.img
                                 }
+
                                 const description = item.desc.slice(0, 100) + '...'
 
                                 return (
@@ -118,7 +139,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
                                                 <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                                                <p className="text-sm text-black">{item.formateur.name}</p>
+                                                <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>
                                     </div>
@@ -130,7 +151,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
 
                 </div>
 
-                <Header selected={1} />
+                <Header selected={2} />
 
                 <Notifs />
                 <NavBar />
@@ -139,4 +160,4 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
     );
 };
 
-export default IndexAdminBrief;
+export default IndexBrief;
