@@ -52,6 +52,9 @@ export const getServerSideProps: GetServerSideProps<{
 
 const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos }) => {
     const { data: referentiels } = api.referentiel.getAll.useQuery()
+    const {data: promosList } = api.promo.getAll.useQuery()
+    const {data: users} = api.user.getAll.useQuery()
+    const {data: briefs} = api.brief.getAll.useQuery()
 
     return (
         <>
@@ -74,16 +77,16 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
 
                         <div className="flex w-full flex-row items-center justify-center gap-20">
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">76</h3>
-                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Apprenants</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{users?.length}</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Apprenant(s)</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">26</h3>
-                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Promos créées</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{promosList?.length}</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Promo(s) créée(s)</p>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">62</h3>
-                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Projets créés</p>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{briefs?.length}</h3>
+                                <p className="text-2xl mb-5 text-[#0E6073] font-[700]">Projet(s) créé(s)</p>
                             </div>
                         </div>
                     </div>

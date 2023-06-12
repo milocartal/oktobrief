@@ -121,9 +121,9 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             </div>
                                         }
                                     </div>
-                                    <button className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                                    <Link href={`/admin/promo/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer une promo
-                                    </button>
+                                    </Link>
                                 </span>
                             </span>
 
