@@ -1,4 +1,4 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,9 +8,11 @@ import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar, Promos } from "~/components/barrel";
 import Image from "next/image";
+import { prisma } from "~/server/db";
+import { Promo } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps<{
-    session: SessionAuth
+    promos: Promo[]
 }> = async function (context) {
     const session = await getSession(context)
     const superadmin = session?.superadmin
@@ -34,12 +36,21 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
+    const promos = await prisma.promo.findMany({
+        take: 3,
+        orderBy:{
+            createAT: 'desc'
+        }
+    })
+
     return {
-        props: { session }
+        props: {
+            promos: JSON.parse(JSON.stringify(promos)) as Promo[]
+        }
     }
 };
 
-const SuperAdmin: NextPage = () => {
+const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos }) => {
     const { data: referentiels } = api.referentiel.getAll.useQuery()
 
     return (
@@ -87,24 +98,22 @@ const SuperAdmin: NextPage = () => {
                             </span>
                         </span>
 
-                        <div className="flex gap-3">
-                            <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            </div>
-
-                            <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                <p className="text-[14px] px-5 pb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            </div>
-
-                            <div className="flex flex-col drop-shadow-md w-[35%] bg-white rounded-xl gap-3">
-                                <div className="w-full h-[170px]"><Image width={300} height={300} src="/promo.jpeg" className="w-full h-full object-cover rounded-t-xl" alt="Image de la promo sélectionnée" /></div>
-                                <h3 className="text-[20px] px-5">Promo 1 2022/2023</h3>
-                                <p className="text-[14px] px-5 pb-5 test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                            </div>
+                        <div className="grid grid-cols-3 gap-3">
+                            {promos && promos.length > 0 && promos.map((promo) => {
+                                let img = "/Poulpe---fond-bleu.jpg"
+                                if (promo.image !== "") {
+                                    img = promo.image
+                                }
+                                return (
+                                    <div className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                        <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                        <div className="m-5 text-start">
+                                            <h3 className="text-lg text-black">{promo.title}</h3>
+                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: promo.description.slice(0,100)+"..." }} />
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
 

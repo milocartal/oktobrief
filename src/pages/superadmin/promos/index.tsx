@@ -1,19 +1,20 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { PieChart, Pie, Cell } from 'recharts';
-
-import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar, Notifs, Promos } from "~/components/barrel";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
+import { prisma } from "~/server/db";
+import { Promo } from "@prisma/client";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    session: SessionAuth
+    promos: Promo[],
+    nbActive: number
 }> = async function (context) {
     const session = await getSession(context)
     const superadmin = session?.superadmin
@@ -36,17 +37,42 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
+    const promos = await prisma.promo.findMany()
+
+    const nbActive = await prisma.promo.count({
+        where: {
+            active: true
+        }
+    })
+
     return {
-        props: { session }
+        props: {
+            promos: JSON.parse(JSON.stringify(promos)) as Promo[],
+            nbActive: nbActive
+        }
     }
 };
 
-const IndexPromo: NextPage = () => {
+const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, nbActive }) => {
+
+    const nb: number = nbActive
+    const nbPromo:number = promos.length
+
+    let dataGrA = 0
+    let dataGrB = 100
+    if(nb === nbPromo){
+        dataGrA = 100
+        dataGrB = 0
+    }
+    else{
+        dataGrA = Math.round((nb / nbPromo) * 100)
+        dataGrB = 100 - dataGrA
+    }
 
     const data = [
-        { name: 'Group A', value: 58, fill: '#2EA3A5' },
-        { name: 'Group B', value: 42, fill: "#D9D9D9" },
-      ];
+        { name: 'Group A', value: dataGrA, fill: '#2EA3A5' },
+        { name: 'Group B', value: dataGrB, fill: "#D9D9D9" },
+    ];
     const [open, setOpen] = useState(false)
 
     return (
@@ -101,67 +127,31 @@ const IndexPromo: NextPage = () => {
                                 </span>
                             </span>
 
-                        <div className="flex flex-wrap w-full gap-3 flex-row justify-center">
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
+                            <div className="grid grid-cols-3 w-full gap-3">
+                                {promos && promos.length > 0 && promos.map((promo) => {
+                                    let img = "/Poulpe---fond-bleu.jpg"
+                                    if (promo.image !== "") {
+                                        img = promo.image
+                                    }
 
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
+                                    return (
 
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
+                                        <div className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                            <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                            <div className="m-5 text-start">
+                                                <h3 className="text-lg text-black">{promo.title}</h3>
+                                                <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100)+"..." }} />
+                                            </div>
+                                        </div>
 
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
-
-                            <Link className="flex flex-col w-[32%] max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
-                                <Image width={300} height={300} src="/promo.jpeg" className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg object-cover" alt="Image de la promo sélectionnée" />
-                                <div className="m-5 text-start">
-                                    <h3 className="text-lg text-black">Découvrir React Native</h3>
-                                    <p className="text-sm text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales euismod blandit.</p>
-                                </div>
-                            </Link>
+                                    )
+                                })}
+                            </div>
                         </div>
-                        </div>
-                        <div className="flex w-[19%] flex-col items-center justify-start bg-white h-fit p-5 py-10 mb-5 rounded-xl">
+
+                        <aside className="flex w-[19%] flex-col items-center justify-start bg-white h-fit p-5 py-10 mb-5 rounded-xl">
                             <div className="flex flex-col items-center justify-center">
-                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">26</h3>
+                                <h3 className="text-6xl mb-2 text-[#2EA3A5]">{promos.length}</h3>
                                 <p className="text-xl mb-5 text-[#0E6073] text-center">Promotions créées</p>
                             </div>
                             <div className="flex flex-col items-center justify-center relative">
@@ -169,32 +159,33 @@ const IndexPromo: NextPage = () => {
                                     <h3 className="text-4xl text-[#0E6073]">{data[0]?.value}%</h3>
                                     <p className="text-base mb-1 text-[#0E6073]">Promos actives</p>
                                 </div>
+            
                                 <PieChart width={200} height={200}>
                                     <Pie
-                                    data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false}
+                                        data={[{ value: 100 }]} dataKey="value" innerRadius={75} outerRadius={95} fill="#D9D9D9" isAnimationActive={false}
                                     />
                                     <Pie
-                                    data={data}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={75}
-                                    outerRadius={95}
-                                    startAngle={90}
-                                    endAngle={450}
-                                    cornerRadius={90}
-                                    paddingAngle={0}
-                                    dataKey="value"
-                                    stroke="none"
+                                        data={data}
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={75}
+                                        outerRadius={95}
+                                        startAngle={90}
+                                        endAngle={450}
+                                        cornerRadius={90}
+                                        paddingAngle={0}
+                                        dataKey="value"
+                                        stroke="none"
                                     >
-                                    {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill}/>
-                                    ))}
+                                        {data.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                                        ))}
                                     </Pie>
-                                    
+
                                 </PieChart>
-                                
+
                             </div>
-                        </div>
+                        </aside>
                     </div>
                 </div>
                 <Notifs />

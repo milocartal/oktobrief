@@ -15,6 +15,19 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Conversation {
+    id           String    @id @default(cuid())
+    idApprenants String    @unique
+    Apprenant    User      @relation(fields: [idApprenants], references: [id], onDelete: Cascade)
+    Messages     Message[]
+}
+
+model Message {
+    id             String       @id @default(cuid())
+    Conversation   Conversation @relation(fields: [idConversation], references: [id], onDelete: Cascade)
+    idConversation String
+}
+
 model Ressource {
     id     String  @id @default(cuid())
     title  String
@@ -63,6 +76,7 @@ model Brief {
     assignations Assignation[]
     tags         Tag[]
     ressources   Ressource[]
+    Niveaux      Niveau[]
     idFormateur  String
     formateur    User          @relation(fields: [idFormateur], references: [id])
 }
@@ -76,6 +90,7 @@ model Promo {
     ending      DateTime
     createAT    DateTime      @default(now())
     image       String
+    active      Boolean       @default(true)
     apprenants  User[]
     referentiel Referentiel   @relation(fields: [idRef], references: [id], onDelete: Cascade)
     Assignation Assignation[]
@@ -105,6 +120,7 @@ model Niveau {
     todo       String
     eval       String
     competence Competence @relation(fields: [idC], references: [id], onDelete: Cascade)
+    Briefs     Brief[] @ignore
 }
 
 // Necessary for Next auth
@@ -137,20 +153,21 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(cuid())
-    name          String?
-    email         String?       @unique
-    emailVerified DateTime?
-    image         String?
-    formateur     Boolean       @default(false)
-    superadmin    Boolean       @default(false)
-    firstName     String?
-    password      String?
-    accounts      Account[]
-    sessions      Session[]
-    promos        Promo[]
-    assignations  Assignation[]
-    briefsCrees   Brief[]
+    id                String         @id @default(cuid())
+    name              String?
+    email             String?        @unique
+    emailVerified     DateTime?
+    image             String?
+    formateur         Boolean        @default(false)
+    superadmin        Boolean        @default(false)
+    firstName         String?
+    password          String?
+    accounts          Account[]
+    sessions          Session[]
+    promos            Promo[]
+    assignations      Assignation[]
+    briefsCrees       Brief[]
+    Conversation      Conversation[]
 }
 
 model VerificationToken {
