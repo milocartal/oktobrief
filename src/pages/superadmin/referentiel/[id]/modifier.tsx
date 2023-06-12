@@ -198,7 +198,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <h1 className="text-4xl font-extrabold text-black w-full">Gestion de <i>{referentiel.title}</i></h1>
 
-                <form onSubmit={() => handleTitle} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
+                <form onSubmit={(e) => void handleTitle(e)} className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl" method="POST">
                     <label htmlFor="refTitle" className="text-2xl text-black w-full">Nom du référetiel</label>
                     <input
                         type='text'
@@ -273,7 +273,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
 
-                    <form onSubmit={()=>{handleCompetence}} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
+                    <form onSubmit={(e)=>void handleCompetence(e)} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
                         <h2 className="text-2xl text-black w-full">Ajouter une compétence</h2>
                         <input
                             type='text'
