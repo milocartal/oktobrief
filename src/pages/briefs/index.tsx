@@ -129,12 +129,14 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     briefIlu = item.img
                                 }
 
+                                const description = item.desc.slice(0, 100) + '...'
+
                                 return (
                                     <div className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025]" onClick={() => void Router.push(`/briefs/${item.id}`)} key={item.id}>
                                         <Image width={300} height={300} loader={() => briefIlu} src={briefIlu} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                         <div className="m-5 text-start">
                                             <h3 className="text-lg text-black">{item.title}</h3>
-                                            <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: item.desc }} />
+                                            <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
                                                 <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
