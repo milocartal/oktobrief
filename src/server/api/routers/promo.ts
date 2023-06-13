@@ -61,7 +61,8 @@ export const promoRouter = createTRPCRouter({
       },
       data: {
         title: input.title,
-        description: input.title,
+        description: input.desc,
+        starting: input.start,
         ending: input.end,
         image: input.img
       }

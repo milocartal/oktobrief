@@ -55,19 +55,4 @@ export const ressourceRouter = createTRPCRouter({
         })
     }),
 
-    addToPromo: protectedProcedure.input(z.object({ id: z.string(), idPromo: z.string()})).mutation(({input})=>{
-        return prisma.ressource.update({
-            where:{
-                id: input.id
-            },
-            data:{
-                promos:{
-                    connect:{
-                        id: input.idPromo
-                    }
-                }
-            }
-        })
-    })
-
 });

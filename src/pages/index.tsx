@@ -270,9 +270,9 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
-              <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+              {sessionData && sessionData.promo && <Link href={`/admin/promo/${sessionData?.promo.id}/modifier`} className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
                 Modifier
-              </button>
+              </Link>}
             </span>
 
             <div className="flex w-full flex-row items-center">
@@ -494,8 +494,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
         <Notifs />
         <NavBar />
-        
-        {tab === "ressource" &&
+
+        {/*tab === "ressource" &&
           <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
             <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-8/12 max-h-[90%] text-[#041f25]">
               <span className="flex flex-row justify-between">
@@ -799,7 +799,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
               </span>
             </form>
           </div>
-        }
+                */}
       </main>
     </>
   );

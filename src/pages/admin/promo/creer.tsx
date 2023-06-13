@@ -90,7 +90,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     const img = target.imgPromo.value
     if (selected !== undefined) {
       const temp = await create.mutateAsync({ title: title, desc: description, idRef: selected?.id, start: dateStart, end: dateEnd, image: img })
-      update({ promo: temp })
+      await update({ promo: temp })
       await Router.push(`/admin/promo/${temp.id}/ajouter`)
     }
     else {
