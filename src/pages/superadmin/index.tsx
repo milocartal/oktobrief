@@ -137,10 +137,10 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 </Link>
                             </span>
                         </span>
-                        <div className="grid grid-cols-4 gap-3">
+                        <div className="flex flex-row flex-wrap justify-center w-full gap-3">
                             {referentiels?.map((refe) => {
                                 return (
-                                    <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 rounded-xl text-center" key={refe.id}>
+                                    <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 min-h-[70px] w-[30%] rounded-xl text-center" key={refe.id}>
                                         <p className="text-[14px]">{refe.title}</p>
                                     </Link>
                                 )
