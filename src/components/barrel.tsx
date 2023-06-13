@@ -166,12 +166,12 @@ export const Promos: React.FC<PropsUser> = (props) => {
     return (
         <div className="relative">
 
-            <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
+            <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] min-w-[200px] text-white rounded-lg" onClick={() => setOpen(!open)}>
                 {sessionData && sessionData.promo && <p className="text-base mr-2">{sessionData?.promo.title}</p>}
                 {open ? <BiChevronUp className="text-4xl" /> : <BiChevronDown className="text-4xl" />}
             </button>
             {open &&
-                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
+                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] min-w-[200px]">
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
