@@ -104,7 +104,7 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
 
                         <div className="grid grid-cols-3 gap-3">
                             {promos && promos.length > 0 && promos.slice(0, 3).map((promo) => {
-                                let img = "/Poulpe---fond-bleu.jpg"
+                                let img = "/logo-gradient.jpg"
                                 if (promo.image !== "") {
                                     img = promo.image
                                 }

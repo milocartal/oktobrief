@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promo }) => {
 
-    let img = "/Poulpe---fond-bleu.jpg"
+    let img = "/logo-gradient.jpg"
     if (promo.image !== "") {
         img = promo.image
     }
@@ -80,10 +80,10 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
                     <div id="haut" className="flex items-center w-full gap-5 justify-center">
-                        <Image width={900} height={900} loader={() => img} src={img} className="max-w-[55%] max-h-[300px] h-auto object-cover mr-5 rounded-lg" alt="Image de la promo sélectionnée" />
-                        <aside>
+                        <Image width={500} height={500} loader={() => img} src={img} className="w-[55%] h-[300px] h-auto object-cover mr-5 rounded-lg" alt="Image de la promo sélectionnée" />
+                        <aside className="flex flex-col justify-start gap-3">
                             <h3 className="text-xl text-black mb-2">{promo.title}</h3>
-                            <button className={`py-4 px-4 shadow-[3px_4px_12px_0px_rgba(0,0,0,0.25)] text-center text-md rounded-lg bg-white hover:cursor-pointer`}>{promo.referentiel.title}</button>
+                            <button className={`w-[80%] py-4 px-4 shadow-[3px_4px_12px_0px_rgba(0,0,0,0.25)] text-center text-md rounded-lg bg-white hover:cursor-pointer`}>{promo.referentiel.title}</button>
                             <span className="flex w-full flex-row items-center justify-between">
                                 <span className="flex w-full flex-row items-center">
                                     <BiGroup className="text-4xl text-[#0E6073] mr-1" />
@@ -98,7 +98,7 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                         </aside>
 
                     </div>
-                    <div id="bas" className="flex items-start">
+                    <div id="bas" className="flex items-start w-full">
                         <aside className="w-[50%]">
                             <h3 className="text-xl text-black mb-2">Description</h3>
                             <div dangerouslySetInnerHTML={{ __html: promo.description }} />

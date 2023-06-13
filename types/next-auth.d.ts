@@ -13,6 +13,6 @@ declare module "next-auth" {
       id: string;
       formateur: boolean;
       superadmin: boolean;
-      firstname: string
+      firstName: string
     }
   }

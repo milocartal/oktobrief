@@ -22,15 +22,15 @@ export const NavBar: React.FC = () => {
     return (
         <div className="fixed top-0 left-0 w-[100px] bg-gradient-to-tr from-[#0e6073] to-[#33a5a6] h-screen flex flex-col items-center text-white text-sm justify-between pt-5 pb-8 px-2">
 
-            <div className="flex flex-col items-center justify-start gap-[3px]">
+            <div className="flex flex-col items-center rounded-lg justify-start gap-[3px]">
                 <Link href={"/"}>
                     <img src="/logo-carre.png" className="max-w-[4rem] mb-5" alt="Logo de la société Oktopod réprésentant un pouple enroulé qui forme un O" />
                 </Link>
-                <Link href={"/briefs"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><BiClipboard className="text-2xl mb-1" />Projet</Link>
-                <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><FaInbox className="text-2xl mb-1" />Rendu</Link>
-                {(sessionData?.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
-                {sessionData?.promo.referentiel && <Link href={`/referentiel/${sessionData?.promo.referentiel.id}`} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
-                {sessionData?.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center justify-center transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
+                <Link href={"/briefs"} className="flex flex-col items-center rounded-lg justify-center rounded-lg transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center rounded-lg"><BiClipboard className="text-2xl mb-1" />Projet</Link>
+                <Link href={"/admin/suivis"} className="flex flex-col items-center rounded-lg justify-center rounded-lg transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center rounded-lg"><FaInbox className="text-2xl mb-1" />Rendu</Link>
+                {(sessionData?.formateur || sessionData?.user.superadmin) && <Link href={"/admin/suivis"} className="flex flex-col items-center rounded-lg justify-center rounded-lg transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center rounded-lg"><BiListCheck className="text-2xl mb-1" />Suivi</Link>}
+                {sessionData?.promo.referentiel && <Link href={`/referentiel/${sessionData?.promo.referentiel.id}`} className="flex flex-col items-center rounded-lg justify-center rounded-lg transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center rounded-lg"><FaOctopusDeploy className="text-2xl mb-1" />Référentiel</Link>}
+                {sessionData?.superadmin && <Link href={"/superadmin"} className="flex flex-col items-center rounded-lg justify-center rounded-lg transition px-2 hover:bg-[#2EA3A5] w-full py-3 text-center rounded-lg"><img src="/superhero.svg" className="w-7 mb-1" alt="superhro icon" />Super Admin</Link>}
             </div>
 
             <AuthShowcase />
@@ -109,7 +109,7 @@ export const Notifs: React.FC = () => {
                     </button>
                     {DATA.map((item) => {
                         return (
-                            <span className="flex flex-row justify-start items-center w-full mt-5" key={item.id}>
+                            <span className="flex flex-row justify-start items-center rounded-lg w-full mt-5" key={item.id}>
                                 <img src="/userPFP.png" className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                                 <div>
                                     <p className="text-base text-black font-semibold">{item.nom}</p>
@@ -154,12 +154,12 @@ export const Promos: React.FC<PropsUser> = (props) => {
     return (
         <div className="relative">
 
-            <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
+            <button className="flex flex-row items-center rounded-lg justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
                 {sessionData && sessionData.promo && <p className="text-base mr-2">{sessionData?.promo.title}</p>}
                 {open ? <BiChevronUp className="text-4xl" /> : <BiChevronDown className="text-4xl" />}
             </button>
             {open &&
-                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
+                <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center rounded-lg divide-y divide-[#0E6073]">
                     {promos && promos.length > 0 && promos.map((item) => {
                         if (item.id !== sessionData!.promo.id) {
                             return (
@@ -168,7 +168,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                         }
                     })}
 
-                    <Link href={"/admin/promo/creer"} className="flex flex-row items-center justify-center bg-[#0E6073] text-white rounded-b-lg w-full h-12">
+                    <Link href={"/admin/promo/creer"} className="flex flex-row items-center rounded-lg justify-center rounded-lg bg-[#0E6073] text-white rounded-b-lg w-full h-12">
                         <p className="text-sm">+ Créer une promo</p>
                     </Link>
                 </div>
@@ -182,7 +182,7 @@ const AuthShowcase: React.FC = () => {
     const [open, setOpen] = useState(false)
 
     return (
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center rounded-lg justify-center rounded-lg">
             <button
                 className="rounded-full font-semibold no-underline transition"
                 onClick={() => setOpen(!open)}
@@ -191,14 +191,14 @@ const AuthShowcase: React.FC = () => {
             </button>
             {open &&
                 <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
-                    <span className="flex flex-row justify-start items-center">
+                    <span className="flex flex-row justify-start items-center rounded-lg">
                         {sessionData?.user.image && (sessionData?.user.image.includes("http://") || sessionData?.user.image.includes("https://")) && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
                         <div>
-                            <p className="text-base text-black font-semibold">{sessionData?.user.name}</p>
+                            <p className="text-base text-black font-semibold">{sessionData?.user.firstname} {sessionData?.user.name}</p>
                             <p className="text-sm text-black">{sessionData?.user.email}</p>
                         </div>
                     </span>
-                    <span className="flex flex-row justify-between items-center mt-5">
+                    <span className="flex flex-row justify-between items-center rounded-lg mt-5">
                         <Link href={`/user/${sessionData!.user.id}`}>
                             <p className="text-sm text-black hover:text-[#2EA3A5]">Gérer mon profil</p>
                         </Link>

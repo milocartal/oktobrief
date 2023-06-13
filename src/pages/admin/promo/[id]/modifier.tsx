@@ -102,7 +102,7 @@ const ModfiPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
         const dateEnd = new Date(target.promoDateEnd.value)
         const img = target.imgPromo.value
         const temp = await modif.mutateAsync({ id: promo.id, title: title, desc: description, img: img, start: dateStart, end: dateEnd })
-        update({ promo: temp })
+        await update({ promo: temp })
         await Router.push(`/admin/promo/${temp.id}`)
     }
 
