@@ -116,12 +116,17 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 if (promo.image !== "") {
                                     img = promo.image
                                 }
+                                let description = promo.description
+                                if (description.length > 100) {
+                                    description = promo.description.slice(0, 100) + '...'
+                                }
+
                                 return (
                                     <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
                                         <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                         <div className="m-5 text-start">
                                             <h3 className="text-lg text-black">{promo.title}</h3>
-                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100) + "..." }} />
+                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: description }} />
                                         </div>
                                     </Link>
                                 )

@@ -74,6 +74,7 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
         { name: 'Group B', value: dataGrB, fill: "#D9D9D9" },
     ];
     const [open, setOpen] = useState(false)
+    const [selected, setSelected] = useState(0)
 
     return (
         <>
@@ -103,8 +104,8 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                             <span className="flex w-full flex-row items-center justify-between mb-3">
 
                                 <span className="flex w-[45%] flex-row items-center justify-start">
-                                    <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Actives</button>
-                                    <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Inactives</button>
+                                    <button className={selected == 1 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(1)}>Actives</button>
+                                    <button className={selected == 2 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(2)}>Inactives</button>
                                 </span>
 
                                 <span className="flex w-[60%] flex-row items-center justify-end">
@@ -135,13 +136,18 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     if (promo.image !== "") {
                                         img = promo.image
                                     }
+                                    let description = promo.description
+                                    if (description.length > 100) {
+                                        description = promo.description.slice(0, 100) + '...'
+                                    }
 
                                     return (
-                                        <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                        <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025] relative" key={promo.id}>
                                             <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                            {!promo.active && <div className="bg-[#EFEFEF] rounded-full px-5 py-2 absolute right-2 top-[155px]"><p className="text-sm">Inactive</p></div>}
                                             <div className="m-5 text-start">
                                                 <h3 className="text-lg text-black">{promo.title}</h3>
-                                                <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100) + "..." }} />
+                                                <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: description }} />
                                             </div>
                                         </Link>
 
