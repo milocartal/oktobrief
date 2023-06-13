@@ -791,7 +791,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
               </span>
             </form>
           </div>
-                */}
+        }
       </main>
     </>
   );
