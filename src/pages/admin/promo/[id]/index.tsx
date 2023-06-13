@@ -91,7 +91,7 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                                 </span>
                                 <span className="flex w-full flex-row items-center">
                                     <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
-                                    <p>Du 04/01/2022 au 10/09/2023</p>
+                                    <p>Du {promo.starting.toString().slice(0,10).replaceAll('-','/')} au {promo.ending.toString().slice(0,10).replaceAll('-','/')}</p>
                                 </span>
                             </span>
 
