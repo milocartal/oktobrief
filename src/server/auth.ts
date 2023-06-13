@@ -120,7 +120,6 @@ export const authOptions: NextAuthOptions = {
         }
         session.promo = promo as PromoWithAll;
       }
-      console.log(session)
       return session
     }
   },
