@@ -103,7 +103,7 @@ const ModfiPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
         const img = target.imgPromo.value
         const temp = await modif.mutateAsync({ id: promo.id, title: title, desc: description, img: img, start: dateStart, end: dateEnd })
         await update({ promo: temp })
-        await Router.push(`/admin/promo/${temp.id}`)
+        await Router.push(`/superadmin/promo/${temp.id}`)
     }
 
     return (
@@ -142,7 +142,7 @@ const ModfiPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 <QuillNoSSRWrapper
                                     theme="snow"
                                     placeholder="Description de la promo"
-                                    className="pb-11 bg-white w-full h-[200px]"
+                                    className="pb-11 bg-white w-full h-[350px]"
                                     modules={modules}
                                     onChange={(e) => setDesc(e)}
                                     defaultValue={promo.description}

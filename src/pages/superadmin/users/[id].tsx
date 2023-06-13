@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { type GetServerSideProps, type NextPage } from "next";
+import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
@@ -8,10 +8,13 @@ import { type Session as SessionAuth } from 'next-auth'
 import { useState } from "react";
 import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";
 import Image from "next/image";
+import { prisma } from "~/server/db";
+import { UserWithAll } from "~/utils/type";
 
 
-export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = async function (context) {
+export const getServerSideProps: GetServerSideProps<{ user: UserWithAll }> = async function (context) {
     const session = await getSession(context)
+    const superadmin = session?.superadmin
 
     if (!session) {
         return {
@@ -22,17 +25,47 @@ export const getServerSideProps: GetServerSideProps<{ session: SessionAuth }> = 
         }
     }
 
+    if (!superadmin) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: context.query.id as string
+        },
+        include: {
+            promos: true,
+            assignations: true
+        }
+    })
+
+    if (!user) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
     return {
-        props: { session }
+        props: {
+            user: JSON.parse(JSON.stringify(user)) as UserWithAll
+        }
     }
 };
 
-const AdminProfileScreen: NextPage = () => {
+const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ user }) => {
     const [shown, setShown] = useState(false)
 
     const { data: sessionData } = useSession();
     const [open, setOpen] = useState(false)
-    const userPFP = sessionData ? sessionData.user.image : undefined
+    const userPFP = user ? user.image : undefined
 
     return (
         <>
@@ -47,50 +80,50 @@ const AdminProfileScreen: NextPage = () => {
                         <h1 className="text-4xl font-extrabold text-black">Mon profil</h1>
                     </span>
 
-                    <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5 relative">
+                    <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5 relative">
                         <h2 className="text-2xl text-black self-start mb-5">Mon compte</h2>
                         <div className="flex flex-row items-center justify-between w-[80%] self-start">
                             {sessionData && sessionData.user && sessionData.user.image && userPFP && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
                             <div>
-                                <h2 className="text-2xl text-black self-start">{sessionData?.user.name}</h2>
-                                {sessionData?.formateur ? <p className="text-lg text-black self-start">Formateur.rice</p> : <p className="text-lg text-black self-start">Apprenant.e</p>}
+                                <h2 className="text-2xl text-black self-start">{user.firstName} {user.name}</h2>
+                                {user.formateur ? <p className="text-lg text-black self-start">Formateur.rice</p> : <p className="text-lg text-black self-start">Apprenant.e</p>}
                             </div>
                             <div>
                                 <h2 className="text-2xl text-black self-start">Contact</h2>
-                                <p className="text-lg text-black self-start">{sessionData?.user.email}</p>
+                                <p className="text-lg text-black self-start">{user.email}</p>
                             </div>
                         </div>
                         {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button>}
                         {open && <div className="w-full mt-10 flex flex-row justify-around px-12">
-                            {sessionData && sessionData.user.name && sessionData.user.email && <form className="w-[30%]">
+                            <form className="w-[30%]">
                                 <label className="mt-2">Prénom</label>
                                 <input
                                     type='text'
                                     name="userName"
-                                    placeholder={sessionData?.user.name}
+                                    placeholder="Prénom"
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
-                                    defaultValue={sessionData.user.firstname}
+                                    defaultValue={user.firstName ? user.firstName : ""}
                                 />
                                 <label className="mt-2">Nom</label>
                                 <input
                                     type='text'
                                     name="userLastName"
-                                    placeholder={sessionData?.user.name}
+                                    placeholder="Nom"
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
-                                    defaultValue={sessionData.user.name}
+                                    defaultValue={user.name ? user.name : ""}
                                 />
                                 <label className="mt-2">Email</label>
                                 <input
                                     type='mail'
                                     name="userEmail"
-                                    placeholder={sessionData?.user.email}
+                                    placeholder="Adresse mail"
                                     className="px-[1rem] py-3 w-full bg-transparent rounded-lg bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
                                     autoComplete="off"
-                                    defaultValue={sessionData.user.email}
+                                    defaultValue={user.email ? user.email : ""}
                                 />
-                            </form>}
+                            </form>
                             <div className="w-[60%] flex flex-col items-end justify-between">
                                 <div className="w-full flex flex-row items-center justify-end">
                                     {sessionData && sessionData.user && sessionData.user.image && userPFP && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover mr-5" alt="Photo de profil utilisateur" />}
@@ -128,48 +161,33 @@ const AdminProfileScreen: NextPage = () => {
                             </div>
                         </div>
                         }
-                    </div>
+                    </section>
                     <span className="flex w-full flex-row items-center justify-between mb-10 mt-10">
                         <h1 className="text-4xl font-extrabold text-black">Mes promos</h1>
                     </span>
-                    <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
-                        <div className="flex w-full flex-row items-center">
-                            <Image width={400} height={400} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
-                            <div className="w-[45%]">
-                                <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
-                                <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
-                                <span className="flex w-full flex-row items-center justify-between">
-                                    <span className="flex w-full flex-row items-center">
-                                        <BiGroup className="text-4xl text-[#0E6073] mr-1" />
-                                        <p>12 apprenants</p>
-                                    </span>
-                                    <span className="flex w-full flex-row items-center">
-                                        <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
-                                        <p>Du 04/01/2022 au 10/09/2023</p>
-                                    </span>
-                                </span>
+                    {user && user.promos && user.promos.map((item) => {
+                        return (
+                            <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
+                                <div className="flex w-full flex-row items-center">
+                                    <Image width={400} height={400} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
+                                    <div className="w-[45%]">
+                                        <h3 className="text-xl text-black mb-2">{item.title}</h3>
+                                        <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
+                                        <span className="flex w-full flex-row items-center justify-between">
+                                            <span className="flex w-full flex-row items-center">
+                                                <BiGroup className="text-4xl text-[#0E6073] mr-1" />
+                                                <p>12 apprenants</p>
+                                            </span>
+                                            <span className="flex w-full flex-row items-center">
+                                                <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
+                                                <p>Du 04/01/2022 au 10/09/2023</p>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
-                        <div className="flex w-full flex-row items-center">
-                            <Image width={400} height={400} src="/promo.jpeg" className="w-[55%] max-h-[300px] bg-center bg-cover mr-5" alt="Image de la promo sélectionnée" />
-                            <div className="w-[45%]">
-                                <h3 className="text-xl text-black mb-2">Promo 1 2022/2023</h3>
-                                <p className="text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula erat dui, nec facilisis dolor aliquet a. Nulla pellentesque libero ac ante fermentum.</p>
-                                <span className="flex w-full flex-row items-center justify-between">
-                                    <span className="flex w-full flex-row items-center">
-                                        <BiGroup className="text-4xl text-[#0E6073] mr-1" />
-                                        <p>12 apprenants</p>
-                                    </span>
-                                    <span className="flex w-full flex-row items-center">
-                                        <BiCalendar className="text-4xl text-[#0E6073] mr-1" />
-                                        <p>Du 04/01/2022 au 10/09/2023</p>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    })}
                 </div>
                 <NavBar />
             </main>

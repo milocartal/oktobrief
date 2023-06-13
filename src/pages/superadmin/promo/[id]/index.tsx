@@ -9,6 +9,7 @@ import { PromoWithAll } from "~/utils/type";
 import { prisma } from "~/server/db";
 import { BiGroup, BiCalendar } from "react-icons/bi";
 import { aleatoirePP } from "~/utils/genertor";
+import Link from "next/link";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -110,10 +111,10 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                                     pp = item.image
                                 }
                                 return (
-                                    <span className="flex flex-row justify-end items-center w-full mt-5" key={item.id}>
+                                    <Link href={`/superadmin/users/${item.id}`} className="flex flex-row justify-end items-center w-full mt-5" key={item.id}>
                                         <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                                         <p className="text-sm text-black">{item.firstName} {item.name}</p>
-                                    </span>)
+                                    </Link>)
                             })}
                         </aside>
 
