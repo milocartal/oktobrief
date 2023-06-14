@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Router from "next/router";
+import { BiSearch } from "react-icons/bi";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -206,7 +207,7 @@ const AddBrief: NextPage = () => {
 
 
                 <NavBar />
-                {tab === "tags" &&
+                {/* {tab === "tags" &&
                     <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
                         <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-lg p-10 w-10/12 text-[#041f25]">
                         <h1 className="text-3xl text-black">Gérer les tags</h1>
@@ -406,7 +407,7 @@ const AddBrief: NextPage = () => {
                         </span>
                         </form>
                     </div>
-                    }
+                    } */}
             </main>
         </>
     );
