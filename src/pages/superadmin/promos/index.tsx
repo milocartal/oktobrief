@@ -10,10 +10,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { prisma } from "~/server/db";
 import { Promo } from "@prisma/client";
+import { PromoWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    promos: Promo[],
+    promos: PromoWithAll[],
     nbActive: number
 }> = async function (context) {
     const session = await getSession(context)
@@ -37,7 +38,12 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    const promos = await prisma.promo.findMany()
+    const promos = await prisma.promo.findMany({
+            include: {
+                apprenants: true
+            }
+        }
+    )
 
     const nbActive = await prisma.promo.count({
         where: {
@@ -47,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<{
 
     return {
         props: {
-            promos: JSON.parse(JSON.stringify(promos)) as Promo[],
+            promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[],
             nbActive: nbActive
         }
     }
@@ -111,19 +117,19 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
         }
         return 0;
     }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants <" ? promos.sort(function (a, b) {
-        if (a.apprenants.length < b.apprenants.length) {
+        if (a.apprenants < b.apprenants) {
           return -1;
         }
-        if (a.apprenants.length > b.apprenants.length) {
+        if (a.apprenants > b.apprenants) {
           return 1;
         }
         return 0;
     }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants >" && promos.sort(function (a, b) {
-        if (a.apprenants.length < b.apprenants.length) {
-          return -1;
-        }
-        if (a.apprenants.length > b.apprenants.length) {
+        if (a.apprenants < b.apprenants) {
           return 1;
+        }
+        if (a.apprenants > b.apprenants) {
+          return -1;
         }
         return 0;
     })
@@ -162,9 +168,9 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
 
                                 <span className="flex w-[70%] flex-row items-center justify-end">
                                     <div className="relative">
-                                        <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg min-w-[200px]" onClick={() => setOpen(!open)}>
+                                        <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#0E6073] text-white rounded-lg min-w-[200px]" onClick={() => setOpen(!open)}>
                                             <p className="text-base mr-2">Tri par: {filterType}</p>
-                                            <BiChevronDown className="text-4xl" />
+                                            <BiChevronDown className="text-2xl" />
                                         </button>
                                         {open &&
                                             <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] z-20 min-w-[200px]">
