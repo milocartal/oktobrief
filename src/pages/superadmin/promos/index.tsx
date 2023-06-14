@@ -80,7 +80,6 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
         { name: 'Group B', value: dataGrB, fill: "#D9D9D9" },
     ];
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState(0)
 
     const [filterType, setFilterType] = useState("Pas de filtre sélectionné")
 
