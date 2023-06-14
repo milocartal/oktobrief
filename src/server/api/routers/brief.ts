@@ -84,4 +84,19 @@ export const briefRouter = createTRPCRouter({
         })
     }),
 
+    addNiveau: protectedProcedure.input(z.object({ id: z.string(), idNiv: z.string() })).mutation(({ input }) => {
+        return prisma.brief.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                Niveaux: {
+                    connect: {
+                        id: input.idNiv
+                    }
+                }
+            }
+        })
+    }),
+
 });
