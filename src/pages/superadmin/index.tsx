@@ -10,6 +10,9 @@ import { NavBar, Promos } from "~/components/barrel";
 import Image from "next/image";
 import { prisma } from "~/server/db";
 import { Brief, Promo, Referentiel, User } from "@prisma/client";
+import { BiSearch } from "react-icons/bi";
+import { aleatoirePP } from "~/utils/genertor";
+import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps<{
     promos: Promo[],
@@ -61,6 +64,11 @@ export const getServerSideProps: GetServerSideProps<{
 
 const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, referentiels, users, briefs }) => {
 
+    const [SearchTerm, setSearchTerm] = useState('');
+    const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+      };
     return (
         <>
             <Head>
@@ -128,7 +136,6 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 <input
                                     type='text'
                                     name="leconTitle"
-                                    placeholder=""
                                     className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] flex text-center"
                                     autoComplete="off"
                                 />
@@ -142,6 +149,49 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 return (
                                     <Link href={`/superadmin/referentiel/${refe.id}`} className="flex justify-center items-center bg-white drop-shadow-md px-4 py-3 min-h-[70px] w-[30%] rounded-xl text-center" key={refe.id}>
                                         <p className="text-[14px]">{refe.title}</p>
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] mb-5 rounded-xl gap-5">
+                        <span className="flex w-full flex-row items-center justify-between mb-3">
+                            <h2 className="text-2xl text-black">Les nouveaux utilisateurs</h2>
+                            <span className="flex w-[60%] flex-row items-center justify-end gap-5">
+                                <div className="pr-5 rounded-full py-3 bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center self-end mr-2 mb-3">
+                                    <BiSearch className="text-2xl text-black ml-4"/>
+                                    <input
+                                        type='text'
+                                        name="searchProject"
+                                        className="pr-[1rem] pl-1 w-full bg-transparent"
+                                        autoComplete="off"
+                                        onChange={handleSearchTerm}
+                                    />
+                                </div>
+                                <Link href={"/superadmin/users"} className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg ">
+                                    Consulter les utilisateurs
+                                </Link>
+                            </span>
+                        </span>
+                        <div className="w-full grid grid-cols-2 gap-x-10 gap-y-2 content-stretch">
+                            {users.filter((user) => {
+                                return user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
+                            }).reverse().slice(0,4).map((user) => {
+                                let pp = aleatoirePP()
+                                if (user.image !== "" && user.image !== null) {
+                                    pp = user.image
+                                }
+                                return (
+                                    <Link href={`/superadmin/users/`} className="flex flex-row justify-between items-center w-full mt-5" key={user.id}>
+                                        <div className="flex flex-row items-center max-w-[75%]">
+                                            <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                            <div className="">
+                                                <p className="text-base text-black font-semibold">{user.firstName} {user.name}</p>
+                                                <p className="text-sm text-black">{user.email}</p>
+                                            </div>
+                                        </div>
+                                        <p>{user.superadmin? "Super Admin" : user.formateur ? "Formateur" : "Apprenant"}</p>
                                     </Link>
                                 )
                             })}

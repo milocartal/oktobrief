@@ -55,7 +55,6 @@ export const getServerSideProps: GetServerSideProps<{ users: User[] }> = async f
 
 const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ users }) => {
 
-   console.log(users)
    const [SearchTerm, setSearchTerm] = useState('');
    const [filterF, setFilterF] = useState(false);
    const [filterA, setFilterA] = useState(false);
@@ -96,11 +95,11 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                         <div className="w-full grid grid-cols-2 gap-x-10 gap-y-2 content-stretch">
                             {users.filter((user) => {
                                 if(filterF === true){
-                                    return user.formateur == true && user.name?.toLowerCase().includes(SearchTerm.toLowerCase())
+                                    return user.formateur == true && user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == true && user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == true && user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
                                 } if(filterA === true){
-                                    return user.formateur == false && user.superadmin == false && user.name?.toLowerCase().includes(SearchTerm.toLowerCase())
+                                    return user.formateur == false && user.superadmin == false && user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == false && user.superadmin == false && user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == false && user.superadmin == false && user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
                                 } else {
-                                    return user.name?.toLowerCase().includes(SearchTerm.toLowerCase())
+                                    return user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
                                 }
                             }).map((user) => {
                                 let pp = aleatoirePP()
