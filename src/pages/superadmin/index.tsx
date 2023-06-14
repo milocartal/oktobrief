@@ -116,12 +116,17 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 if (promo.image !== "") {
                                     img = promo.image
                                 }
+                                let description = promo.description
+                                if (description.length > 100) {
+                                    description = promo.description.slice(0, 100) + '...'
+                                }
+
                                 return (
                                     <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
                                         <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                         <div className="m-5 text-start">
                                             <h3 className="text-lg text-black">{promo.title}</h3>
-                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: promo.description.slice(0, 100) + "..." }} />
+                                            <div className="text-sm text-black overflow-hidden" dangerouslySetInnerHTML={{ __html: description }} />
                                         </div>
                                     </Link>
                                 )
@@ -133,12 +138,16 @@ const SuperAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h2 className="text-2xl text-black">Les référentiels</h2>
                             <span className="flex w-[60%] flex-row items-center justify-end gap-5">
-                                <input
-                                    type='text'
-                                    name="leconTitle"
-                                    className="px-[1rem] py-3 rounded-full bg-white shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-[55%] flex text-center"
-                                    autoComplete="off"
-                                />
+                                <div className="pr-5 rounded-full py-3 bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center self-end mr-2 mb-3">
+                                    <BiSearch className="text-2xl text-black ml-4"/>
+                                    <input
+                                        type='text'
+                                        name="searchProject"
+                                        className="pr-[1rem] pl-1 w-full bg-transparent"
+                                        autoComplete="off"
+                                        onChange={handleSearchTerm}
+                                    />
+                                </div>
                                 <Link href={"/superadmin/referentiel/creer"} className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg ">
                                     Créer un référentiel
                                 </Link>

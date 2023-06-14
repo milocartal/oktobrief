@@ -130,8 +130,12 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 if (item.img && item.img !== "") {
                                     briefIlu = item.img
                                 }
-
-                                const description = item.desc.slice(0, 100) + '...'
+                                
+                                let description = item.desc
+                                if (description.length > 100) {
+                                    description = item.desc.slice(0, 100) + '...'
+                                }
+                                
 
                                 return (
                                     <div className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025]" onClick={() => void Router.push(`/briefs/${item.id}`)} key={item.id}>
