@@ -208,7 +208,7 @@ const AuthShowcase: React.FC = () => {
                     <span className="flex flex-row justify-start items-center rounded-lg">
                         {sessionData?.user.image && (sessionData?.user.image.includes("http://") || sessionData?.user.image.includes("https://")) && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
                         <div>
-                            <p className="text-base text-black font-semibold">{sessionData?.user.firstname} {sessionData?.user.name}</p>
+                            <p className="text-base text-black font-semibold">{sessionData?.user.firstName} {sessionData?.user.name}</p>
                             <p className="text-sm text-black">{sessionData?.user.email}</p>
                         </div>
                     </span>

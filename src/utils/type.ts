@@ -16,6 +16,16 @@ export type UserWithAll = Prisma.UserGetPayload<{
     include: { promos: true, assignations: true }
 }>
 
+export type UserWithPromo = Prisma.UserGetPayload<{
+    include: {
+        promos: {
+            include:{
+                apprenants: true
+            }
+        }
+    }
+}>
+
 export type PromoWithStudent = Prisma.PromoGetPayload<{
     include: {
         apprenants: {

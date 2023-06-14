@@ -33,6 +33,7 @@ model Ressource {
     title  String
     link   String
     briefs Brief[]
+    tags   Tag[]
 }
 
 model Categorie {
@@ -46,6 +47,7 @@ model Tag {
     name       String
     briefs     Brief[]
     categories Categorie[]
+    Ressources Ressource[]
 }
 
 model Assignation {
@@ -120,7 +122,7 @@ model Niveau {
     todo       String
     eval       String
     competence Competence @relation(fields: [idC], references: [id], onDelete: Cascade)
-    Briefs     Brief[] @ignore
+    Briefs     Brief[]    @ignore
 }
 
 // Necessary for Next auth
@@ -153,21 +155,21 @@ model Session {
 }
 
 model User {
-    id                String         @id @default(cuid())
-    name              String?
-    firstName         String?
-    email             String?        @unique
-    emailVerified     DateTime?
-    image             String?
-    formateur         Boolean        @default(false)
-    superadmin        Boolean        @default(false)
-    password          String?
-    accounts          Account[]
-    sessions          Session[]
-    promos            Promo[]
-    assignations      Assignation[]
-    briefsCrees       Brief[]
-    Conversation      Conversation[]
+    id            String         @id @default(cuid())
+    name          String?
+    firstName     String?
+    email         String?        @unique
+    emailVerified DateTime?
+    image         String
+    formateur     Boolean        @default(false)
+    superadmin    Boolean        @default(false)
+    password      String?
+    accounts      Account[]
+    sessions      Session[]
+    promos        Promo[]
+    assignations  Assignation[]
+    briefsCrees   Brief[]
+    Conversation  Conversation[]
 }
 
 model VerificationToken {

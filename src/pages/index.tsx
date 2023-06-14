@@ -273,9 +273,11 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
               <h2 className="text-2xl text-black">Ma promo</h2>
-              {sessionData && sessionData.promo && <Link href={`/admin/promo/${sessionData?.promo.id}/modifier`} className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
-                Modifier
-              </Link>}
+              {sessionData && sessionData.promo && sessionData.superadmin &&
+                <Link href={`/admin/promo/${sessionData?.promo.id}/modifier`} className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                  Modifier
+                </Link>
+              }
             </span>
 
             <div className="flex w-full flex-row items-center">
@@ -497,95 +499,95 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </div>
           </section>
           <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl mt-3">
-              <span className="flex w-full flex-row items-center justify-between mb-3">
-                  <h1 className="text-4xl font-semibold text-black">Ressources du projet</h1>
-                  <div className="flex flex-row justify-end w-[50%]">
-                      <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[60%] min-w-[200px] max-w-[450px] flex flex-row justify-between items-center mr-2">
-                          <BiSearch className="text-3xl text-black ml-4" />
-                          <input
-                              type='text'
-                              name="searchProject"
-                              className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
-                              autoComplete="off"
-                          />
-                      </div>
-                  </div>
-              </span>
-              <div className="flex flex-col w-full gap-3">
-                  <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
-                      <div className="w-[50%] flex flex-col items-start my-5">
-                          <h2 className="text-2xl text-black">Ressource 1</h2>
-                          <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
-                          <span className="flex flex-row justify-start items-center w-full mt-5">
-                              <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                              <p className="text-sm text-black">Lorem Ipsum</p>
-                          </span>
-                      </div>
-                      <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-                          <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                              <button>
-                                  <BiPencil className="text-3xl text-[#2EA3A5]" />
-                              </button>
-                              <button>
-                                  <BiTrash className="text-3xl text-[#A10000]"/>
-                              </button>
-                          </span>
-                          <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">WordPress</p>
-                              </div>
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">JavaScript</p>
-                              </div> 
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">Drupal</p>
-                              </div>
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">Modélisation POO</p>
-                              </div> 
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">WordPress</p>
-                              </div> 
-                          </div>
-                      </div>
-                      <Image width={1000} height={1500} loader={()=> briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
-                  </div>
-
-                  <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
-                      <div className="w-[50%] flex flex-col items-start my-5">
-                          <h2 className="text-2xl text-black">Ressource 1</h2>
-                          <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
-                          <span className="flex flex-row justify-start items-center w-full mt-5">
-                              <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                              <p className="text-sm text-black">Lorem Ipsum</p>
-                          </span>
-                      </div>
-                      <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-                          <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                              <button>
-                                  <BiPencil className="text-3xl text-[#2EA3A5]" />
-                              </button>
-                              <button>
-                                  <BiTrash className="text-3xl text-[#A10000]"/>
-                              </button>
-                          </span>
-                          <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">WordPress</p>
-                              </div>
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">WordPress</p>
-                              </div> 
-                              <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                                  <p className="text-sm">WordPress</p>
-                              </div> 
-                          </div>
-                      </div>
-                      <Image width={1000} height={1500} loader={()=> briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
-                  </div>
+            <span className="flex w-full flex-row items-center justify-between mb-3">
+              <h1 className="text-4xl font-semibold text-black">Ressources du projet</h1>
+              <div className="flex flex-row justify-end w-[50%]">
+                <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[60%] min-w-[200px] max-w-[450px] flex flex-row justify-between items-center mr-2">
+                  <BiSearch className="text-3xl text-black ml-4" />
+                  <input
+                    type='text'
+                    name="searchProject"
+                    className="pr-[1rem] pl-1 py-3 w-full bg-transparent"
+                    autoComplete="off"
+                  />
+                </div>
               </div>
+            </span>
+            <div className="flex flex-col w-full gap-3">
+              <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
+                <div className="w-[50%] flex flex-col items-start my-5">
+                  <h2 className="text-2xl text-black">Ressource 1</h2>
+                  <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
+                  <span className="flex flex-row justify-start items-center w-full mt-5">
+                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                    <p className="text-sm text-black">Lorem Ipsum</p>
+                  </span>
+                </div>
+                <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
+                  <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
+                    <button>
+                      <BiPencil className="text-3xl text-[#2EA3A5]" />
+                    </button>
+                    <button>
+                      <BiTrash className="text-3xl text-[#A10000]" />
+                    </button>
+                  </span>
+                  <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">WordPress</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">JavaScript</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">Drupal</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">Modélisation POO</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">WordPress</p>
+                    </div>
+                  </div>
+                </div>
+                <Image width={1000} height={1500} loader={() => briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
+              </div>
+
+              <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
+                <div className="w-[50%] flex flex-col items-start my-5">
+                  <h2 className="text-2xl text-black">Ressource 1</h2>
+                  <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
+                  <span className="flex flex-row justify-start items-center w-full mt-5">
+                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                    <p className="text-sm text-black">Lorem Ipsum</p>
+                  </span>
+                </div>
+                <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
+                  <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
+                    <button>
+                      <BiPencil className="text-3xl text-[#2EA3A5]" />
+                    </button>
+                    <button>
+                      <BiTrash className="text-3xl text-[#A10000]" />
+                    </button>
+                  </span>
+                  <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">WordPress</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">WordPress</p>
+                    </div>
+                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
+                      <p className="text-sm">WordPress</p>
+                    </div>
+                  </div>
+                </div>
+                <Image width={1000} height={1500} loader={() => briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
+              </div>
+            </div>
           </section>
-          
+
         </div>
 
         <Notifs />

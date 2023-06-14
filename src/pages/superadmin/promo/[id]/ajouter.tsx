@@ -64,10 +64,10 @@ const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
     };
     const mail = target.studentEmail.value
     const name = target.studentLastName.value
-    const firstname = target.studentName.value
+    const firstName = target.studentName.value
     const temp = await findUser.mutateAsync({ email: mail })
     if (!temp) {
-      const newUser = await createUser.mutateAsync({ firstname: firstname, name: name, email: mail })
+      const newUser = await createUser.mutateAsync({ firstName: firstName, name: name, email: mail })
       await addStudent.mutateAsync({ id: promo.id, idU: newUser.id })
       window.location.reload()
     }

@@ -38,26 +38,27 @@ export const userRouter = createTRPCRouter({
         })
     }),
 
-    create: protectedProcedure.input(z.object({ name: z.string(), firstname: z.string(), email: z.string() })).mutation(({ input }) => {
+    create: protectedProcedure.input(z.object({ name: z.string(), firstName: z.string(), email: z.string() })).mutation(({ input }) => {
         return prisma.user.create({
             data: {
                 name: input.name,
                 email: input.email,
-                firstName: input.firstname,
+                firstName: input.firstName,
                 password: generatePassword(),
                 image: aleatoirePP()
             }
         })
     }),
 
-    update: protectedProcedure.input(z.object({ id: z.string(), name: z.string(), firstname: z.string(), url: z.string() })).mutation(({ input }) => {
+    update: protectedProcedure.input(z.object({ id: z.string(), name: z.string(), firstName: z.string(), mail: z.string(), url: z.string() })).mutation(({ input }) => {
         return prisma.user.update({
             where: {
                 id: input.id
             },
             data: {
                 name: input.name,
-                firstName: input.firstname,
+                firstName: input.firstName,
+                email: input.mail,
                 image: input.url,
             }
         })
@@ -116,6 +117,17 @@ export const userRouter = createTRPCRouter({
                 password: generatePassword()
             }
         })
-    })
+    }),
+
+    updatePassword: protectedProcedure.input(z.object({ id: z.string(), password: z.string() })).mutation(({ input }) => {
+        return prisma.user.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                password: input.password
+            }
+        })
+    }),
 
 });
