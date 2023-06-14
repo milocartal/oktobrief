@@ -91,7 +91,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     if (selected !== undefined) {
       const temp = await create.mutateAsync({ title: title, desc: description, idRef: selected?.id, start: dateStart, end: dateEnd, image: img })
       await update({ promo: temp })
-      await Router.push(`/admin/promo/${temp.id}/ajouter`)
+      await Router.push(`/superadmin/promo/${temp.id}/ajouter`)
     }
     else {
       alert("Veuillez selectionné un référentiel")
