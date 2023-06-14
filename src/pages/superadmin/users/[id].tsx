@@ -88,7 +88,7 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
         const mail = target.userEmail.value
         const password = target.currentPassword.value
         const newPassword = target.newPassword.value
-        await updateUser.mutateAsync({id: user.id, name: name, firstName: fisrtname, mail: mail, url: user.image})
+        await updateUser.mutateAsync({id: user.id, name: name, firstname: fisrtname, mail: mail, url: user.image})
         if(password.length > 0){
             if(password !== user.password){
                 alert("Le mot de passe n'est pas bon")

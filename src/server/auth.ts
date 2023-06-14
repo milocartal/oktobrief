@@ -26,7 +26,7 @@ declare module "next-auth" {
       id: string;
       formateur: boolean;
       superadmin: boolean;
-      firstName: string;
+      firstname: string;
     } & DefaultSession["user"];
   }
 
@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user, trigger, newSession }: {session: SessionAuth, user: AdapterUser, trigger: string, newSession: SessionAuth}) {
 
-      session.user.firstName = user.firstName
+      session.user.firstname = user.firstName
       session.user.id = user.id
       session.formateur = user.formateur
       session.superadmin = user.superadmin
