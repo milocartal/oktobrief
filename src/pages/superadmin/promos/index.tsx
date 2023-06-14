@@ -3,17 +3,18 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-import { NavBar, Notifs, Promos } from "~/components/barrel";
-import { BiChevronDown, BiLeftArrowAlt, BiSearch } from "react-icons/bi";
+import { NavBar, Notifs } from "~/components/barrel";
+import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { prisma } from "~/server/db";
 import { Promo } from "@prisma/client";
+import { PromoWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    promos: Promo[],
+    promos: PromoWithAll[],
     nbActive: number
 }> = async function (context) {
     const session = await getSession(context)
@@ -37,7 +38,12 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    const promos = await prisma.promo.findMany()
+    const promos = await prisma.promo.findMany({
+            include: {
+                apprenants: true
+            }
+        }
+    )
 
     const nbActive = await prisma.promo.count({
         where: {
@@ -47,13 +53,13 @@ export const getServerSideProps: GetServerSideProps<{
 
     return {
         props: {
-            promos: JSON.parse(JSON.stringify(promos)) as Promo[],
+            promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[],
             nbActive: nbActive
         }
     }
 };
 
-const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, nbActive }) => {
+const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ promos, nbActive }) => {
 
     const nb: number = nbActive
     const nbPromo: number = promos.length
@@ -74,6 +80,59 @@ const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSide
         { name: 'Group B', value: dataGrB, fill: "#D9D9D9" },
     ];
     const [open, setOpen] = useState(false)
+    const [selected, setSelected] = useState(0)
+
+    const [filterType, setFilterType] = useState("Pas de filtre sélectionné")
+
+    promos && promos.length > 0 && filterType == "Leçons inactives" ? promos.sort(function (a, b) {
+        if (a.active < b.active) {
+          return -1;
+        }
+        if (a.active > b.active) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Leçons actives" ? promos.sort(function (a, b) {
+        if (a.active < b.active) {
+          return 1;
+        }
+        if (a.active > b.active) {
+          return -1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Date de début" ? promos.sort(function (a, b) {
+        if (a.starting < b.starting) {
+          return -1;
+        }
+        if (a.starting > b.starting) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Date de fin" ? promos.sort(function (a, b) {
+        if (a.ending < b.ending) {
+          return -1;
+        }
+        if (a.ending > b.ending) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants <" ? promos.sort(function (a, b) {
+        if (a.apprenants < b.apprenants) {
+          return -1;
+        }
+        if (a.apprenants > b.apprenants) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants >" && promos.sort(function (a, b) {
+        if (a.apprenants < b.apprenants) {
+          return 1;
+        }
+        if (a.apprenants > b.apprenants) {
+          return -1;
+        }
+        return 0;
+    })
 
     return (
         <>
@@ -84,12 +143,8 @@ const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSide
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-start justify-start px-10 pt-[40px]">
-                    <span className="flex w-[80%] flex-row items-center justify-between mb-5">
-                        <span className="flex gap-5">
-                            <Link href={"/superadmin"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg flex items-center justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
-                            <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
-                        </span>
-
+                    <span className="flex w-[80%] flex-row items-center justify-between mb-5 pl-10">
+                        <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
                         <span className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input
@@ -107,27 +162,27 @@ const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSide
                             <span className="flex w-full flex-row items-center justify-between mb-3">
 
                                 <span className="flex w-[45%] flex-row items-center justify-start">
-                                    <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Actives</button>
-                                    <button className="text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2">Inactives</button>
+                                    <button className={filterType == "Leçons actives" ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setFilterType("Leçons actives")}>Actives</button>
+                                    <button className={filterType == "Leçons inactives" ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setFilterType("Leçons inactives")}>Inactives</button>
                                 </span>
 
-                                <span className="flex w-[60%] flex-row items-center justify-end">
-
+                                <span className="flex w-[70%] flex-row items-center justify-end">
                                     <div className="relative">
-                                        <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
-                                            <p className="text-base mr-2">Tri par: Date de début</p>
-                                            <BiChevronDown className="text-4xl" />
+                                        <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#0E6073] text-white rounded-lg min-w-[200px]" onClick={() => setOpen(!open)}>
+                                            <p className="text-base mr-2">Tri par: {filterType}</p>
+                                            <BiChevronDown className="text-2xl" />
                                         </button>
                                         {open &&
-                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
+                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] z-20 min-w-[200px]">
+                                                <button className={filterType == "Date de début" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de début")}>Date de début</button>
+                                                <button className={filterType == "Date de fin" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de fin")}>Date de fin</button>
+                                                <button className={filterType == "Nombre d'apprenants >" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Nombre d'apprenants >")}>Nombre d&apos;apprenants &gt;</button>
+                                                <button className={filterType == "Nombre d'apprenants <" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Nombre d'apprenants <")}>Nombre d&apos;apprenants &lt;</button>
                                             </div>
                                         }
                                     </div>
 
-                                    <Link href={`/superadmin/promo/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
+                                    <Link href={`/admin/promo/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer une promo
                                     </Link>
                                 </span>
@@ -145,8 +200,9 @@ const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSide
                                     }
 
                                     return (
-                                        <Link href={`/superadmin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" key={promo.id}>
+                                        <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025] relative" key={promo.id}>
                                             <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
+                                            {!promo.active && <div className="bg-[#EFEFEF] rounded-full px-5 py-2 absolute right-2 top-[155px]"><p className="text-sm">Inactive</p></div>}
                                             <div className="m-5 text-start">
                                                 <h3 className="text-lg text-black">{promo.title}</h3>
                                                 <div className="text-sm text-black overflow-clip" dangerouslySetInnerHTML={{ __html: description }} />
@@ -206,4 +262,4 @@ const IndexPromoAdmin: NextPage<InferGetServerSidePropsType<typeof getServerSide
     );
 };
 
-export default IndexPromoAdmin;
+export default IndexPromo;
