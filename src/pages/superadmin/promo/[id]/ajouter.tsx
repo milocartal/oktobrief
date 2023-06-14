@@ -86,7 +86,7 @@ const AddApprenants: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
       </Head>
       <main className="bg-[#F3F3F3] h-screen min-w-screen pl-[150px] p-[50px] flex items-center jutisfy-center gap-5">
 
-        <Link href={"/superadmin/promo"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg absolute top-[50px] flex items-center justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+        <Link href={`/superadmin/promo/${promo.id}`} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg absolute top-[40px] flex items-center justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
 
         <form onSubmit={(e) => void handleAdd(e)} className="bg-white rounded-xl max-h-[80%] w-[60%] py-10 px-6 flex flex-col gap-5">
           <h2 className="text-2xl text-black">Ajouter des apprenants</h2>
