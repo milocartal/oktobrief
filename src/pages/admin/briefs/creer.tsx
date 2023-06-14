@@ -74,11 +74,11 @@ const AddBrief: NextPage = () => {
             briefImg: { value: string };
         };
         const title = target.briefTitle.value
-        const url = target.briefImg.value
+        const url = "https://media.discordapp.net/attachments/688793736620146689/915869475423813662/20210709_215217.gif"
         if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
             if (idRef) {
                 const temp = await createBrief.mutateAsync({ title: title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: idRef, eval: evals, peda: modaPeda, idForma: sessionData.user.id, img: url })
-                await Router.push(`/admin/briefs/${temp.id}`)
+                await Router.push(`/admin/briefs/${temp.id}/competence`)
             }
             alert("créer")
         }
@@ -114,7 +114,7 @@ const AddBrief: NextPage = () => {
                             />
                         </fieldset>
 
-                        <fieldset className="w-full flex flex-col gap-2">
+                        {/*<fieldset className="w-full flex flex-col gap-2">
                             <label htmlFor="briefImg" className="text-2xl text-black w-full">Image du projet</label>
                             <input
                                 type='url'
@@ -124,7 +124,7 @@ const AddBrief: NextPage = () => {
                                 autoComplete="off"
                                 placeholder="Titre du projet"
                             />
-                        </fieldset>
+                        </fieldset>*/}
 
                         <fieldset className="w-full flex flex-col gap-2">
                             <h2 className="text-2xl text-black w-full">Description rapide<span className="text-[#A10000]">*</span></h2>

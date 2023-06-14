@@ -27,20 +27,22 @@ export const getServerSideProps: GetServerSideProps<{
     }
   }
 
-  let promos;
+  let promos = await prisma.promo.findMany({
+    where: {
+      apprenants: {
+        some: {
+          id: session.user.id
+        }
+      }
+    },
+    include: {
+      apprenants: true,
+      referentiel: true
+    }
+  });
 
   if (session.superadmin) {
-    promos = await prisma.promo.findMany()
-  }
-  else {
     promos = await prisma.promo.findMany({
-      where: {
-        apprenants: {
-          some: {
-            id: session.user.id
-          }
-        }
-      },
       include: {
         apprenants: true,
         referentiel: true
@@ -48,6 +50,14 @@ export const getServerSideProps: GetServerSideProps<{
     })
   }
 
+  if(session.promo === undefined ){
+    return {
+      redirect: {
+        destination: '/oops',
+        permanent: false,
+      },
+    }
+  }
 
   const briefs = await prisma.brief.findMany({
     where: {
