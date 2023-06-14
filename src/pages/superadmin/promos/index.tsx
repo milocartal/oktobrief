@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-import { NavBar, Notifs, Promos } from "~/components/barrel";
+import { NavBar, Notifs } from "~/components/barrel";
 import { BiChevronDown, BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import React, { useState } from "react";

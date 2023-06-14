@@ -114,7 +114,8 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                                     <Link href={`/superadmin/users/${item.id}`} className="flex flex-row justify-end items-center w-full mt-5" key={item.id}>
                                         <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
                                         <p className="text-sm text-black">{item.firstName} {item.name}</p>
-                                    </Link>)
+                                    </Link>
+                                )
                             })}
                         </aside>
 
