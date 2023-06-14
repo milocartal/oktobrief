@@ -4,7 +4,7 @@ import Head from "next/head";
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 import { NavBar, Notifs } from "~/components/barrel";
-import { BiChevronDown, BiSearch } from "react-icons/bi";
+import { BiChevronDown, BiLeftArrowAlt, BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -143,7 +143,10 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-start justify-start px-10 pt-[40px]">
                     <span className="flex w-[80%] flex-row items-center justify-between mb-5 pl-10">
-                        <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
+                        <div className="flex flex-row items-center">
+                            <Link href={"/superadmin"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg flex items-center justify-between gap-1 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                            <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
+                        </div>
                         <span className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">
                             <BiSearch className="text-3xl text-black ml-4" />
                             <input

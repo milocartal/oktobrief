@@ -9,7 +9,7 @@ import { User } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
 import { aleatoirePP } from "~/utils/genertor";
-import { BiSearch } from "react-icons/bi";
+import { BiLeftArrowAlt, BiSearch } from "react-icons/bi";
 import { useState } from "react";
 
 
@@ -73,6 +73,7 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
                 <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
+                    <Link href={"/superadmin"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg flex items-center self-start justify-between gap-1 mr-5 mb-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                     <section className="w-full flex flex-col bg-white rounded-lg px-[60px] py-[40px] mb-5">
                         <span className="flex flex-row items-center justify-end">
                             <fieldset className="flex flex-row items-center">
