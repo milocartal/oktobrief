@@ -76,6 +76,58 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(0)
 
+    const [filterType, setFilterType] = useState("Pas de filtre sélectionné")
+
+    promos && promos.length > 0 && filterType == "Leçons inactives" ? promos.sort(function (a, b) {
+        if (a.active < b.active) {
+          return -1;
+        }
+        if (a.active > b.active) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Leçons actives" ? promos.sort(function (a, b) {
+        if (a.active < b.active) {
+          return 1;
+        }
+        if (a.active > b.active) {
+          return -1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Date de début" ? promos.sort(function (a, b) {
+        if (a.starting < b.starting) {
+          return -1;
+        }
+        if (a.starting > b.starting) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Date de fin" ? promos.sort(function (a, b) {
+        if (a.ending < b.ending) {
+          return -1;
+        }
+        if (a.ending > b.ending) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants <" ? promos.sort(function (a, b) {
+        if (a.apprenants.length < b.apprenants.length) {
+          return -1;
+        }
+        if (a.apprenants.length > b.apprenants.length) {
+          return 1;
+        }
+        return 0;
+    }) : promos && promos.length > 0 && filterType == "Nombre d'apprenants >" && promos.sort(function (a, b) {
+        if (a.apprenants.length < b.apprenants.length) {
+          return -1;
+        }
+        if (a.apprenants.length > b.apprenants.length) {
+          return 1;
+        }
+        return 0;
+    })
+
     return (
         <>
             <Head>
@@ -104,22 +156,22 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                             <span className="flex w-full flex-row items-center justify-between mb-3">
 
                                 <span className="flex w-[45%] flex-row items-center justify-start">
-                                    <button className={selected == 1 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(1)}>Actives</button>
-                                    <button className={selected == 2 ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setSelected(2)}>Inactives</button>
+                                    <button className={filterType == "Leçons actives" ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setFilterType("Leçons actives")}>Actives</button>
+                                    <button className={filterType == "Leçons inactives" ? "text-sm text-white bg-[#0E6073] rounded-full px-5 py-3 mr-2" : "text-sm text-black bg-[#EDEDED] rounded-full px-5 py-3 mr-2"} onClick={() => setFilterType("Leçons inactives")}>Inactives</button>
                                 </span>
 
-                                <span className="flex w-[60%] flex-row items-center justify-end">
-
+                                <span className="flex w-[70%] flex-row items-center justify-end">
                                     <div className="relative">
-                                        <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg" onClick={() => setOpen(!open)}>
-                                            <p className="text-base mr-2">Tri par: Date de début</p>
+                                        <button className="flex flex-row items-center justify-between px-5 py-2 bg-[#0E6073] text-white rounded-lg min-w-[200px]" onClick={() => setOpen(!open)}>
+                                            <p className="text-base mr-2">Tri par: {filterType}</p>
                                             <BiChevronDown className="text-4xl" />
                                         </button>
                                         {open &&
-                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
-                                                <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
+                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] z-20 min-w-[200px]">
+                                                <button className={filterType == "Date de début" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de début")}>Date de début</button>
+                                                <button className={filterType == "Date de fin" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de fin")}>Date de fin</button>
+                                                <button className={filterType == "Nombre d'apprenants >" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Nombre d'apprenants >")}>Nombre d&apos;apprenants &gt;</button>
+                                                <button className={filterType == "Nombre d'apprenants <" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Nombre d'apprenants <")}>Nombre d&apos;apprenants &lt;</button>
                                             </div>
                                         }
                                     </div>
@@ -142,7 +194,7 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     }
 
                                     return (
-                                        <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025] relative" key={promo.id}>
+                                        <Link href={`/admin/promo/${promo.id}`} className="flex flex-col max-w-[500px] rounded-lg h-[350px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025] relative" key={promo.id}>
                                             <Image width={500} height={500} loader={() => img} src={img} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                                             {!promo.active && <div className="bg-[#EFEFEF] rounded-full px-5 py-2 absolute right-2 top-[155px]"><p className="text-sm">Inactive</p></div>}
                                             <div className="m-5 text-start">
