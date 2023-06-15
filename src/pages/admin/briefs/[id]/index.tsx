@@ -134,16 +134,16 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
         setSearchTerm(value);
     };
 
-    async function handleDelRes(e:React.SyntheticEvent, id: string) {
+    async function handleDelRes(e: React.SyntheticEvent, id: string) {
         e.preventDefault()
-        await delRessource.mutateAsync({id: id})
+        await delRessource.mutateAsync({ id: id })
         window.location.reload()
     }
 
     async function handleUpdate(e: React.SyntheticEvent) {
         e.preventDefault()
-        if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {          
-            const temp = await updateBrief.mutateAsync({ id: brief.id ,title: brief.title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: brief.idR, eval: evals, peda: modaPeda })
+        if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
+            const temp = await updateBrief.mutateAsync({ id: brief.id, title: brief.title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: brief.idR, eval: evals, peda: modaPeda })
             window.location.reload()
 
         }
@@ -206,7 +206,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif1(!modifiable1); void setDesc(brief.desc)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif1(!modifiable1); void setDesc(brief.desc) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -234,60 +234,41 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                         </div>
                         {open &&
                             <div className="flex flex-row justify-between items-center w-full mb-5">
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
+                                {brief.Niveaux.map((item) => {
+                                    let index = 0
+                                    switch (item.title) {
+                                        case 'Niveau 1':
+                                            index = 1
+                                            break;
+                                        case 'Niveau 2':
+                                            index = 2
+                                            break;
+                                        case 'Niveau 3':
+                                            index = 3
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    return (
+                                        <div className="max-w-[33%] border-2 rounded-lg">
+                                            <p className="text-sm text-[#0E6073] m-3">{item.competence.title}</p>
+                                            <div className="flex flex-row justify-between items-center w-full rounded-lg">
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 && "bg-[#0E6073] text-white"}`}>
+                                                    <p className="text-sm">Niveau 1</p>
+                                                    {index >= 1 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 && "bg-[#0E6073] text-white"}`}>
+                                                    <p className="text-sm">Niveau 2</p>
+                                                    {index >= 2 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 && "bg-[#0E6073] text-white"}`}>
+                                                    <p className="text-sm">Niveau 3</p>
+                                                    {index >= 3 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
 
                             </div>
                         }
@@ -299,7 +280,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif2(!modifiable2); void setContexte(brief.contexte)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif2(!modifiable2); void setContexte(brief.contexte) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -330,7 +311,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif3(!modifiable3); void setPeda(brief.modal_peda)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif3(!modifiable3); void setPeda(brief.modal_peda) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -356,7 +337,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif4(!modifiable4); void setEvals(brief.modal_eval)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif4(!modifiable4); void setEvals(brief.modal_eval) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -382,7 +363,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif5(!modifiable5); void setLivrable(brief.livrable)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif5(!modifiable5); void setLivrable(brief.livrable) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -408,7 +389,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </button> :
                                 <span className="flex gap-5">
-                                    <button onClick={() => {void setModif6(!modifiable6); void setPerf(brief.perf)}} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
+                                    <button onClick={() => { void setModif6(!modifiable6); void setPerf(brief.perf) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
                                         onClick={(e) => handleUpdate(e)}>
@@ -447,7 +428,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                         <div className="flex flex-col w-full gap-3">
                             {brief.ressources && brief.ressources.length > 0 && brief.ressources.map((item) => {
                                 return (
-                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
+                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]" key={item.id}>
                                         <div className="w-[50%] flex flex-col items-start my-5">
                                             <h2 className="text-2xl text-black">{item.title}</h2>
                                             <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
@@ -457,7 +438,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                                 <button>
                                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                                 </button>
-                                                <button onClick={(e)=> void handleDelRes(e, item.id)}>
+                                                <button onClick={(e) => void handleDelRes(e, item.id)}>
                                                     <BiTrash className="text-3xl text-[#A10000]" />
                                                 </button>
                                             </span>
