@@ -2,10 +2,19 @@ import { type Prisma } from "@prisma/client"
 
 export type BriefWithAll = Prisma.BriefGetPayload<{
     include:{
-        ressources: true,
-        referentiel:true,
+        ressources: {
+            include:{
+                tags: true
+            }
+        },
+        referentiel: true,
         tags: true,
-        formateur: true
+        formateur: true,
+        Niveaux: {
+            include:{
+                competence:true
+            }
+        }
     }
 }>
 export type PromoWithAll = Prisma.PromoGetPayload<{
@@ -53,4 +62,6 @@ export type CompWithLvl = Prisma.CompetenceGetPayload<{
     }
 }>
 
-
+export type CategFull = Prisma.CategorieGetPayload<{
+    include: { tags: true }
+}>

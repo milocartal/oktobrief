@@ -2,9 +2,6 @@ import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } f
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { api } from "~/utils/api";
-
-import { type Session as SessionAuth } from 'next-auth'
 
 import { NavBar, Promos } from "~/components/barrel";
 import Image from "next/image";

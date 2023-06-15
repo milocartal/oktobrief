@@ -22,7 +22,7 @@ export const appRouter = createTRPCRouter({
   niveau: niveauRouter,
   assignation: assignationRouter,
   brief: briefRouter,
-  ressouce: ressourceRouter,
+  ressource: ressourceRouter,
   tag: tagRouter
 });
 
