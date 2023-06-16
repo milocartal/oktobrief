@@ -9,8 +9,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { Promo } from "@prisma/client";
-import { PromoWithAll } from "~/utils/type";
+import type { PromoWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{

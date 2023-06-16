@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Router from "next/router";
-import { BiSearch } from "react-icons/bi";
+
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -87,8 +87,6 @@ const AddBrief: NextPage = () => {
             alert("Merci de remplir tous les champs requis")
         }
     }
-
-    const [tab, setTab] = useState("normal")
 
     return (
         <>

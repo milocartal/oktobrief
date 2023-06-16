@@ -1,11 +1,10 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
-
 import { NavBar, Notifs } from "~/components/barrel";
 import { prisma } from "~/server/db";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
 import { aleatoirePP } from "~/utils/genertor";
@@ -77,10 +76,10 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                     <section className="w-full flex flex-col bg-white rounded-lg px-[60px] py-[40px] mb-5">
                         <span className="flex flex-row items-center justify-end">
                             <fieldset className="flex flex-row items-center">
-                                <input type="checkbox" id="formateur" name={filterF} onChange={() => setFilterF(!filterF)} className="mr-2"/>
-                                <label for="formateur" className="mr-3">Formateurs</label>
-                                <input type="checkbox" id="apprenant" name={filterA} onChange={() => setFilterA(!filterA)} className="mr-2"/>
-                                <label for="apprenant" className="mr-5">Apprenants</label>
+                                <input type="checkbox" id="formateur" onChange={() => setFilterF(!filterF)} className="mr-2"/>
+                                <label htmlFor="formateur" className="mr-3">Formateurs</label>
+                                <input type="checkbox" id="apprenant" onChange={() => setFilterA(!filterA)} className="mr-2"/>
+                                <label htmlFor="apprenant" className="mr-5">Apprenants</label>
                             </fieldset>
                             <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[30%] flex flex-row justify-between items-center self-end mr-2 mb-3">
                                 <BiSearch className="text-3xl text-black ml-4"/>

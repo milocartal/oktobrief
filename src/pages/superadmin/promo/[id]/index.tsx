@@ -1,11 +1,9 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-
 import Image from "next/image";
-
 import { NavBar, Notifs } from "~/components/barrel";
-import { PromoWithAll } from "~/utils/type";
+import type { PromoWithAll } from "~/utils/type";
 import { prisma } from "~/server/db";
 import { BiGroup, BiCalendar, BiLeftArrowAlt, BiPencil, BiTrash, BiUserPlus } from "react-icons/bi";
 import { aleatoirePP } from "~/utils/genertor";
@@ -95,8 +93,8 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                         <Image width={500} height={500} loader={() => img} src={img} className="w-[55%] h-[300px] h-auto object-cover mr-5 rounded-lg" alt="Image de la promo sélectionnée" />
                         <aside className="flex flex-col justify-between h-[300px] gap-3">
                             <span className="flex flex-row justify-end items-end w-full">
-                                <BiUserPlus className="text-3xl text-[#0e6073] mx-2 hover:cursor-pointer" onClick={() => Router.push(`/superadmin/promo/${promo.id}/ajouter`)} />
-                                <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => Router.push(`/superadmin/promo/${promo.id}/modifier`)} />
+                                <BiUserPlus className="text-3xl text-[#0e6073] mx-2 hover:cursor-pointer" onClick={() => void Router.push(`/superadmin/promo/${promo.id}/ajouter`)} />
+                                <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => void Router.push(`/superadmin/promo/${promo.id}/modifier`)} />
                                 <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={(e) => void handleDelPromo(e)} />
                             </span>
                             <h3 className="text-3xl text-black mb-2">{promo.title}</h3>

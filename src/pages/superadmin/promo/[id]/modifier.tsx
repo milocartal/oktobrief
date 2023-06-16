@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
-
-import { NavBar, Notifs, Promos } from "~/components/barrel";
-
+import { NavBar, Notifs } from "~/components/barrel";
 import { prisma } from '~/server/db';
-import { Promo, type Referentiel } from '@prisma/client';
+import type { Promo } from '@prisma/client';
 import dynamic from 'next/dynamic';
 import { api } from '~/utils/api';
 import Router from 'next/router';
@@ -194,7 +192,7 @@ const ModfiPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                     onChange={(e)=> setImage(e.target.value)}
                                 />
                             </fieldset>
-                            <img className="max-w-full max-h-[200px] " src={image}/>
+                            <img className="max-w-full max-h-[200px] " src={image} alt="aperçu de l'image"/>
 
                         </fieldset>
                     </div>

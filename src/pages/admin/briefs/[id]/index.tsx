@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs } from "~/components/barrel";
@@ -11,7 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { prisma } from "~/server/db";
 import type { BriefWithAll, CategFull } from "~/utils/type";
-import { Tag } from "@prisma/client";
+import type { Tag } from "@prisma/client";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
 import Router from "next/router";
@@ -56,6 +56,15 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
+    if(!superadmin || !formateur){
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
     const brief = await prisma.brief.findUnique({
         where: {
             id: context.query.id as string
@@ -77,6 +86,15 @@ export const getServerSideProps: GetServerSideProps<{
         }
     })
 
+    if (!brief) {
+        return {
+            redirect: {
+                destination: '/briefs',
+                permanent: false,
+            },
+        }
+    }
+
     const categories = await prisma.categorie.findMany({
         include: {
             tags: true
@@ -97,6 +115,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
     const delRessource = api.ressource.delete.useMutation()
 
     const updateBrief = api.brief.update.useMutation()
+    const delBrief = api.brief.delete.useMutation()
 
     //useState
 
@@ -143,13 +162,19 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
     async function handleUpdate(e: React.SyntheticEvent) {
         e.preventDefault()
         if (desc !== "" && contexte !== "" && modaPeda !== "" && evals !== "" && livrable !== "") {
-            const temp = await updateBrief.mutateAsync({ id: brief.id, title: brief.title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: brief.idR, eval: evals, peda: modaPeda })
+            await updateBrief.mutateAsync({ id: brief.id, title: brief.title, desc: desc, contexte: contexte, livrable: livrable, perf: perf, idRef: brief.idR, eval: evals, peda: modaPeda })
             window.location.reload()
 
         }
         else {
             alert("Merci de remplir tous les champs requis")
         }
+    }
+
+    async function handleDelBrief(e: React.SyntheticEvent) {
+        e.preventDefault()
+        await delBrief.mutateAsync({ id: brief.id })
+        window.location.reload()
     }
 
     async function handleCreaRes(e: React.SyntheticEvent) {
@@ -195,7 +220,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                     <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h1 className="text-4xl font-semibold text-black">{brief.title}</h1>
-                            <button>
+                            <button onClick={(e) => void handleDelBrief(e)}>
                                 <BiTrash className="text-3xl text-[#A10000]" />
                             </button>
                         </span>
@@ -209,7 +234,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif1(!modifiable1); void setDesc(brief.desc) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>
@@ -230,6 +255,9 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                 <h2 className="text-2xl text-black">Référentiel :</h2>
                                 <div className="text-lg text-black" dangerouslySetInnerHTML={{ __html: brief.referentiel.title }} />
                             </span>
+                            <button onClick={()=> void Router.push(`/admin/briefs/${brief.id}/competence`)}>
+                                <BiPencil className="text-3xl text-[#2EA3A5]" />
+                            </button>
                             {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" /></button>}
                         </div>
                         {open &&
@@ -250,18 +278,18 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                             break;
                                     }
                                     return (
-                                        <div className="max-w-[33%] border-2 rounded-lg">
+                                        <div className="max-w-[33%] border-2 rounded-lg" key={item.id}>
                                             <p className="text-sm text-[#0E6073] m-3">{item.competence.title}</p>
                                             <div className="flex flex-row justify-between items-center w-full rounded-lg">
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 && "bg-[#0E6073] text-white"}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white": ""}`}>
                                                     <p className="text-sm">Niveau 1</p>
                                                     {index >= 1 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 && "bg-[#0E6073] text-white"}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white":""}`}>
                                                     <p className="text-sm">Niveau 2</p>
                                                     {index >= 2 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 && "bg-[#0E6073] text-white"}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white":""}`}>
                                                     <p className="text-sm">Niveau 3</p>
                                                     {index >= 3 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
@@ -283,7 +311,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif2(!modifiable2); void setContexte(brief.contexte) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>
@@ -314,7 +342,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif3(!modifiable3); void setPeda(brief.modal_peda) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>
@@ -340,7 +368,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif4(!modifiable4); void setEvals(brief.modal_eval) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>
@@ -366,7 +394,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif5(!modifiable5); void setLivrable(brief.livrable) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>
@@ -392,7 +420,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                     <button onClick={() => { void setModif6(!modifiable6); void setPerf(brief.perf) }} className="text-[#A10000] hover:cursor-pointer">Annuler</button>
                                     <button
                                         className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
-                                        onClick={(e) => handleUpdate(e)}>
+                                        onClick={(e) => void handleUpdate(e)}>
                                         Enregistrer
                                     </button>
                                 </span>

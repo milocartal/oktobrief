@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
-
-import { NavBar, Notifs, Promos } from "~/components/barrel";
-
+import { NavBar, Notifs} from "~/components/barrel";
 import { prisma } from '~/server/db';
 import { type Referentiel } from '@prisma/client';
 import dynamic from 'next/dynamic';
@@ -74,7 +72,7 @@ const CreerPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
   const [description, setDesc] = useState("")
   const create = api.promo.create.useMutation()
   const { data: ref } = api.referentiel.getAll.useQuery()
-  const { data: sessionData, update } = useSession();
+  const { update } = useSession();
 
   async function handleCrea(e: React.SyntheticEvent) {
     e.preventDefault()

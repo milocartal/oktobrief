@@ -1,12 +1,12 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 
-import { NavBar, Promos } from "~/components/barrel";
+import { NavBar } from "~/components/barrel";
 import Image from "next/image";
 import { prisma } from "~/server/db";
-import { Brief, Promo, Referentiel, User } from "@prisma/client";
+import type { Brief, Promo, Referentiel, User } from "@prisma/client";
 import { BiSearch } from "react-icons/bi";
 import { aleatoirePP } from "~/utils/genertor";
 import { useState } from "react";

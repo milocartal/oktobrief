@@ -50,7 +50,11 @@ export type RefeWithComp = Prisma.ReferentielGetPayload<{
     include: {
         competences: {
             include: {
-                niveaux: true
+                niveaux: {
+                    include: {
+                        competence: true
+                    }
+                }
             }
         }
     }

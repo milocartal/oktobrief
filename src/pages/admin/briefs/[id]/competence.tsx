@@ -1,17 +1,18 @@
-import { InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
-import { getSession, useSession } from "next-auth/react";
+import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar } from "~/components/barrel";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import Router from "next/router";
+
 import { prisma } from "~/server/db";
-import { RefeWithComp, CompWithLvl } from "~/utils/type";
+import type { RefeWithComp, CompWithLvl, BriefWithAll } from "~/utils/type";
 
 
 export const getServerSideProps: GetServerSideProps<{
-    referentiel: RefeWithComp
+    referentiel: RefeWithComp,
+    brief: BriefWithAll,
 }> = async function (context) {
     const session = await getSession(context)
 
@@ -24,14 +25,48 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
+    const brief = await prisma.brief.findUnique({
+        where: {
+            id: context.query.id as string
+        },
+        include: {
+            ressources: {
+                include: {
+                    tags: true
+                }
+            },
+            referentiel: true,
+            tags: true,
+            formateur: true,
+            Niveaux: {
+                include: {
+                    competence: true
+                }
+            }
+        }
+    })
+
+    if (!brief) {
+        return {
+            redirect: {
+                destination: '/briefs',
+                permanent: false,
+            },
+        }
+    }
+
     const referentiel = await prisma.referentiel.findUnique({
         where: {
-            id: session.promo.idRef
+            id: brief.idR
         },
         include: {
             competences: {
                 include: {
-                    niveaux: true
+                    niveaux: {
+                        include: {
+                            competence: true
+                        }
+                    }
                 }
             }
         }
@@ -48,12 +83,13 @@ export const getServerSideProps: GetServerSideProps<{
 
     return {
         props: {
-            referentiel: JSON.parse(JSON.stringify(referentiel)) as RefeWithComp
+            referentiel: JSON.parse(JSON.stringify(referentiel)) as RefeWithComp,
+            brief: JSON.parse(JSON.stringify(brief)) as BriefWithAll,
         }
     }
 };
 
-const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel }) => {
+const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ referentiel, brief }) => {
 
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
@@ -78,7 +114,6 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     const addLvl = api.brief.addNiveau.useMutation()
 
 
-
     return (
         <>
             <Head>
@@ -92,24 +127,27 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
                     <div className="flex w-full items-start justify-start bg-white gap-5">
-                    {referentiel.competences[0] ?
-                        <>
-                            <aside className=" flex flex-col gap-2 border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
-                                <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-2">Compétences</h2>
-                                {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
-                                    return (
-                                        <button
-                                            className={`flex w-full gap-5 px-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] py-3 rounded-md' : ''}`}
-                                            key={competence.id}
-                                            onClick={() => { setComp(competence), setLvl(competence.niveaux[0]); } }
-                                        >
-                                            {competence.title}
-                                        </button>
-                                    );
-                                })}
-                            </aside><aside className="flex flex-col w-9/12">
+                        {referentiel.competences[0] ?
+                            <>
+                                <aside className=" flex flex-col gap-2 border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
+                                    <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-2">Compétences</h2>
+                                    {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
+                                        return (
+                                            <button
+                                                className={`flex w-full gap-5 px-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] py-3 rounded-md' : ''}`}
+                                                key={competence.id}
+                                                onClick={() => { setComp(competence), setLvl(competence.niveaux[0]); }}
+                                            >
+                                                {competence.title}
+                                            </button>
+                                        );
+                                    })}
+                                </aside>
+                                <aside className="flex flex-col w-9/12">
                                     <div className="flex w-full justify-between gap-1">
                                         {selectedComp && selectedComp.niveaux.map((niveau, index) => {
+                                            const found = brief.Niveaux.find(e => e.id === niveau.id)
+                                            console.log(found)
                                             return (
                                                 <button
                                                     className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
@@ -123,7 +161,7 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                                     </div>
 
                                     {selectedLvl &&
-                                        <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-5 rounded-b-xl pb-[16px]">
+                                        <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-5 items-start rounded-b-xl pb-[16px]">
                                             <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
                                             <div className="flex gap-5 w-full">
                                                 <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
@@ -135,16 +173,17 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                                                     <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
                                                 </div>
                                             </div>
+                                            <button className="flex flex-row items-center justify-between px-5 py-3 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg">
+                                                Ajouter le niveau
+                                            </button>
 
                                         </div>}
                                 </aside>
-                            </> : 
-                        <p>Ce référentiel ne contient pas de compétences.</p>
-                    }
+                            </> :
+                            <p>Ce référentiel ne contient pas de compétences.</p>
+                        }
                     </div>
                 </section>
-
-
 
                 <NavBar />
             </main>

@@ -94,10 +94,10 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
     const createCompetence = api.competence.create.useMutation()
     const deleteCompetence = api.competence.delete.useMutation()
-    //const updateCompetence = api.competence.update.useMutation()
+    const updateCompetence = api.competence.update.useMutation()
 
     const addLvl = api.niveau.create.useMutation()
-    //const updateLvl = api.niveau.update.useMutation()
+    const updateLvl = api.niveau.update.useMutation()
 
     const [selectedComp, setComp] = useState(() => {
         if (referentiel.competences.length > 0) {
@@ -121,8 +121,6 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
     const [tab, setTab] = useState("normal")
 
-    const [index, setIndex] = useState(1)
-
     const [n1TODO, setTODO1] = useState("")
     const [n1Eval, setEval1] = useState("")
 
@@ -131,6 +129,23 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
 
     const [n3TODO, setTODO3] = useState("")
     const [n3Eval, setEval3] = useState("")
+
+    const [TODO, setTODO] = useState(() => {
+        if (selectedLvl) {
+            return selectedLvl.todo
+        }
+        else {
+            return ""
+        }
+    })
+    const [Eval, setEval] = useState(() => {
+        if (selectedLvl) {
+            return selectedLvl.eval
+        }
+        else {
+            return ""
+        }
+    })
 
     async function handleCompetence(e: React.SyntheticEvent) {
         e.preventDefault()
@@ -164,28 +179,29 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
         window.location.reload()
     }
 
-    /*async function modifComp(e: React.SyntheticEvent) {
+    async function modifComp(e: React.SyntheticEvent) {
         e.preventDefault()
         const target = e.target as typeof e.target & {
             compTitle: { value: string };
         };
-        if (n1TODO === "" || n1Eval === "" || n2Eval === "" || n2TODO === "" || n3Eval === "" || n3TODO === "") {
+        const title = target.compTitle.value
+
+        if (TODO === "" || Eval === "") {
             alert('Merci de remplir tout les champs')
         }
         else {
-            if (selectedComp?.niveaux[0] && selectedComp?.niveaux[1] && selectedComp?.niveaux[2]) {
-                await updateLvl.mutateAsync({ id: selectedComp.niveaux[0].id, todo: n1TODO, eval: n1Eval })
-                await updateLvl.mutateAsync({ id: selectedComp.niveaux[1].id, todo: n2TODO, eval: n2Eval })
-                await updateLvl.mutateAsync({ id: selectedComp.niveaux[2].id, todo: n3TODO, eval: n3Eval })
+            if (selectedComp && selectedLvl) {
+                await updateCompetence.mutateAsync({ id: selectedComp.id, title: title, idR: selectedComp.idR })
+                await updateLvl.mutateAsync({ id: selectedLvl.id, todo: TODO, eval: Eval })
                 window.location.reload()
             }
-            else{
+            else {
                 alert(`La compétence n'existe pas`)
             }
-            
+
         }
 
-    }*/
+    }
 
     return (
         <>
@@ -218,65 +234,67 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
 
                     <div className="flex w-full items-start justify-start bg-white gap-5">
-                    {referentiel.competences[0] ?
-                        <>
-                        <aside className=" flex flex-col border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
-                            <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-3">Compétences</h2>
-                            {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
-                                return (
-                                    <button
-                                        className={`flex w-full px-2 py-3 mt-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] rounded-md' : ''}`}
-                                        key={competence.id}
-                                        onClick={() => { setComp(competence), setLvl(competence.niveaux[0]) }}
-                                    >
-                                        {competence.title}
-                                    </button>
-                                )
-                            })}
-                        </aside>
+                        {referentiel.competences[0] ?
+                            <>
+                                <aside className=" flex flex-col border-2 border-[#f3f3f3] rounded-xl py-5 px-5 w-3/12">
+                                    <h2 className="text-2xl text-[#0e6073] font-bold w-full mb-3">Compétences</h2>
+                                    {referentiel.competences as CompWithLvl[] && referentiel.competences.length > 0 && referentiel.competences.map((competence) => {
+                                        return (
+                                            <button
+                                                className={`flex w-full px-2 py-3 mt-2 ${selectedComp && selectedComp.id === competence.id ? 'bg-[#f3f3f3] rounded-md' : ''}`}
+                                                key={competence.id}
+                                                onClick={() => { setComp(competence), setLvl(competence.niveaux[0]) }}
+                                            >
+                                                {competence.title}
+                                            </button>
+                                        )
+                                    })}
+                                </aside>
 
-                        <aside className="flex flex-col w-9/12">
-                            <div className="flex w-full justify-between gap-1">
-                                {selectedComp && selectedComp.niveaux.map((niveau, index) => {
-                                    return (
-                                        <button className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`} onClick={() => setLvl(selectedComp.niveaux[index])} key={niveau.id}>
-                                            {niveau.title}
-                                        </button>
-                                    )
-                                })}
-                            </div>
-
-                            {selectedLvl &&
-                                <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-3 rounded-b-xl">
-                                    <span className="flex justify-between w-full">
-                                        <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
-                                        <span className="flex flex-row justify-center">
-                                            <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
-                                            <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={() => handleDelComp} />
-                                        </span>
-                                    </span>
-                                    <div className="flex gap-5 w-full">
-                                        <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
-                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">TODO</h3>
-                                            <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} />
-                                        </div>
-                                        <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
-                                            <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d&apos;évaluations</h3>
-                                            <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
-                                        </div>
+                                <aside className="flex flex-col w-9/12">
+                                    <div className="flex w-full justify-between gap-1">
+                                        {selectedComp && selectedComp.niveaux.map((niveau, index) => {
+                                            return (
+                                                <button className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
+                                                    onClick={() => (setLvl(selectedComp.niveaux[index]), setEval(selectedComp.niveaux[index]!.eval), setTODO(selectedComp.niveaux[index]!.todo))}
+                                                    key={niveau.id}>
+                                                    {niveau.title}
+                                                </button>
+                                            )
+                                        })}
                                     </div>
 
-                                </div>}
-                        </aside>
-                        </> : 
-                        <p>Ce référentiel ne contient pas de compétences.</p>
-                    }
+                                    {selectedLvl &&
+                                        <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-3 rounded-b-xl">
+                                            <span className="flex justify-between w-full">
+                                                <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
+                                                <span className="flex flex-row justify-center">
+                                                    <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
+                                                    <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={() => handleDelComp} />
+                                                </span>
+                                            </span>
+                                            <div className="flex gap-5 w-full">
+                                                <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
+                                                    <h3 className="text-xl text-[#0e6073] w-full font-bold">TODO</h3>
+                                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.todo }} />
+                                                </div>
+                                                <div className="max-h-[300px] overflow-y-auto w-[50%] bg-[#0e6073]/10 rounded-xl px-6 py-3 flex flex-col gap-3">
+                                                    <h3 className="text-xl text-[#0e6073] w-full font-bold">Critères d&apos;évaluations</h3>
+                                                    <div dangerouslySetInnerHTML={{ __html: selectedLvl.eval }} />
+                                                </div>
+                                            </div>
+
+                                        </div>}
+                                </aside>
+                            </> :
+                            <p>Ce référentiel ne contient pas de compétences.</p>
+                        }
                     </div>
                 </section>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
 
-                    <form onSubmit={(e)=>void handleCompetence(e)} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
+                    <form onSubmit={(e) => void handleCompetence(e)} className="flex w-full flex-col items-center justify-start bg-white gap-5 rounded-xl" method="POST">
                         <h2 className="text-2xl text-black w-full">Ajouter une compétence</h2>
                         <input
                             type='text'
@@ -329,7 +347,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                 <NavBar />
                 {tab === "modif" &&
                     <div className="fixed w-full h-full bg-[#0E6073]/90 top-0 right-0 left-0 bottom-0 flex justify-center items-center">
-                        <form className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-xl p-16 w-10/12 text-[#041f25]" method="POST">
+                        <form onSubmit={(e) => void modifComp(e)} className="relative flex flex-col gap-5 item-center justify-start bg-white rounded-xl p-16 w-10/12 text-[#041f25]" method="POST">
 
                             <button
                                 onClick={() =>
@@ -347,73 +365,41 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                                 autoComplete="off"
                                 placeholder="Titre de la compétence"
                                 defaultValue={selectedComp!.title}
+                                required
                             />
 
                             <div className="flex w-full items-start justify-start bg-white gap-5">
 
                                 <aside className="flex flex-col w-full">
-                                    <div className="flex w-full justify-between gap-1">
-                                        {selectedComp && selectedComp.niveaux.map((niveau, index) => {
+                                    {<div className="flex w-full justify-between gap-1">
+                                        {selectedComp && selectedComp.niveaux.map((niveau) => {
                                             return (
                                                 <div
-                                                    className={`hover:cursor-pointer flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
-                                                    onClick={() => (setLvl(selectedComp.niveaux[index]), setIndex(index))}
+                                                    className={`flex flex-col gap-3 text-md text-black w-4/12 justify-center items-center rounded-t-xl py-2 border-[#f3f3f3] ${selectedLvl && selectedLvl.id === niveau.id ? 'bg-white border-t-2 border-l-2 border-r-2' : 'bg-[#f3f3f3] border-0'}`}
                                                     key={niveau.id}
                                                 >
                                                     {niveau.title}
                                                 </div>
                                             )
                                         })}
-                                    </div>
+                                    </div>}
 
                                     {selectedLvl &&
                                         <div className="flex flex-col gap-5 w-full border-[#f3f3f3] border-b-2 border-l-2 border-r-2 px-5 py-3 rounded-b-xl">
                                             <span className="flex justify-between w-full">
                                                 <h3 className="text-xl text-[#0e6073] w-full font-bold">{selectedComp?.title}</h3>
-                                                <span className="flex flex-row justify-center">
-                                                    <BiPencil className="text-3xl text-[#2EA3A5] mx-2 hover:cursor-pointer" onClick={() => setTab("modif")} />
-                                                    <BiTrash className="text-3xl text-[#A10000] mx-2 hover:cursor-pointer" onClick={() => handleDelComp} />
-                                                </span>
                                             </span>
                                             <div className="flex gap-5 w-full">
                                                 <QuillNoSSRWrapper
                                                     modules={modules}
                                                     className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10"
-                                                    value={selectedLvl.todo}
-                                                    onChange={() => {
-                                                        switch (index) {
-                                                            case 0:
-                                                                setTODO1;
-                                                                break;
-                                                            case 1:
-                                                                setTODO2;
-                                                                break;
-                                                            case 2:
-                                                                setTODO3;
-                                                                break;
-                                                            default:
-                                                                break;
-                                                        }
-                                                    }} />
+                                                    defaultValue={selectedLvl.todo}
+                                                    onChange={(e) => setTODO(e)} />
                                                 <QuillNoSSRWrapper
                                                     modules={modules}
                                                     className="bg-[#0e6073]/10 max-h-[300px] w-[50%] pb-10"
-                                                    value={selectedLvl.eval}
-                                                    onChange={() => {
-                                                        switch (index) {
-                                                            case 0:
-                                                                setEval1;
-                                                                break;
-                                                            case 1:
-                                                                setEval2;
-                                                                break;
-                                                            case 2:
-                                                                setEval3;
-                                                                break;
-                                                            default:
-                                                                break;
-                                                        }
-                                                    }} />
+                                                    defaultValue={selectedLvl.eval}
+                                                    onChange={(e) => setEval(e)} />
                                             </div>
 
                                         </div>}
@@ -422,7 +408,7 @@ const ModifierRef: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
                             </div>
 
 
-                            <button type="submit" className="rounded-full bg-[#0E6073] px-10 py-3 font-semibold text-white no-underline transition hover:bg-[#0E6073]/80 hover:cursor-pointer text-center"><p>Enregistrer les modifications</p></button>
+                            <button type="submit" className="rounded-full bg-[#0E6073] px-10 py-3 font-semibold text-white no-underline transition hover:bg-[#0E6073]/80 hover:cursor-pointer text-center"><p>Enregistrer les modificationsde niveaux</p></button>
 
                         </form>
                     </div>}

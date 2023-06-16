@@ -1,14 +1,14 @@
 import { type InferGetServerSidePropsType, type GetServerSideProps, type NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
-import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch, BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { BiGroup, BiCalendar, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
 import { NavBar, Notifs, Promos } from "../components/barrel";
 import Link from "next/link";
 import { prisma } from "~/server/db";
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import type { BriefWithAll, PromoWithAll } from "~/utils/type";
 import { aleatoirePP } from "~/utils/genertor";
 
@@ -84,186 +84,10 @@ export const getServerSideProps: GetServerSideProps<{
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, promos }) => {
   const { data: sessionData } = useSession()
 
-  const [tab, setTab] = useState("normal")
-  const [selectedCat, setSelectedCat] = useState(0)
-  const [selectedTags, setSelectedTags] = useState<number[]>([])
-  const [modifyTag, setModifyTag] = useState(0)
-  const [modifyCat, setModifyCat] = useState(0)
-  const [creating, setCreating] = useState("")
-  const [SearchTerm, setSearchTerm] = useState('');
-
-  const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-  };
-
   const pp = aleatoirePP();
-  let briefIlu = "/promo.jpeg";
+  const briefIlu = "/promo.jpeg";
 
-  const CATEGORIES = [
-    {
-      "id": 1,
-      "title": "CMS",
-      "tags": [
-        {
-          "id": 1,
-          "title": "Big data"
 
-        },
-        {
-          "id": 2,
-          "title": "Algorithmique"
-        },
-        {
-          "id": 3,
-          "title": "SQL"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "title": "Data",
-      "tags": [
-        {
-          "id": 4,
-          "title": "Algorithmique"
-        },
-        {
-          "id": 5,
-          "title": "Big data"
-        },
-        {
-          "id": 6,
-          "title": "SQL"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Cybersécurité",
-      "tags": [
-        {
-          "id": 7,
-          "title": "SQL"
-        },
-        {
-          "id": 8,
-          "title": "Big data"
-
-        },
-        {
-          "id": 9,
-          "title": "SQL"
-
-        },
-        {
-          "id": 10,
-          "title": "Algorithmique"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Data",
-      "tags": [
-        {
-          "id": 11,
-          "title": "Algorithmique"
-        },
-        {
-          "id": 12,
-          "title": "Big data"
-        },
-        {
-          "id": 13,
-          "title": "SQL"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Cybersécurité",
-      "tags": [
-        {
-          "id": 14,
-          "title": "Big data"
-
-        },
-        {
-          "id": 15,
-          "title": "SQL"
-
-        },
-        {
-          "id": 16,
-          "title": "Algorithmique"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 7,
-      "title": "Data",
-      "tags": []
-    },
-    {
-      "id": 8,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 9,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 10,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 11,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 12,
-      "title": "CMS",
-      "tags": []
-    },
-    {
-      "id": 13,
-      "title": "CMS",
-      "tags": []
-    },
-  ];
-
-  function removeTag(tab: number[], item: number) {
-    const index = tab.indexOf(item);
-
-    tab.splice(index, 1);
-
-    return (tab)
-  }
-
-  const data = [
-    {
-      name: 'n 1',
-      val: 20
-    },
-    {
-      name: 'n 2',
-      val: 50
-    },
-    {
-      name: 'n 3',
-      val: 100
-    }
-  ];
 
   return (
     <>

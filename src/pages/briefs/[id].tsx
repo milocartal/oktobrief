@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs } from "~/components/barrel";
@@ -10,13 +10,11 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { prisma } from "~/server/db";
-import type { BriefWithAll, CategFull } from "~/utils/type";
-import { Tag } from "@prisma/client";
-import { api } from "~/utils/api";
+import type { BriefWithAll } from "~/utils/type";
+
 
 export const getServerSideProps: GetServerSideProps<{
     brief: BriefWithAll,
-    categories: CategFull[]
 }> = async function (context) {
     const session = await getSession(context)
 
@@ -50,67 +48,24 @@ export const getServerSideProps: GetServerSideProps<{
         }
     })
 
-    const categories = await prisma.categorie.findMany({
-        include: {
-            tags: true
+    if (!brief) {
+        return {
+            redirect: {
+                destination: '/briefs',
+                permanent: false,
+            },
         }
-    })
+    }
 
     return {
         props: {
             brief: JSON.parse(JSON.stringify(brief)) as BriefWithAll,
-            categories: JSON.parse(JSON.stringify(categories)) as CategFull[],
         }
     }
 };
 
-const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ brief, categories }) => {
+const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ brief }) => {
     const [open, setOpen] = useState(true)
-    const [tab, setTab] = useState("normal")
-
-    const [selectedCat, setSelectedCat] = useState<CategFull | null>(() => {
-        if (categories.length > 0 && categories[0]) {
-            return categories[0]
-        }
-        return null
-    })
-
-    const [selectedTags, setSelectedTags] = useState<Tag | null>(null)
-    const [SearchTerm, setSearchTerm] = useState('');
-
-    const create = api.ressource.create.useMutation()
-    const addRessource = api.ressource.addToBrief.useMutation()
-
-    const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchTerm(value);
-    };
-
-    function removeTag(tab: number[], item: number) {
-        const index = tab.indexOf(item);
-
-        tab.splice(index, 1);
-
-        return (tab)
-    }
-
-    async function handleCreaTag(e: React.SyntheticEvent) {
-        e.preventDefault()
-        const target = e.target as typeof e.target & {
-            ressourceTitle: { value: string };
-            imgRessource: { value: string };
-            ressourceUrl: { value: string };
-        };
-        const title = target.ressourceTitle.value
-        let img = "/logo-gradient.jpg"
-        if (target.imgRessource.value !== "") {
-            img = target.imgRessource.value
-        }
-        const link = target.ressourceUrl.value
-        const temp = await create.mutateAsync({ title: title, link: link, img: img })
-        await addRessource.mutateAsync({ id: temp.id, idBrief: brief.id })
-        window.location.reload()
-    }
 
     let briefIlu = "/promo.jpeg";
     if (brief.img) {
@@ -157,62 +112,41 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                         </div>
                         {open &&
                             <div className="flex flex-row justify-between items-center w-full mb-5">
-
-
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="max-w-[33%] border-2 rounded-t-lg">
-                                    <p className="text-sm text-[#0E6073] m-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac arcu eget metus vehicula venenatis et a nisl.</p>
-                                    <div className="flex flex-row justify-between items-center w-full rounded-lg bg-[#0E6073] p-2">
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 1</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 2</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                        <span className="flex flex-row justify-between items-center">
-                                            <p className="text-white text-sm">Niveau 3</p>
-                                            <BiCheck className="text-white text-xl ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
+                                {brief.Niveaux.map((item) => {
+                                    let index = 0
+                                    switch (item.title) {
+                                        case 'Niveau 1':
+                                            index = 1
+                                            break;
+                                        case 'Niveau 2':
+                                            index = 2
+                                            break;
+                                        case 'Niveau 3':
+                                            index = 3
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    return (
+                                        <div className="max-w-[33%] border-2 rounded-lg" key={item.id}>
+                                            <p className="text-sm text-[#0E6073] m-3">{item.competence.title}</p>
+                                            <div className="flex flex-row justify-between items-center w-full rounded-lg">
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white":""}`}>
+                                                    <p className="text-sm">Niveau 1</p>
+                                                    {index >= 1 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white":""}`}>
+                                                    <p className="text-sm">Niveau 2</p>
+                                                    {index >= 2 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white":""}`}>
+                                                    <p className="text-sm">Niveau 3</p>
+                                                    {index >= 3 && <BiCheck className="text-white text-xl ml-1" />}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
 
                             </div>
                         }
@@ -259,7 +193,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                         <div className="flex flex-col w-full gap-3">
                             {brief.ressources && brief.ressources.length > 0 && brief.ressources.map((item) => {
                                 return (
-                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
+                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]" key={item.id}>
                                         <div className="w-[50%] flex flex-col items-start my-5">
                                             <h2 className="text-2xl text-black">{item.title}</h2>
                                             <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
