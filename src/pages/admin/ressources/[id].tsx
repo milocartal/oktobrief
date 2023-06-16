@@ -55,6 +55,9 @@ export const getServerSideProps: GetServerSideProps<{
     const ressource = await prisma.ressource.findUnique({
         where: {
             id: context.query.id as string
+        },
+        include: {
+            briefs: true
         }
     })
 
@@ -74,7 +77,6 @@ export const getServerSideProps: GetServerSideProps<{
 
 const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ ressource, categories }) => {
     const updateRes = api.ressource.update.useMutation()
-    const addRessource = api.ressource.addToBrief.useMutation()
 
     //useState
 
@@ -87,8 +89,24 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
 
     const [selectedTags, setSelectedTags] = useState<Tag | null>(null)
     const [SearchTerm, setSearchTerm] = useState('');
+    const [title, setTitle] = useState(ressource.title);
+    const [resUrl, setUrl] = useState(ressource.link);
+    const [resImg, setImg] = useState(ressource.img);
 
     //Fonctions
+
+    const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTitle(value);
+    };
+    const handleUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setUrl(value);
+    };
+    const handleImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setImg(value);
+    };
 
     const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -108,8 +126,7 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
             img = target.imgRessource.value
         }
         const link = target.ressourceUrl.value
-        const temp = await updateRes.mutateAsync({ title: title, link: link, img: img })
-        await addRessource.mutateAsync({ id: temp.id, idBrief: brief.id })
+        await updateRes.mutateAsync({ id: ressource.id, title: title, link: link, img: img })
         window.location.reload()
     }
 
@@ -121,7 +138,6 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-
             <main className="flex h-screen flex-col items-center justify-center bg-[#F3F3F3] px-[50px] gap-5">
 
                 <Notifs />
@@ -130,7 +146,7 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 <form onSubmit={(e) => void handleUpdateRes(e)} className="relative flex flex-col gap-5 item-center justify-between bg-white rounded-lg p-10 w-10/12 max-h-[95%] text-[#041f25]" method="POST">
                     <span className="flex flex-row justify-between">
                         <span className="flex flex-row justify-between items-center">
-                            <Link href={`/briefs/${ressource.id}`} className="px-5 py-2 bg-[#0E6073] hover:bg-[#0c4d5c] text-white rounded-lg text-base self-start z-10 flex flex-row items-center justify-between w-32 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                            <Link href={`/briefs/${ressource.briefs[0].id}`} className="px-5 py-2 bg-[#0E6073] hover:bg-[#0c4d5c] text-white rounded-lg text-base self-start z-10 flex flex-row items-center justify-between w-32 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                             <h1 className="text-3xl text-black">Modifier la ressource</h1>
                         </span>
                         <p className="text-base text-[#A10000]">*Obligatoire</p>
@@ -142,7 +158,8 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                                 <input
                                     type='text'
                                     name="ressourceTitle"
-                                    placeholder={ressource.title}
+                                    value={title}
+                                    onChange={handleTitle}
                                     id="ressourceTitle"
                                     className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
                                     autoComplete="off" />
@@ -154,7 +171,8 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                                     name="imgRessource"
                                     id="imgRessource"
                                     className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
-                                    placeholder="url de l'image"
+                                    value={resImg}
+                                    onChange={handleImg}
                                     autoComplete="off" />
                             </fieldset>
                         </fieldset>
@@ -165,7 +183,8 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                                 <input
                                     type='url'
                                     name="ressourceUrl"
-                                    placeholder={ressource.link}
+                                    value={resUrl}
+                                    onChange={handleUrl}
                                     id="ressourceUrl"
                                     className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
                                     autoComplete="off" />

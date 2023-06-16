@@ -259,13 +259,20 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                         <div className="flex flex-col w-full gap-3">
                             {brief.ressources && brief.ressources.length > 0 && brief.ressources.map((item) => {
                                 return (
-                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
+                                    <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]" key={item.id}>
                                         <div className="w-[50%] flex flex-col items-start my-5">
                                             <h2 className="text-2xl text-black">{item.title}</h2>
                                             <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
                                         </div>
                                         <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-
+                                            <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
+                                                <Link href={`/admin/ressources/${item.id}`}>
+                                                    <BiPencil className="text-3xl text-[#2EA3A5]" />
+                                                </Link>
+                                                <button>
+                                                    <BiTrash className="text-3xl text-[#A10000]"/>
+                                                </button>
+                                            </span>
                                             <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
                                                 {item.tags && item.tags.map((tag) => {
                                                     return (
@@ -276,7 +283,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                                 })}
                                             </div>
                                         </div>
-                                        <Image width={1000} height={1500} loader={() => item.img} src={item.img} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
+                                        <Image width={1000} height={1500} loader={() => item.img} src={item.img} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la ressource" />
                                     </div>
                                 )
                             })}
