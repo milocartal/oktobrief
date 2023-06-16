@@ -88,7 +88,7 @@ const idPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="flex min-h-screen justify-start flex-col bg-[#F3F3F3] pl-[150px] pr-[200px] px-[50px] py-10 gap-5">
-                <Link href={"/superadmin/promo"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg absolute top-[40px] flex items-center justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                <Link href={"/superadmin/promo"} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg absolute top-[40px] flex items-center justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mt-[80px]">
                     <div id="haut" className="flex items-center w-full gap-5 justify-center">

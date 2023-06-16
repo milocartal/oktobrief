@@ -162,7 +162,7 @@ const AssignBrief: NextPage = () => {
         <div className="w-full h-[85%] flex flex-row justify-between">
             <section className="h-full w-[74%] rounded-lg bg-white overflow-auto px-5 py-5">
                 <div className="w-full flex flex-row justify-between items-center">
-                    <Link href={""} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0b4d5c] text-white rounded-lg text-base self-start flex flex-row items-center justify-between w-32"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                    <Link href={""} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg text-base self-start flex flex-row items-center justify-between w-32"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                     <div className="flex flex-row justify-between items-center">
                         <div className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[50%] flex flex-row justify-between items-center mr-2">
                             <BiSearch className="text-3xl text-black ml-4" />
