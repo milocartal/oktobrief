@@ -10,32 +10,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { prisma } from "~/server/db";
 import type { CategFull } from "~/utils/type";
-import { Ressource, Tag } from "@prisma/client";
+import type { Ressource, Tag } from "@prisma/client";
 import { api } from "~/utils/api";
-import dynamic from "next/dynamic";
-
-const QuillNoSSRWrapper = dynamic(import('react-quill'), {
-    ssr: false,
-    loading: () => <p>Loading ...</p>,
-})
-
-const modules = {
-    toolbar: [
-        [{ header: ['1', '2', '3', false] }],
-        //[{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
-        [{ color: [] }],
-        [
-            { list: 'ordered' },
-            { list: 'bullet' },
-        ],
-        ['link'],
-    ],
-    clipboard: {
-        // toggle to add extra line breaks when pasting HTML:
-        matchVisual: false,
-    },
-}
 
 export const getServerSideProps: GetServerSideProps<{
     ressource: Ressource,
@@ -146,7 +122,7 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 <form onSubmit={(e) => void handleUpdateRes(e)} className="relative flex flex-col gap-5 item-center justify-between bg-white rounded-lg p-10 w-10/12 max-h-[95%] text-[#041f25]" method="POST">
                     <span className="flex flex-row justify-between">
                         <span className="flex flex-row justify-between items-center">
-                            <Link href={`/briefs/${ressource.briefs[0].id}`} className="px-5 py-2 bg-[#0E6073] hover:bg-[#0c4d5c] text-white rounded-lg text-base self-start z-10 flex flex-row items-center justify-between w-32 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                            <Link href={`/briefs`} className="px-5 py-2 bg-[#0E6073] hover:bg-[#0c4d5c] text-white rounded-lg text-base self-start z-10 flex flex-row items-center justify-between w-32 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                             <h1 className="text-3xl text-black">Modifier la ressource</h1>
                         </span>
                         <p className="text-base text-[#A10000]">*Obligatoire</p>
