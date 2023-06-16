@@ -65,24 +65,8 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
 
     const [selectedTags, setSelectedTags] = useState<Tag | null>(null)
     const [SearchTerm, setSearchTerm] = useState('');
-    const [title, setTitle] = useState(ressource.title);
-    const [resUrl, setUrl] = useState(ressource.link);
-    const [resImg, setImg] = useState(ressource.img);
 
     //Fonctions
-
-    const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setTitle(value);
-    };
-    const handleUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setUrl(value);
-    };
-    const handleImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setImg(value);
-    };
 
     const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -134,21 +118,19 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                                 <input
                                     type='text'
                                     name="ressourceTitle"
-                                    value={title}
-                                    onChange={handleTitle}
                                     id="ressourceTitle"
                                     className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                                    defaultValue={ressource.title}
                                     autoComplete="off" />
                             </fieldset>
                             <fieldset>
                                 <label htmlFor='imgRessource'>Image de la ressource</label>
                                 <input
-                                    type="url"
+                                    type="text"
                                     name="imgRessource"
                                     id="imgRessource"
                                     className="px-[1rem] py-3 w-full rounded-lg shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)]"
-                                    value={resImg}
-                                    onChange={handleImg}
+                                    defaultValue={ressource.img}
                                     autoComplete="off" />
                             </fieldset>
                         </fieldset>
@@ -159,10 +141,9 @@ const ModifRessource: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                                 <input
                                     type='url'
                                     name="ressourceUrl"
-                                    value={resUrl}
-                                    onChange={handleUrl}
                                     id="ressourceUrl"
                                     className="p-[1rem] rounded-lg bg-none shadow-[inset_4px_5px_12px_6px_rgba(0,0,0,0.25)] w-full mb-3"
+                                    defaultValue={ressource.link}
                                     autoComplete="off" />
                             </fieldset>
                             <p>Tags</p>
