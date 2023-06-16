@@ -143,7 +143,7 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                 <div className="flex min-h-screen w-full flex-col items-start justify-start px-10 pt-[40px]">
                     <span className="flex w-[80%] flex-row items-center justify-between mb-5 pl-10">
                         <div className="flex flex-row items-center">
-                            <Link href={"/superadmin"} className="px-5 py-2 bg-[#0e6073] text-white rounded-lg flex items-center justify-between gap-1 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                            <Link href={"/superadmin"} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg flex items-center justify-between gap-1 mr-5"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                             <h1 className="text-4xl font-extrabold text-black">Les promos</h1>
                         </div>
                         <span className="pr-[1rem] rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[32%] flex flex-row justify-between items-center">

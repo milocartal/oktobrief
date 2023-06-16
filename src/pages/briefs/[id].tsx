@@ -199,7 +199,14 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                             <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
                                         </div>
                                         <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-
+                                            <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
+                                                <Link href={`/admin/ressources/${item.id}`}>
+                                                    <BiPencil className="text-3xl text-[#2EA3A5]" />
+                                                </Link>
+                                                <button>
+                                                    <BiTrash className="text-3xl text-[#A10000]"/>
+                                                </button>
+                                            </span>
                                             <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
                                                 {item.tags && item.tags.map((tag) => {
                                                     return (
@@ -210,7 +217,7 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                                 })}
                                             </div>
                                         </div>
-                                        <Image width={1000} height={1500} loader={() => item.img} src={item.img} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
+                                        <Image width={1000} height={1500} loader={() => item.img} src={item.img} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la ressource" />
                                     </div>
                                 )
                             })}

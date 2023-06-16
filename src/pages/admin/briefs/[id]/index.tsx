@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs } from "~/components/barrel";
-import { BiLeftArrowAlt, BiLink, BiCheck, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
+import { BiLeftArrowAlt, BiCheck, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
 
 import Link from "next/link";
@@ -14,7 +14,6 @@ import type { BriefWithAll, CategFull } from "~/utils/type";
 import type { Tag } from "@prisma/client";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
-import Router from "next/router";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
