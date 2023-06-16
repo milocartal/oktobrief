@@ -14,6 +14,7 @@ import type { BriefWithAll, CategFull } from "~/utils/type";
 import type { Tag } from "@prisma/client";
 import { api } from "~/utils/api";
 import dynamic from "next/dynamic";
+import Router from "next/router";
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
