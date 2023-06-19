@@ -4,7 +4,7 @@ import {
     protectedProcedure,
 } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
-import { aleatoirePP, generatePassword } from "~/utils/genertor";
+import { aleatoireColor, aleatoirePP, generatePassword } from "~/utils/genertor";
 
 export const userRouter = createTRPCRouter({
 
@@ -45,7 +45,8 @@ export const userRouter = createTRPCRouter({
                 email: input.email,
                 firstName: input.firstname,
                 password: generatePassword(),
-                image: aleatoirePP()
+                image: aleatoirePP(),
+                color: aleatoireColor()
             }
         })
     }),

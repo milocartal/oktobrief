@@ -27,35 +27,21 @@ export const getServerSideProps: GetServerSideProps<{
             },
         }
     }
-    let briefs
 
-    if (session.superadmin || session.formateur) {
-        briefs = await prisma.brief.findMany({
-            include: {
-                ressources: true,
-                referentiel: true,
-                tags: true,
-                formateur: true
-            }
-        })
-    }
-    else {
-        briefs = await prisma.brief.findMany({
-            include: {
-                ressources: true,
-                referentiel: true,
-                tags: true,
-                formateur: true
-            },
-            where: {
-                assignations: {
-                    some: {
-                        idUser: session.user.id
-                    }
+
+    const briefs = await prisma.brief.findMany({
+        include: {
+            ressources: {
+                include: {
+                    tags: true
                 }
-            }
-        })
-    }
+            },
+            referentiel: true,
+            tags: true,
+            formateur: true,
+            Niveaux: true
+        },
+    })
 
     return {
         props: {
@@ -66,7 +52,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
-    const {data: sessionData} = useSession()
+    const { data: sessionData } = useSession()
 
     const [selected, setSelected] = useState(0)
 
@@ -112,7 +98,7 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                         </div>
                                     }
                                 </div>
-                                {(sessionData?.formateur || sessionData?.superadmin) && 
+                                {(sessionData?.formateur || sessionData?.superadmin) &&
                                     <Link href={`/admin/briefs/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer un projet
                                     </Link>
@@ -143,7 +129,7 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <h3 className="text-lg text-black">{item.title}</h3>
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
-                                                <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                                <Image width={300} height={300} loader={() => pp} src={pp} className={`w-12 h-12 rounded-full object-cover mr-3 bg-${item.formateur.color}`} alt="Photo de profil utilisateur" />
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>

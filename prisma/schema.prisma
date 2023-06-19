@@ -165,6 +165,7 @@ model User {
     formateur     Boolean        @default(false)
     superadmin    Boolean        @default(false)
     password      String?
+    color         String         @default("#0e6073")
     accounts      Account[]
     sessions      Session[]
     promos        Promo[]
