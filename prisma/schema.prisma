@@ -74,7 +74,7 @@ model Brief {
     modal_eval   String // @db.Text
     livrable     String
     perf         String
-    img          String?
+    img          String
     referentiel  Referentiel   @relation(fields: [idR], references: [id], onDelete: Cascade)
     assignations Assignation[]
     tags         Tag[]

@@ -99,4 +99,15 @@ export const briefRouter = createTRPCRouter({
         })
     }),
 
+    updateImg: protectedProcedure.input(z.object({ id: z.string(), img: z.string() })).mutation(({ input }) => {
+        return prisma.brief.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                img: input.img
+            }
+        })
+    }),
+
 });

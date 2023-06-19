@@ -69,4 +69,34 @@ export const tagRouter = createTRPCRouter({
         })
     }),
 
+    addToBrief: protectedProcedure.input(z.object({ id: z.string(), idBrief: z.string() })).mutation(({ input }) => {
+        return prisma.tag.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                briefs:{
+                    connect:{
+                        id: input.idBrief
+                    }
+                }
+            }
+        })
+    }),
+
+    removeFromBrief: protectedProcedure.input(z.object({ id: z.string(), idBrief: z.string() })).mutation(({ input }) => {
+        return prisma.tag.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                briefs:{
+                    disconnect:{
+                        id: input.idBrief
+                    }
+                }
+            }
+        })
+    }),
+
 });

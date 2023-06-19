@@ -8,6 +8,7 @@ import { assignationRouter } from "./routers/assignation";
 import { briefRouter } from "./routers/brief";
 import { ressourceRouter } from "./routers/ressource";
 import { tagRouter } from "./routers/tag";
+import { categorieRouter } from './routers/categorie';
 
 /**
  * This is the primary router for your server.
@@ -23,7 +24,8 @@ export const appRouter = createTRPCRouter({
   assignation: assignationRouter,
   brief: briefRouter,
   ressource: ressourceRouter,
-  tag: tagRouter
+  tag: tagRouter,
+  categorie: categorieRouter
 });
 
 // export type definition of API

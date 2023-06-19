@@ -144,7 +144,7 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <h3 className="text-lg text-black">{item.title}</h3>
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
-                                                <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                            <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover bg-center mr-3 bg-[#0e6073]" alt="Photo de profil utilisateur" />
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>

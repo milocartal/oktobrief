@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    if(!superadmin || !formateur){
+    if (!superadmin || !formateur) {
         return {
             redirect: {
                 destination: '/',
@@ -220,9 +220,19 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                     <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h1 className="text-4xl font-semibold text-black">{brief.title}</h1>
-                            <button onClick={(e) => void handleDelBrief(e)}>
-                                <BiTrash className="text-3xl text-[#A10000]" />
-                            </button>
+                            <span className="flex flex-row justify-around self-end items-center gap-3">
+                                <Link
+                                    className="flex flex-row items-center justify-between px-5 py-2 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg"
+                                    href={`/admin/briefs/${brief.id}/ressources`}
+                                >
+                                    Gestion des ressource
+                                </Link>
+
+                                <button onClick={(e) => void handleDelBrief(e)}>
+                                    <BiTrash className="text-3xl text-[#A10000]" />
+                                </button>
+                            </span>
+
                         </span>
                         <span className="flex w-full justify-between items-center">
                             <h2 className="text-2xl text-black mt-5 mb-2">Description</h2>
@@ -255,10 +265,18 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                 <h2 className="text-2xl text-black">Référentiel :</h2>
                                 <div className="text-lg text-black" dangerouslySetInnerHTML={{ __html: brief.referentiel.title }} />
                             </span>
-                            <button onClick={()=> void Router.push(`/admin/briefs/${brief.id}/competence`)}>
-                                <BiPencil className="text-3xl text-[#2EA3A5]" />
-                            </button>
-                            {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" /></button>}
+
+                            <span className="flex jusity-center gap-2">
+                                <button onClick={() => void Router.push(`/admin/briefs/${brief.id}/competence`)}>
+                                    <BiPencil className="text-3xl text-[#2EA3A5]" />
+                                </button>
+                                <button onClick={() => setOpen(!open)}>
+                                    {open ? <IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" /> : <IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073]" />}
+                                </button>
+                            </span>
+
+
+
                         </div>
                         {open &&
                             <div className="flex flex-row justify-between items-center w-full mb-5">
@@ -281,15 +299,15 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                         <div className="max-w-[33%] border-2 rounded-lg" key={item.id}>
                                             <p className="text-sm text-[#0E6073] m-3">{item.competence.title}</p>
                                             <div className="flex flex-row justify-between items-center w-full rounded-lg">
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white": ""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 1</p>
                                                     {index >= 1 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white":""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 2</p>
                                                     {index >= 2 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white":""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 3</p>
                                                     {index >= 3 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
@@ -463,9 +481,9 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                         </div>
                                         <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
                                             <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                                                <button>
+                                                <Link href={`/admin/ressources/${item.id}`}>
                                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
-                                                </button>
+                                                </Link>
                                                 <button onClick={(e) => void handleDelRes(e, item.id)}>
                                                     <BiTrash className="text-3xl text-[#A10000]" />
                                                 </button>

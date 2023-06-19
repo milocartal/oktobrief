@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps, NextPage } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs } from "~/components/barrel";
@@ -66,6 +66,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ brief }) => {
     const [open, setOpen] = useState(true)
+    const { data: sessionData } = useSession()
 
     let briefIlu = "/promo.jpeg";
     if (brief.img) {
@@ -92,14 +93,14 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                     <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h1 className="text-4xl font-semibold text-black">{brief.title}</h1>
-                            <span className="flex flex-row justify-around self-end items-center w-24">
+                            {(sessionData?.formateur || sessionData?.superadmin) && <span className="flex flex-row justify-around self-end items-center w-24">
                                 <Link href={`/admin/briefs/${brief.id}`}>
                                     <BiPencil className="text-3xl text-[#2EA3A5]" />
                                 </Link>
                                 <button>
                                     <BiTrash className="text-3xl text-[#A10000]" />
                                 </button>
-                            </span>
+                            </span>}
                         </span>
                         <div className="text-sm" dangerouslySetInnerHTML={{ __html: brief.desc }} />
 
@@ -131,15 +132,15 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                         <div className="max-w-[33%] border-2 rounded-lg" key={item.id}>
                                             <p className="text-sm text-[#0E6073] m-3">{item.competence.title}</p>
                                             <div className="flex flex-row justify-between items-center w-full rounded-lg">
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white":""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-l-lg ${index >= 1 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 1</p>
                                                     {index >= 1 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white":""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 ${index >= 2 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 2</p>
                                                     {index >= 2 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
-                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white":""}`}>
+                                                <span className={`flex flex-row justify-between items-center p-2 rounded-r-lg ${index >= 3 ? "bg-[#0E6073] text-white" : ""}`}>
                                                     <p className="text-sm">Niveau 3</p>
                                                     {index >= 3 && <BiCheck className="text-white text-xl ml-1" />}
                                                 </span>
@@ -199,14 +200,6 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                                             <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
                                         </div>
                                         <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-                                            <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                                                <Link href={`/admin/ressources/${item.id}`}>
-                                                    <BiPencil className="text-3xl text-[#2EA3A5]" />
-                                                </Link>
-                                                <button>
-                                                    <BiTrash className="text-3xl text-[#A10000]"/>
-                                                </button>
-                                            </span>
                                             <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
                                                 {item.tags && item.tags.map((tag) => {
                                                     return (
