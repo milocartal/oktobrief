@@ -17,6 +17,8 @@ export const getServerSideProps: GetServerSideProps<{
   promo: PromoWithStudent
 }> = async function (context) {
   const session = await getSession(context)
+  const superadmin = session?.superadmin
+
 
   if (!session) {
     return {
@@ -26,6 +28,15 @@ export const getServerSideProps: GetServerSideProps<{
       },
     }
   }
+
+  if (!superadmin) {
+    return {
+        redirect: {
+            destination: '/',
+            permanent: false,
+        },
+    }
+}
 
   const promo = await prisma.promo.findUnique({
     where: {

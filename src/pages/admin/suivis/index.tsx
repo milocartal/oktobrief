@@ -15,11 +15,22 @@ export const getServerSideProps: GetServerSideProps<{
     session: SessionAuth
 }> = async function (context) {
     const session = await getSession(context)
+    const superadmin = session?.superadmin
+    const formateur = session?.formateur
 
     if (!session) {
         return {
             redirect: {
                 destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
+    if (!superadmin || !formateur) {
+        return {
+            redirect: {
+                destination: '/',
                 permanent: false,
             },
         }

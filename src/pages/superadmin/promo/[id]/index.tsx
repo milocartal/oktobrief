@@ -16,7 +16,6 @@ export const getServerSideProps: GetServerSideProps<{
     promo: PromoWithAll
 }> = async function (context) {
     const session = await getSession(context)
-    const admin = session?.formateur
     const superadmin = session?.superadmin
 
     if (!session) {
@@ -28,7 +27,7 @@ export const getServerSideProps: GetServerSideProps<{
         }
     }
 
-    if (!superadmin || !admin) {
+    if (!superadmin) {
         return {
             redirect: {
                 destination: '/',
