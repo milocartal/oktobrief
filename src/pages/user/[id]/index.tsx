@@ -70,7 +70,7 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
         fullname = user.firstName + " " + user.name
     }
 
-    async function handleUpdate(e:React.SyntheticEvent) {
+    async function handleUpdate(e: React.SyntheticEvent) {
         e.preventDefault()
         const target = e.target as typeof e.target & {
             userName: { value: string };
@@ -84,13 +84,13 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
         const mail = target.userEmail.value
         const password = target.currentPassword.value
         const newPassword = target.newPassword.value
-        await updateUser.mutateAsync({id: user.id, name: name, firstname: fisrtname, mail: mail, url: user.image})
-        if(password.length > 0){
-            if(password !== user.password){
+        await updateUser.mutateAsync({ id: user.id, name: name, firstname: fisrtname, mail: mail, url: user.image })
+        if (password.length > 0) {
+            if (password !== user.password) {
                 alert("Le mot de passe n'est pas bon")
             }
-            else{
-                await updatePassword.mutateAsync({id: user.id, password: newPassword})
+            else {
+                await updatePassword.mutateAsync({ id: user.id, password: newPassword })
             }
         }
         window.location.reload()
@@ -112,7 +112,13 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
                 <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5 relative">
                     <h2 className="text-2xl text-black self-start mb-5">Mon compte</h2>
                     <div className="flex flex-row items-center justify-between w-[80%] self-start">
-                        {userPFP && <Image width={200} height={200} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover" alt="Photo de profil utilisateur" />}
+                        {userPFP && (userPFP.includes("http") ?
+                            <Image width={300} height={300} loader={() => userPFP} src={userPFP} className="w-40 h-40 rounded-full object-cover mr-3" style={{ background: user.color }} alt="Photo de profil utilisateur" />
+                            :
+                            <div className="w-40 h-40 rounded-full mr-3 flex items-center justify-center" style={{ background: user.color }}>
+                                <Image width={300} height={300} loader={() => userPFP} src={userPFP} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                            </div>)
+                        }
                         <div>
                             <h2 className="text-2xl text-black self-start">{fullname}</h2>
                             {user.formateur ? <p className="text-lg text-black self-start">Formateur.rice</p> : <p className="text-lg text-black self-start">Apprenant.e</p>}
@@ -124,7 +130,7 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
                     </div>
                     {open ? <button onClick={() => setOpen(!open)}><IoChevronUpCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button> : <button onClick={() => setOpen(!open)}><IoChevronDownCircleSharp className="h-[60px] w-[60px] text-[#0E6073] absolute right-8 top-52" /></button>}
                     {open &&
-                        <form onSubmit={(e)=> void handleUpdate(e)} className="w-full mt-10 flex flex-row justify-around px-12" method="POST">
+                        <form onSubmit={(e) => void handleUpdate(e)} className="w-full mt-10 flex flex-row justify-around px-12" method="POST">
                             <fieldset className="w-[30%]">
                                 <label className="mt-2">Prénom</label>
                                 <input
