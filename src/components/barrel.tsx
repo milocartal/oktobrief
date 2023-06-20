@@ -180,7 +180,7 @@ export const Promos: React.FC<PropsUser> = (props) => {
                         }
                     })}
 
-                    <Link href={"/admin/promo/creer"} className="flex flex-row items-center rounded-lg justify-center rounded-lg bg-[#0E6073] text-white rounded-b-lg w-full h-12">
+                    <Link href={"/admin/promo/creer"} className="flex flex-row items-center justify-center rounded-b-lg bg-[#0E6073] hover:bg-[#0c4d5c] text-white w-full h-12">
                         <p className="text-sm">+ Créer une promo</p>
                     </Link>
                 </div>

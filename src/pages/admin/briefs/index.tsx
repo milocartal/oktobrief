@@ -95,7 +95,7 @@ const IndexAdminBrief: NextPage<InferGetServerSidePropsType<typeof getServerSide
                                         <BiChevronDown className="text-4xl" />
                                     </button>
                                     {open &&
-                                        <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073]">
+                                        <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] border-2">
                                             <button className="text-sm text-[#0E6073] py-4">Promo 2 2022/2023</button>
                                             <button className="text-sm text-[#0E6073] py-4">Promo 3 2022/2023</button>
                                             <button className="text-sm text-[#0E6073] py-4">Promo 4 2022/2023</button>
