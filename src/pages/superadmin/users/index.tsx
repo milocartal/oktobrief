@@ -107,7 +107,7 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                                     pp = user.image
                                 }
                                 return (
-                                    <Link href={`/superadmin/users/`} className="flex flex-row justify-between items-center w-full mt-5" key={user.id}>
+                                    <Link href={`/superadmin/users/${user.id}`} className="flex flex-row justify-between items-center w-full mt-5" key={user.id}>
                                         <div className="flex flex-row items-center max-w-[75%]">
                                             {user.image.includes("http") ?
                                                 <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: user.color }} alt="Photo de profil utilisateur" />

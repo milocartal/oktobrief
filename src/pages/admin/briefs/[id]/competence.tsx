@@ -8,6 +8,8 @@ import { api } from "~/utils/api";
 
 import { prisma } from "~/server/db";
 import type { RefeWithComp, CompWithLvl, BriefWithAll } from "~/utils/type";
+import Link from "next/link";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -134,7 +136,10 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
             </Head>
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] pt-10 gap-5">
 
-                <h1 className="text-4xl font-extrabold text-black w-full">Selectionné des compétences dans: <i>{referentiel.title}</i></h1>
+                <span className="flex w-full flex-row items-center justify-start mb-10 gap-5">
+                    <Link href={`/admin/briefs/${brief.id}`} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg flex items-center self-start justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                    <h1 className="text-4xl font-extrabold text-black w-full">Selectionné des compétences dans: <i>{referentiel.title}</i></h1>
+                </span>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl">
                     <div className="flex w-full items-start justify-start bg-white gap-5">

@@ -5,7 +5,7 @@ import Head from "next/head";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
 import { NavBar } from "~/components/barrel";
 import { useState } from "react";
-import { BiShowAlt, BiHide, BiGroup, BiCalendar } from "react-icons/bi";
+import { BiShowAlt, BiHide, BiGroup, BiCalendar, BiLeftArrowAlt } from "react-icons/bi";
 import Image from "next/image";
 import { prisma } from "~/server/db";
 import type { UserWithPromo } from "~/utils/type";
@@ -115,7 +115,8 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
             </Head>
             <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] px-[10%] pt-[40px] ml-[100px]">
 
-                <span className="flex w-full flex-row items-center justify-between mb-10">
+                <span className="flex w-full flex-row items-center justify-start mb-10 gap-5">
+                    <Link href={"/superadmin/users"} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg flex items-center self-start justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
                     <h1 className="text-4xl font-extrabold text-black">Profil de {fullname}</h1>
                 </span>
 

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import Router from "next/router";
 
-import { BiChevronDown, BiChevronUp, BiPencil, BiSearch, BiTrash } from "react-icons/bi";
+import { BiChevronDown, BiChevronUp, BiLeftArrowAlt, BiPencil, BiSearch, BiTrash } from "react-icons/bi";
 import type { Tag } from "@prisma/client";
 import { prisma } from "~/server/db";
 import type { BriefWithAll, CategFull } from "~/utils/type";
@@ -217,8 +217,11 @@ const AddBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="flex min-h-screen flex-col items-center justify-start bg-[#F3F3F3] pl-[150px] px-[50px] pt-10 gap-5">
-
-                <h1 className="text-4xl font-extrabold text-black w-full">Gestion des ressources</h1>
+                
+                <span className="flex w-full flex-row items-center justify-start mb-10 gap-5">
+                    <Link href={`/admin/briefs/${brief.id}`} className="px-5 py-2 bg-[#0e6073] hover:bg-[#0c4d5c] text-white rounded-lg flex items-center self-start justify-between gap-1"><BiLeftArrowAlt className="text-3xl" /> Retour</Link>
+                    <h1 className="text-4xl font-extrabold text-black w-full">Gestion des ressources</h1>
+                </span>
 
                 <section className="flex w-full flex-col items-center justify-start bg-white px-[40px] py-[40px] gap-5 rounded-xl mb-10">
 
