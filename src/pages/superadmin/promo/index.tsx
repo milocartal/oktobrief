@@ -174,7 +174,7 @@ const IndexPromo: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <BiChevronDown className="text-2xl" />
                                         </button>
                                         {open &&
-                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] z-20 min-w-[200px]">
+                                            <div className="w-full absolute bg-white rounded-b-lg flex flex-col items-center divide-y divide-[#0E6073] z-20 min-w-[200px] border-2">
                                                 <button className={filterType == "Date de début" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de début")}>Date de début</button>
                                                 <button className={filterType == "Date de fin" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Date de fin")}>Date de fin</button>
                                                 <button className={filterType == "Nombre d'apprenants >" ? "text-sm text-white bg-[#0E6073] w-full py-4" : "text-sm text-[#0E6073] py-4"} onClick={() => setFilterType("Nombre d'apprenants >")}>Nombre d&apos;apprenants &gt;</button>

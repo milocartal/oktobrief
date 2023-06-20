@@ -74,8 +74,12 @@ const AdminProfileScreen: NextPage<InferGetServerSidePropsType<typeof getServerS
     const updateUser = api.user.update.useMutation()
     const updatePassword = api.user.updatePassword.useMutation()
 
-    const fullname = user.firstName + " " + user.name
+    let fullname = user.name
 
+    if (user.firstName != null && user.name != null) {
+        fullname = user.firstName + " " + user.name
+    }
+    
     async function handleUpdate(e:React.SyntheticEvent) {
         e.preventDefault()
         const target = e.target as typeof e.target & {
