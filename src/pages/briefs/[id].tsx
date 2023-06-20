@@ -3,7 +3,7 @@ import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 
 import { NavBar, Notifs } from "~/components/barrel";
-import { BiLeftArrowAlt, BiLink, BiCheck, BiPencil, BiTrash, BiSearch } from "react-icons/bi";
+import { BiLeftArrowAlt, BiLink, BiCheck, BiPencil, BiTrash, BiSearch, BiUserPlus } from "react-icons/bi";
 import { IoChevronUpCircleSharp, IoChevronDownCircleSharp } from "react-icons/io5";
 
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { prisma } from "~/server/db";
 import type { BriefWithAll } from "~/utils/type";
+import Router from "next/router";
 
 
 export const getServerSideProps: GetServerSideProps<{
@@ -93,14 +94,19 @@ const Brief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
                     <section className="flex w-full flex-col items-start justify-start bg-white px-[40px] py-[40px] rounded-xl">
                         <span className="flex w-full flex-row items-center justify-between mb-3">
                             <h1 className="text-4xl font-semibold text-black">{brief.title}</h1>
-                            {(sessionData?.formateur || sessionData?.superadmin) && <span className="flex flex-row justify-around self-end items-center w-24">
-                                <Link href={`/admin/briefs/${brief.id}`}>
-                                    <BiPencil className="text-3xl text-[#2EA3A5]" />
-                                </Link>
-                                <button>
-                                    <BiTrash className="text-3xl text-[#A10000]" />
-                                </button>
-                            </span>}
+                            {(sessionData?.formateur || sessionData?.superadmin) &&
+                                <span className="flex flex-row justify-end self-end items-center w-24 gap-3">
+                                    <Link href={`/admin/briefs/${brief.id}/assigner`}>
+                                        <BiUserPlus className="text-3xl text-[#0e6073]" />
+                                    </Link>
+                                    <Link href={`/admin/briefs/${brief.id}`}>
+                                        <BiPencil className="text-3xl text-[#2EA3A5]" />
+                                    </Link>
+                                    <button>
+                                        <BiTrash className="text-3xl text-[#A10000]" />
+                                    </button>
+                                </span>
+                            }
                         </span>
                         <div className="text-sm" dangerouslySetInnerHTML={{ __html: brief.desc }} />
 

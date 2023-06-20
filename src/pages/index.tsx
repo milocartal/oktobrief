@@ -9,12 +9,14 @@ import { prisma } from "~/server/db";
 
 import Image from "next/image";
 import React from "react";
-import type { BriefWithAll, PromoWithAll } from "~/utils/type";
+import type { BriefWithAll, PromoWithAll, RessourceFull } from "~/utils/type";
 import { aleatoirePP } from "~/utils/genertor";
+import { Ressource } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps<{
   briefs: BriefWithAll[],
-  promos: PromoWithAll[]
+  promos: PromoWithAll[],
+  ressources: RessourceFull[]
 }> = async function (context) {
   const session = await getSession(context)
 
@@ -50,7 +52,7 @@ export const getServerSideProps: GetServerSideProps<{
     })
   }
 
-  if(session.promo === undefined ){
+  if (session.promo === undefined) {
     return {
       redirect: {
         destination: '/oops',
@@ -63,7 +65,6 @@ export const getServerSideProps: GetServerSideProps<{
     where: {
       assignations: {
         some: {
-          idUser: session.user.id,
           idPromo: session.promo.id
         }
       },
@@ -73,15 +74,34 @@ export const getServerSideProps: GetServerSideProps<{
     }
   })
 
+  const ressources = await prisma.ressource.findMany({
+    where: {
+      briefs: {
+        some: {
+          assignations: {
+            some: {
+              idPromo: session.promo.id
+            }
+          },
+        },
+      }
+    },
+    include: {
+      tags: true,
+      briefs: true
+    }
+  })
+
   return {
     props: {
       briefs: JSON.parse(JSON.stringify(briefs)) as BriefWithAll[],
-      promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[]
+      promos: JSON.parse(JSON.stringify(promos)) as PromoWithAll[],
+      ressources: JSON.parse(JSON.stringify(ressources)) as RessourceFull[],
     }
   }
 };
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, promos }) => {
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs, promos, ressources }) => {
   const { data: sessionData } = useSession()
 
   const pp = aleatoirePP();
@@ -98,7 +118,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
       <main className="flex min-h-screen flex-col items-start justify-start bg-[#F3F3F3] pl-[100px]">
 
-        <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px]">
+        <div className="flex min-h-screen w-full flex-col items-center justify-start px-[10%] pt-[40px] mb-10">
           <span className="flex w-full flex-row items-center justify-between mb-10">
             <h1 className="text-4xl font-extrabold text-black">Votre dashboard</h1>
             <Promos promos={promos} />
@@ -281,7 +301,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                   </ResponsiveContainer>
                 </div>
             </div>
-                  </section>*/}
+          </section>*/}
 
           <section className="flex w-full flex-col items-center justify-start bg-white rounded-lg px-[40px] py-[40px] mb-5">
             <span className="flex w-full flex-row items-center justify-between mb-3">
@@ -315,19 +335,23 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                 }
 
                 return (
-                  <>
-                    <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={""}>
+                    <Link className="flex flex-col w-[33%] max-w-[500px] rounded-lg h-[400px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" href={`/briefs/${item.id}`} key={item.id}>
                       <Image width={200} height={200} loader={() => briefIlu} src={briefIlu} className="w-[100%] max-h-[200px] bg-center bg-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
                       <div className="m-5 text-start">
                         <h3 className="text-lg text-black">{item.title}</h3>
                         <p className="text-sm text-black">{item.desc}</p>
                         <span className="flex flex-row justify-end items-center w-full mt-5">
-                          <Image width={200} height={200} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                          {pp.includes("http") ?
+                            <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: item.formateur.color }} alt="Photo de profil utilisateur" />
+                            :
+                            <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: item.formateur.color }}>
+                              <Image width={300} height={300} loader={() => pp} src={pp} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                            </div>
+                          }
                           <p className="text-sm text-black">{item.formateur.name}</p>
                         </span>
                       </div>
                     </Link>
-                  </>
                 )
               })}
             </div>
@@ -348,77 +372,28 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
               </div>
             </span>
             <div className="flex flex-col w-full gap-3">
-              <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
-                <div className="w-[50%] flex flex-col items-start my-5">
-                  <h2 className="text-2xl text-black">Ressource 1</h2>
-                  <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
-                  <span className="flex flex-row justify-start items-center w-full mt-5">
-                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                    <p className="text-sm text-black">Lorem Ipsum</p>
-                  </span>
-                </div>
-                <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-                  <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                    <button>
-                      <BiPencil className="text-3xl text-[#2EA3A5]" />
-                    </button>
-                    <button>
-                      <BiTrash className="text-3xl text-[#A10000]" />
-                    </button>
-                  </span>
-                  <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">WordPress</p>
+              {ressources.length > 0 && ressources.map((item) => {
+                return (
+                  <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]" key={item.id}>
+                    <div className="w-[50%] flex flex-col items-start my-5">
+                      <h2 className="text-2xl text-black">{item.title}</h2>
+                      <Link href={item.link} className="text-sm text-start text-[#0e6073]">{item.link}</Link>
                     </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">JavaScript</p>
+                    <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
+                      <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
+                        {item.tags && item.tags.map((tag) => {
+                          return (
+                            <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full" key={tag.id}>
+                              <p className="text-sm">{tag.name}</p>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">Drupal</p>
-                    </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">Modélisation POO</p>
-                    </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">WordPress</p>
-                    </div>
+                    <Image width={1000} height={1500} loader={() => item.img} src={item.img} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la ressource" />
                   </div>
-                </div>
-                <Image width={1000} height={1500} loader={() => briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
-              </div>
-
-              <div className="bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] flex flex-row justify-between items-center w-full pl-5 h-[230px]">
-                <div className="w-[50%] flex flex-col items-start my-5">
-                  <h2 className="text-2xl text-black">Ressource 1</h2>
-                  <p className="text-sm text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est nec ante dapibus pretium. Etiam eget commodo neque. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet. Nullam laoreet sagittis sapien, nec finibus dolor maximus sit amet.</p>
-                  <span className="flex flex-row justify-start items-center w-full mt-5">
-                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
-                    <p className="text-sm text-black">Lorem Ipsum</p>
-                  </span>
-                </div>
-                <div className="w-[25%] h-full flex flex-col items-center justify-start my-5 py-5">
-                  <span className="flex flex-row justify-around self-end items-center w-24 mb-5">
-                    <button>
-                      <BiPencil className="text-3xl text-[#2EA3A5]" />
-                    </button>
-                    <button>
-                      <BiTrash className="text-3xl text-[#A10000]" />
-                    </button>
-                  </span>
-                  <div className=" w-full grid grid-cols-2 gap-2 content-stretch">
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">WordPress</p>
-                    </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">WordPress</p>
-                    </div>
-                    <div className="flex flex-row justify-center items-center text-center bg-[#EDEDED] px-4 py-2 rounded-full">
-                      <p className="text-sm">WordPress</p>
-                    </div>
-                  </div>
-                </div>
-                <Image width={1000} height={1500} loader={() => briefIlu} src={briefIlu} className="h-full w-[20%] bg-center bg-cover object-cover rounded-r-lg" alt="Image de la promo sélectionnée" />
-              </div>
+                )
+              })}
             </div>
           </section>
 

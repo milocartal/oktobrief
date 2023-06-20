@@ -69,3 +69,7 @@ export type CompWithLvl = Prisma.CompetenceGetPayload<{
 export type CategFull = Prisma.CategorieGetPayload<{
     include: { tags: true }
 }>
+
+export type RessourceFull = Prisma.RessourceGetPayload<{
+    include: { tags: true, briefs: true }
+}>
