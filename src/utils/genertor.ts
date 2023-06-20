@@ -11,7 +11,8 @@ export function generatePassword() {
 }
 
 export function aleatoirePP() {
-  const listPP = ["/profilPics/minotaur.svg", "/profilPics/giant-squid.svg", "/profilPics/octopod.svg", "/profilPics/octopus.svg", "/profilPics/pegasus.svg", '/profilPics/squid-head.svg']
+  //const listPP = ["/profilPics2/minotaur.svg", "/profilPics2/giant-squid.svg", "/profilPics2/octopod.svg", "/profilPics2/octopus.svg", "/profilPics2/pegasus.svg", '/profilPics2/squid-head.svg']
+  const listPP = ["/profilPics/okto_happy.png", "/profilPics/okto_normal.png", "/profilPics/okto_pirate.png", "/profilPics/okto_wink.png"]
   const pp = listPP[Math.floor(Math.random() * listPP.length)];
   return pp as string
 }

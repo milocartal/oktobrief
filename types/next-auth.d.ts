@@ -6,13 +6,15 @@ declare module "next-auth" {
       id: string;
       formateur: boolean;
       superadmin: boolean;
-      promo: PromoWithAll
+      promo: PromoWithAll;
+      color: string;
     }
   
     interface User {
       id: string;
       formateur: boolean;
       superadmin: boolean;
-      firstName: string
+      firstName: string;
+      color: string;
     }
   }

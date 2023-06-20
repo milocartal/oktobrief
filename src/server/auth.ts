@@ -27,6 +27,7 @@ declare module "next-auth" {
       formateur: boolean;
       superadmin: boolean;
       firstname: string;
+      color: string;
     } & DefaultSession["user"];
   }
 
@@ -60,6 +61,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = user.id
       session.formateur = user.formateur
       session.superadmin = user.superadmin
+      session.color = user.color
 
       if (trigger === "update" && newSession && newSession.promo) {
         session.promo = newSession.promo;

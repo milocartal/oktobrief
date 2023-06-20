@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
-    const {data: sessionData} = useSession()
+    const { data: sessionData } = useSession()
 
     const [selected, setSelected] = useState(0)
 
@@ -112,7 +112,7 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                         </div>
                                     }
                                 </div>
-                                {(sessionData?.formateur || sessionData?.superadmin) && 
+                                {(sessionData?.formateur || sessionData?.superadmin) &&
                                     <Link href={`/admin/briefs/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer un projet
                                     </Link>
@@ -143,7 +143,13 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <h3 className="text-lg text-black">{item.title}</h3>
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
-                                                <Image width={300} height={300} loader={() => pp} src={pp} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                                {pp.includes("http") ?
+                                                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: item.formateur.color }} alt="Photo de profil utilisateur" />
+                                                    :
+                                                    <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: item.formateur.color }}>
+                                                        <Image width={300} height={300} loader={() => pp} src={pp} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                                                    </div>
+                                                }
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>

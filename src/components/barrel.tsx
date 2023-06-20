@@ -199,29 +199,55 @@ const AuthShowcase: React.FC = () => {
                 className="rounded-full font-semibold no-underline transition"
                 onClick={() => setOpen(!open)}
             >
-                {sessionData ? sessionData.user.image && sessionData.user.name ? <img src={sessionData.user.image} className="w-[4rem] h-[4rem] object-cover rounded-full" alt={sessionData.user.name} /> : <p className="mx-10 my-3">{sessionData.user.name}</p> : <p className="mx-3 my-3">Sign In</p>}
+                {sessionData ?
+                    sessionData.user.image ?
+                        sessionData.user.image.startsWith("http") ?
+                            <img src={sessionData.user.image} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: sessionData.color }} alt="Photo de profil utilisateur" />
+                            :
+                            <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: sessionData.color }}>
+                                <img src={sessionData.user.image} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                            </div>
+                        :
+                        <p className="mx-3 my-3">{sessionData.user.firstname} {sessionData.user.name}</p>
+                    :
+                    <p className="mx-3 my-3">Sign In</p>
+                }
+
             </button>
             {open &&
-            <>
-                <div className="w-0 h-0 border-t-[25px] border-t-transparent border-b-[25px] border-b-transparent border-r-[25px] border-r-white absolute left-[100px]"></div>
-                <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
-                    <span className="flex flex-row justify-start items-center rounded-lg">
-                        {sessionData?.user.image && (sessionData?.user.image.includes("http://") || sessionData?.user.image.includes("https://")) && <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />}
-                        <div>
-                            <p className="text-base text-black font-semibold">{sessionData?.user.firstname} {sessionData?.user.name}</p>
-                            <p className="text-sm text-black">{sessionData?.user.email}</p>
-                        </div>
-                    </span>
-                    <span className="flex flex-row justify-between items-center rounded-lg mt-5">
-                        <Link href={`/user/${sessionData!.user.id}`}>
-                            <p className="text-sm text-black hover:text-[#2EA3A5]">Gérer mon profil</p>
-                        </Link>
-                        <button onClick={sessionData ? () => void signOut() : () => void signIn()}>
-                            <p className="text-sm text-[#8F0000]">Déconnexion</p>
-                        </button>
-                    </span>
-                </div>
-            </>
+                <>
+                    <div className="w-0 h-0 border-t-[25px] border-t-transparent border-b-[25px] border-b-transparent border-r-[25px] border-r-white absolute left-[100px]"></div>
+                    <div className="bg-white absolute left-28 bottom-8 px-5 py-4 w-72">
+                        <span className="flex flex-row justify-start items-center rounded-lg">
+                            {sessionData ?
+                                sessionData.user.image ?
+                                    sessionData.user.image.startsWith("http") ?
+                                        <img src={sessionData.user.image} className="w-12 h-12 rounded-full object-cover mr-3" style={{ background: sessionData.color }} alt="Photo de profil utilisateur" />
+                                        :
+                                        <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: sessionData.color }}>
+                                            <img src={sessionData.user.image} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                                        </div>
+                                    :
+                                    <p className="mx-3 my-3">{sessionData.user.firstname} {sessionData.user.name}</p>
+                                :
+                                <p className="mx-3 my-3">Sign In</p>
+                            }
+
+                            <div>
+                                <p className="text-base text-black font-semibold">{sessionData?.user.firstname} {sessionData?.user.name}</p>
+                                <p className="text-sm text-black">{sessionData?.user.email}</p>
+                            </div>
+                        </span>
+                        <span className="flex flex-row justify-between items-center rounded-lg mt-5">
+                            <Link href={`/user/${sessionData!.user.id}`}>
+                                <p className="text-sm text-black hover:text-[#2EA3A5]">Gérer mon profil</p>
+                            </Link>
+                            <button onClick={sessionData ? () => void signOut() : () => void signIn()}>
+                                <p className="text-sm text-[#8F0000]">Déconnexion</p>
+                            </button>
+                        </span>
+                    </div>
+                </>
             }
         </div>
     );

@@ -129,7 +129,13 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <h3 className="text-lg text-black">{item.title}</h3>
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
-                                                <Image width={300} height={300} loader={() => pp} src={pp} className={`w-12 h-12 rounded-full object-cover mr-3 bg-${item.formateur.color}`} alt="Photo de profil utilisateur" />
+                                                {pp.includes("http") ?
+                                                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: item.formateur.color }} alt="Photo de profil utilisateur" />
+                                                    :
+                                                    <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: item.formateur.color }}>
+                                                        <Image width={300} height={300} loader={() => pp} src={pp} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                                                    </div>
+                                                }
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>

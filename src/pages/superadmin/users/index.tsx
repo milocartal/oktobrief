@@ -54,14 +54,14 @@ export const getServerSideProps: GetServerSideProps<{ users: User[] }> = async f
 
 const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ users }) => {
 
-   const [SearchTerm, setSearchTerm] = useState('');
-   const [filterF, setFilterF] = useState(false);
-   const [filterA, setFilterA] = useState(false);
+    const [SearchTerm, setSearchTerm] = useState('');
+    const [filterF, setFilterF] = useState(false);
+    const [filterA, setFilterA] = useState(false);
 
-  const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-  };
+    const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+    };
 
     return (
         <>
@@ -76,13 +76,13 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                     <section className="w-full flex flex-col bg-white rounded-lg px-[60px] py-[40px] mb-5">
                         <span className="flex flex-row items-center justify-end">
                             <fieldset className="flex flex-row items-center">
-                                <input type="checkbox" id="formateur" onChange={() => setFilterF(!filterF)} className="mr-2"/>
+                                <input type="checkbox" id="formateur" onChange={() => setFilterF(!filterF)} className="mr-2" />
                                 <label htmlFor="formateur" className="mr-3">Formateurs</label>
-                                <input type="checkbox" id="apprenant" onChange={() => setFilterA(!filterA)} className="mr-2"/>
+                                <input type="checkbox" id="apprenant" onChange={() => setFilterA(!filterA)} className="mr-2" />
                                 <label htmlFor="apprenant" className="mr-5">Apprenants</label>
                             </fieldset>
                             <div className="pr-5 rounded-full bg-white shadow-[inset_4px_4px_12px_4px_rgba(0,0,0,0.25)] w-[30%] flex flex-row justify-between items-center self-end mr-2 mb-3">
-                                <BiSearch className="text-3xl text-black ml-4"/>
+                                <BiSearch className="text-3xl text-black ml-4" />
                                 <input
                                     type='text'
                                     name="searchProject"
@@ -94,9 +94,9 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                         </span>
                         <div className="w-full grid grid-cols-2 gap-x-10 gap-y-2 content-stretch">
                             {users.filter((user) => {
-                                if(filterF === true){
+                                if (filterF === true) {
                                     return user.formateur == true && user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == true && user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == true && user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
-                                } if(filterA === true){
+                                } if (filterA === true) {
                                     return user.formateur == false && user.superadmin == false && user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == false && user.superadmin == false && user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.formateur == false && user.superadmin == false && user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
                                 } else {
                                     return user.firstName?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.name?.toLowerCase().includes(SearchTerm.toLowerCase()) || user.email?.toLowerCase().includes(SearchTerm.toLowerCase())
@@ -109,13 +109,20 @@ const UsersList: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
                                 return (
                                     <Link href={`/superadmin/users/`} className="flex flex-row justify-between items-center w-full mt-5" key={user.id}>
                                         <div className="flex flex-row items-center max-w-[75%]">
-                                            <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" alt="Photo de profil utilisateur" />
+                                            {user.image.includes("http") ?
+                                                <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: user.color }} alt="Photo de profil utilisateur" />
+                                                :
+                                                <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: user.color }}>
+                                                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                                                </div>
+                                            }
+
                                             <div className="">
                                                 <p className="text-base text-black font-semibold">{user.firstName} {user.name}</p>
                                                 <p className="text-sm text-black">{user.email}</p>
                                             </div>
                                         </div>
-                                        <p>{user.superadmin? "Super Admin" : user.formateur ? "Formateur" : "Apprenant"}</p>
+                                        <p>{user.superadmin ? "Super Admin" : user.formateur ? "Formateur" : "Apprenant"}</p>
                                     </Link>
                                 )
                             })}

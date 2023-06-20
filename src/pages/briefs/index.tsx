@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ briefs }) => {
     const [open, setOpen] = useState(false)
-    const {data: sessionData} = useSession()
+    const { data: sessionData } = useSession()
 
     const [selected, setSelected] = useState(0)
 
@@ -112,7 +112,7 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                         </div>
                                     }
                                 </div>
-                                {(sessionData?.formateur || sessionData?.superadmin) && 
+                                {(sessionData?.formateur || sessionData?.superadmin) &&
                                     <Link href={`/admin/briefs/creer`} className="flex flex-row items-center justify-between px-5 py-3 ml-4 bg-[#2EA3A5] hover:bg-[#288F90] text-white rounded-lg text-base">
                                         Créer un projet
                                     </Link>
@@ -130,12 +130,12 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                 if (item.img && item.img !== "") {
                                     briefIlu = item.img
                                 }
-                                
+
                                 let description = item.desc
                                 if (description.length > 100) {
                                     description = item.desc.slice(0, 100) + '...'
                                 }
-                                
+
                                 return (
                                     <div className="flex flex-col max-w-[500px] rounded-lg h-[400px] my-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:cursor-pointer transition hover:scale-[1.025]" onClick={() => void Router.push(`/briefs/${item.id}`)} key={item.id}>
                                         <Image width={300} height={300} loader={() => briefIlu} src={briefIlu} className="w-[100%] h-[200px] bg-center bg-cover object-cover mr-5 rounded-t-lg" alt="Image de la promo sélectionnée" />
@@ -143,7 +143,13 @@ const IndexBrief: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
                                             <h3 className="text-lg text-black">{item.title}</h3>
                                             <div className="text-sm text-black" dangerouslySetInnerHTML={{ __html: description }} />
                                             <span className="flex flex-row justify-end items-center w-full mt-5">
-                                            <Image width={300} height={300} loader={() => pp} src={pp} className={`w-12 h-12 rounded-full object-cover mr-3 bg-[${item.formateur.color}]`} alt="Photo de profil utilisateur" />
+                                                {pp.includes("http") ?
+                                                    <Image width={300} height={300} loader={() => pp} src={pp} className="w-20 h-20 rounded-full object-cover mr-3" style={{ background: item.formateur.color }} alt="Photo de profil utilisateur" />
+                                                    :
+                                                    <div className="w-20 h-20 rounded-full mr-3 flex items-center justify-center" style={{ background: item.formateur.color }}>
+                                                        <Image width={300} height={300} loader={() => pp} src={pp} className="w-10/12 h-10/12 object-fit " alt="Photo de profil utilisateur" />
+                                                    </div>
+                                                }
                                                 <p className="text-sm text-black">{item.formateur.firstName} {item.formateur.name}</p>
                                             </span>
                                         </div>
